@@ -1,0 +1,5 @@
+# public/robots.txt
+
+# Allow all bots to crawl everything
+User-agent: *
+Allow: /
