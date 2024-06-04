@@ -27,9 +27,12 @@
         "react"
     ],
 		"ignorePatterns": [
-			"**/vite.config.ts"
+			"**/vite.config.ts",
+			"**/setupTests.ts"
 		],
     "rules": {
-			"react/react-in-jsx-scope": "off"
+			"react/react-in-jsx-scope": "off",
+			"@typescript-eslint/naming-convention": "off",
+			"new-cap": "off"
     }
 }
