@@ -1,13 +1,13 @@
 import express from 'express';
-import {validator} from '../../middleware/validator';
+import {validatorMiddleware} from '../middleware/validatorMiddleware';
 import {check} from 'express-validator';
 
-export const login = express.Router();
+export const loginRouter = express.Router();
 
-login.post(
+loginRouter.post(
 	'/',
 	check('username').trim().isString().notEmpty().withMessage('Username required'),
 	check('password').trim().isString().notEmpty().withMessage('Password required'),
-	validator,
+	validatorMiddleware,
 	(_req, res) => res.status(200).json({message: 'Login successful'}),
 );

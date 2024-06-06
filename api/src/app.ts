@@ -2,12 +2,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import {login} from './routes/auth/login';
-import {signup} from './routes/auth/signup';
+import {loginRouter} from './routers/loginRouter';
+import {signupRouter} from './routers/signupRouter';
+import {errorMiddleware} from './middleware/errorMiddleware';
+import {createTables, dropTables} from './database/db';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
-const {PORT, CLIENT_URL} = process.env;
+const {PORT, CLIENT_URL, NODE_ENV} = process.env;
 
 // Security
 app.use(cors({
@@ -19,10 +21,31 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-// Auth routes
-app.use('/login', login);
-app.use('/signup', signup);
+// Database initialization
+dropTables()
+	.then(() => {
+		createTables()
+			.catch(error => {
+				if (error instanceof Error) {
+					throw error;
+				}
+			});
+	})
+	.catch(error => {
+		if (error instanceof Error) {
+			throw error;
+		}
+	});
 
-app.listen(PORT, () => {
-	console.log(`Listening to server on port ${PORT}`);
-});
+// Auth routes
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
+
+// Error handler
+app.use(errorMiddleware);
+
+if (NODE_ENV !== 'test') {
+	app.listen(PORT, () => {
+		console.log(`Listening to server on port ${PORT}`);
+	});
+}
