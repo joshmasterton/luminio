@@ -4,11 +4,11 @@ import {
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
 import {render} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
-import {Auth} from '../../pages/Auth';
-import {request} from '../../utilities/requests';
+import {Auth} from '../../src/pages/Auth';
+import {request} from '../../src/utilities/requests';
 import '@testing-library/jest-dom';
 
-vitest.mock('../../utilities/requests', () => ({
+vitest.mock('../../src/utilities/requests', () => ({
 	request: vi.fn(),
 }));
 
@@ -54,6 +54,9 @@ describe('Auth component', () => {
 
 		const usernameInput = auth.getByLabelText('Username') as HTMLInputElement;
 		const passwordInput = auth.getByLabelText('Password') as HTMLInputElement;
+
+		await userEvent.clear(usernameInput);
+		await userEvent.clear(passwordInput);
 
 		await userEvent.type(usernameInput, 'testUser');
 		await userEvent.type(passwordInput, 'Password');

@@ -4,11 +4,11 @@ import {request} from '../utilities/requests';
 
 export function Auth({isSignup = false}: AuthProps) {
 	const [authDetails, setAuthDetails] = useState<AuthDetailsType>({
-		username: '',
-		email: '',
+		username: 'testUser',
+		email: 'email@gmail.com',
 		profilePicture: undefined,
-		password: '',
-		confirmPassword: '',
+		password: 'Password',
+		confirmPassword: 'Password',
 	});
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,12 +35,16 @@ export function Auth({isSignup = false}: AuthProps) {
 				formData.append('username', authDetails.username);
 				formData.append('email', authDetails.email);
 				formData.append('password', authDetails.password);
-				if (authDetails.profilePicture && authDetails.confirmPassword) {
+				if (authDetails.profilePicture) {
 					formData.append('profilePicture', authDetails.profilePicture);
+				}
+
+				if (authDetails.confirmPassword) {
 					formData.append('confirmPassword', authDetails.confirmPassword);
 				}
 
-				await request('/signup', 'POST', formData, true);
+				const signup = await request('/signup', 'POST', formData, true);
+				console.log(signup);
 			} else {
 				await request('/login', 'POST', {
 					username: authDetails.username,
