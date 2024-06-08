@@ -5,7 +5,7 @@ import cors from 'cors';
 import {loginRouter} from './routers/loginRouter';
 import {signupRouter} from './routers/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
-import {createTables, dropTables} from './database/db';
+import {createDatabase, createTables, dropTables} from './database/db';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -22,9 +22,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Database initialization
-dropTables()
+createDatabase()
 	.then(() => {
-		createTables()
+		dropTables()
+			.then(() => {
+				createTables()
+					.catch(error => {
+						if (error instanceof Error) {
+							throw error;
+						}
+					});
+			})
 			.catch(error => {
 				if (error instanceof Error) {
 					throw error;

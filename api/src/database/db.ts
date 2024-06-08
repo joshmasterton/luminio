@@ -1,9 +1,25 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import pkg from 'pg';
+import dotenv from 'dotenv';
+
+const {NODE_ENV} = process.env;
+
+dotenv.config({path: NODE_ENV === 'test' ? './tests/.test.env' : './src/.env'});
+
+const {DB_USER, DB_HOST, DB_PASSWORD, DB_DATABASE} = process.env;
 
 const pool = new pkg.Pool({
-	user: 'postgres',
-	host: 'localhost',
-	password: 'Zonomaly1',
+	user: DB_USER,
+	host: DB_HOST,
+	password: DB_PASSWORD,
+	database: DB_DATABASE,
+});
+
+const adminPool = new pkg.Pool({
+	user: DB_USER,
+	host: DB_HOST,
+	password: DB_PASSWORD,
+	database: 'postgres',
 });
 
 export const queryDb = async <T>(command: string, params: T[]) => {
@@ -19,6 +35,32 @@ export const queryDb = async <T>(command: string, params: T[]) => {
 		}
 	} finally {
 		client.release();
+	}
+};
+
+export const createDatabase = async () => {
+	try {
+		const client = await adminPool.connect();
+		await client.query(`CREATE DATABASE ${DB_DATABASE}`);
+
+		console.log(`Database ${DB_DATABASE} successfully created`);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};
+
+export const dropDatabase = async () => {
+	try {
+		const client = await adminPool.connect();
+		await client.query(`DROP DATABASE IF EXISTS ${DB_DATABASE}`);
+
+		console.log(`Database ${DB_DATABASE} successfully dropped`);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
 	}
 };
 
@@ -39,8 +81,6 @@ export const createTables = async () => {
 				profile_picture VARCHAR(255) NOT NULL
 			)
 		`, []);
-
-		console.log('Tables successfully created');
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error(error.message);
@@ -51,7 +91,6 @@ export const createTables = async () => {
 export const dropTables = async () => {
 	try {
 		await queryDb('DROP TABLE IF EXISTS luminio_users', []);
-		console.log('Tables successfully dropped');
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error(error.message);

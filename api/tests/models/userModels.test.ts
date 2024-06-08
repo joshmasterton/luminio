@@ -1,99 +1,46 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import {
-	describe, beforeEach, test, vi, expect, type Mock,
-} from 'vitest';
-import {queryDb} from '../../src/database/db';
-import {getUserByUsernameEmail, createUser} from '../../src/models/userModels';
+import {describe, expect, test} from 'vitest';
+import {createUser, getUser, getUsers} from '../../src/models/userModels';
 
-vi.mock('../../src/database/db', () => ({
-	queryDb: vi.fn(),
-}));
+describe('getUser', () => {
+	test('Should return user when there is a user by id', async () => {
+		await createUser('testUser', 'testEmail@email.com', 'Password', 'profile.jpg');
+		const existingUser = await getUser('id', '1');
 
-describe('getUserByUsernameEmail', () => {
-	beforeEach(() => {
-		vi.clearAllMocks();
+		expect(existingUser).toBeDefined();
+		expect(existingUser?.username).toBe('testUser');
+		expect(existingUser?.email).toBe('testEmail@email.com');
 	});
 
-	test('Should return user data when a user is found', async () => {
-		const mockUser = {
-			id: 1,
-			username: 'testUser',
-			email: 'testEmail@email.com',
-			friends: 0,
-			likes: 0,
-			dislikes: 0,
-			created_at: new Date(),
-			last_online: new Date(),
-			profile_picture: 'profile.jpg',
-		};
-
-		(queryDb as Mock).mockResolvedValueOnce({rows: [mockUser]});
-
-		const result = await getUserByUsernameEmail('testUser', 'testEmail@email.com');
-		const expectedQuery = `
-			SELECT id, username, email, friends, likes, dislikes,
-			created_at, last_online, profile_picture FROM luminio_users
-			WHERE username = $1 OR email = $2
-		`;
-
-		expect(queryDb).toHaveBeenCalledWith(expectedQuery, ['testUser', 'testEmail@email.com']);
-		expect(result).toEqual(mockUser);
-	});
-
-	test('Should return undefined when a user not found', async () => {
-		(queryDb as Mock).mockResolvedValueOnce({rows: []});
-
-		const result = await getUserByUsernameEmail('testUser', 'testEmail@email.com');
-		const expectedQuery = `
-			SELECT id, username, email, friends, likes, dislikes,
-			created_at, last_online, profile_picture FROM luminio_users
-			WHERE username = $1 OR email = $2
-		`;
-
-		expect(queryDb).toHaveBeenCalledWith(expectedQuery, ['testUser', 'testEmail@email.com']);
-		expect(result).toEqual(undefined);
-	});
-
-	test('Should throw an error when a database error occurs', async () => {
-		(queryDb as Mock).mockRejectedValueOnce(new Error('Database error'));
-		await expect(getUserByUsernameEmail('testUser', 'testEmail@email.com')).rejects.toThrow('Database error');
+	test('Should return undefined if no user present', async () => {
+		const existingUser = await getUser('username', 'testUser');
+		expect(existingUser).toBeUndefined();
 	});
 });
 
-describe('creatUser', () => {
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
+describe('getUsers', () => {
+	test('Should return users with pagination and sorting', async () => {
+		await createUser('testUser1', 'testEmail@email.com', 'Password', 'profile.jpg');
+		await createUser('testUser2', 'testEmail@email.com', 'Password', 'profile.jpg');
+		await createUser('testUser3', 'testEmail@email.com', 'Password', 'profile.jpg');
 
-	const mockUser = {
-		id: 1,
-		username: 'testUser',
-		email: 'testEmail@email.com',
-		friends: 0,
-		likes: 0,
-		dislikes: 0,
-		created_at: new Date(),
-		last_online: new Date(),
-		profile_picture: 'profile.jpg',
-	};
+		const usersPageOne = await getUsers('created_at', 0, 2);
 
-	test('Should return new user when user creation succesful', async () => {
-		(queryDb as Mock).mockResolvedValueOnce({rows: [mockUser]});
+		expect(usersPageOne).toHaveLength(2);
+		expect(usersPageOne?.[0]?.username).toBe('testUser3');
 
-		const expectedQuery = `
-			INSERT INTO luminio_users (username, username_lower_case, email, password, profile_picture)
-			VALUES ($1, $2, $3, $4, $5)
-			RETURNING id, username, email, friends, likes, dislikes,
-			created_at, last_online, profile_picture
-		`;
-		const newUser = await createUser('testUser', 'testEmail@email.com', 'Password', 'profile.jpg');
+		const usersPageTwo = await getUsers('created_at', 2, 2);
 
-		expect(queryDb).toHaveBeenCalledWith(expectedQuery, ['testUser', 'testuser', 'testEmail@email.com', 'Password', 'profile.jpg']);
-		expect(newUser).toEqual(mockUser);
-	});
-
-	test('Should throw error when a database error occurs', async () => {
-		(queryDb as Mock).mockRejectedValueOnce(new Error('Database error'));
-		await expect(createUser('testUser', 'testEmail@email.com', 'Password', 'profile.jpg')).rejects.toThrow('Database error');
+		expect(usersPageTwo).toHaveLength(1);
+		expect(usersPageTwo?.[0]?.username).toBe('testUser1');
 	});
 });
+
+describe('createUser', () => {
+	test('Should insert a new user into the database', async () => {
+		const user = await createUser('testUser', 'testEmail@email.com', 'Password', 'profile.jpg');
+		expect(user).toBeDefined();
+		expect(user?.username).toBe('testUser');
+		expect(user?.email).toBe('testEmail@email.com');
+	});
+});
+
