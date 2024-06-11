@@ -34,6 +34,7 @@
     "rules": {
 			"react/react-in-jsx-scope": "off",
 			"@typescript-eslint/naming-convention": "off",
-			"new-cap": "off"
+			"new-cap": "off",
+			"max-params": "off"
     }
 }

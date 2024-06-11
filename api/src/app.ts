@@ -2,10 +2,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import {loginRouter} from './routers/loginRouter';
 import {signupRouter} from './routers/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
-import {createDatabase, createTables, dropTables} from './database/db';
+import {createUsersTable, dropUsersTable} from './database/db';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -21,33 +20,24 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-// Database initialization
-createDatabase()
+// Database initializtion
+dropUsersTable('luminio_users')
 	.then(() => {
-		dropTables()
-			.then(() => {
-				createTables()
-					.catch(error => {
-						if (error instanceof Error) {
-							throw error;
-						}
-					});
-			})
+		createUsersTable('luminio_users')
 			.catch(error => {
 				if (error instanceof Error) {
-					throw error;
+					console.error(error.message);
 				}
 			});
 	})
 	.catch(error => {
 		if (error instanceof Error) {
-			throw error;
+			console.error(error.message);
 		}
 	});
 
 // Auth routes
-app.use('/login', loginRouter);
-app.use('/signup', signupRouter);
+app.use(signupRouter('luminio_users'));
 
 // Error handler
 app.use(errorMiddleware);

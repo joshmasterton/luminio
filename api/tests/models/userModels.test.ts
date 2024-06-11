@@ -1,46 +1,86 @@
-import {describe, expect, test} from 'vitest';
+import {afterEach, beforeEach, expect} from 'vitest';
+import {createUsersTable, dropUsersTable} from '../../src/database/db';
+import {describe, test} from 'vitest';
 import {createUser, getUser, getUsers} from '../../src/models/userModels';
 
-describe('getUser', () => {
-	test('Should return user when there is a user by id', async () => {
-		await createUser('testUser', 'testEmail@email.com', 'Password', 'profile.jpg');
-		const existingUser = await getUser('id', '1');
+describe('createUser', () => {
+	let tableName: string;
 
-		expect(existingUser).toBeDefined();
-		expect(existingUser?.username).toBe('testUser');
-		expect(existingUser?.email).toBe('testEmail@email.com');
+	beforeEach(async () => {
+		tableName = `luminio_users_test_create_user_${Date.now()}`;
+
+		await dropUsersTable(tableName);
+		await createUsersTable(tableName);
+	});
+
+	afterEach(async () => {
+		await dropUsersTable(tableName);
+	});
+
+	test('Should create a user and return it', async () => {
+		const user = await createUser(tableName, 'testUser', 'test@email.com', 'Password', 'profile.jpg');
+
+		expect(user).toBeDefined();
+		expect(user?.id).toBe(1);
+		expect(user?.username).toBe('testUser');
+	});
+});
+
+describe('getUser', () => {
+	let tableName: string;
+
+	beforeEach(async () => {
+		tableName = 'luminio_users_test_get_user';
+
+		await dropUsersTable(tableName);
+		await createUsersTable(tableName);
+	});
+
+	afterEach(async () => {
+		await dropUsersTable(tableName);
+	});
+
+	test('Should return user if found', async () => {
+		await createUser(tableName, 'testUser', 'test@email.com', 'Password', 'profile.jpg');
+
+		const user = await getUser(tableName, 'id', 1);
+
+		expect(user).toBeDefined();
+		expect(user?.id).toBe(1);
+		expect(user?.username).toBe('testUser');
 	});
 
 	test('Should return undefined if no user present', async () => {
-		const existingUser = await getUser('username', 'testUser');
-		expect(existingUser).toBeUndefined();
+		const user = await getUser(tableName, 'id', 1);
+		expect(user).toBeUndefined();
 	});
 });
 
 describe('getUsers', () => {
-	test('Should return users with pagination and sorting', async () => {
-		await createUser('testUser1', 'testEmail@email.com', 'Password', 'profile.jpg');
-		await createUser('testUser2', 'testEmail@email.com', 'Password', 'profile.jpg');
-		await createUser('testUser3', 'testEmail@email.com', 'Password', 'profile.jpg');
+	let tableName: string;
 
-		const usersPageOne = await getUsers('created_at', 0, 2);
+	beforeEach(async () => {
+		tableName = 'luminio_users_test_get_users';
 
-		expect(usersPageOne).toHaveLength(2);
-		expect(usersPageOne?.[0]?.username).toBe('testUser3');
+		await dropUsersTable(tableName);
+		await createUsersTable(tableName);
+	});
 
-		const usersPageTwo = await getUsers('created_at', 2, 2);
+	afterEach(async () => {
+		await dropUsersTable(tableName);
+	});
 
-		expect(usersPageTwo).toHaveLength(1);
-		expect(usersPageTwo?.[0]?.username).toBe('testUser1');
+	test('Should return users with correct sorting, pagination and limit', async () => {
+		await createUser(tableName, 'testUser1', 'test1@email.com', 'Password', 'profile.jpg');
+		await createUser(tableName, 'testUser2', 'test2@email.com', 'Password', 'profile.jpg');
+		await createUser(tableName, 'testUser3', 'test3@email.com', 'Password', 'profile.jpg');
+
+		const usersPageOne = await getUsers(tableName, 'created_at', 0, 2);
+		expect(usersPageOne?.length).toBe(2);
+		expect(usersPageOne?.[0].username).toBe('testUser3');
+
+		const usersPageTwo = await getUsers(tableName, 'created_at', 2, 2);
+		expect(usersPageTwo?.length).toBe(1);
+		expect(usersPageTwo?.[0].username).toBe('testUser1');
 	});
 });
-
-describe('createUser', () => {
-	test('Should insert a new user into the database', async () => {
-		const user = await createUser('testUser', 'testEmail@email.com', 'Password', 'profile.jpg');
-		expect(user).toBeDefined();
-		expect(user?.username).toBe('testUser');
-		expect(user?.email).toBe('testEmail@email.com');
-	});
-});
-
