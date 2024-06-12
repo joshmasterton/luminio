@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {type Express} from 'express';
 import {
 	afterEach, beforeEach, describe, expect, test,
 } from 'vitest';
@@ -7,16 +7,18 @@ import request from 'supertest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
 import {signupRouter} from '../../src/routers/signupRouter';
 
-const app = express();
-
 describe('/signup', () => {
+	let app: Express;
 	let tableName: string;
 
 	beforeEach(async () => {
-		tableName = 'luminio_users_test_signup_router';
+		tableName = `luminio_users_test_signup_router_${Date.now()}`;
 
 		await dropUsersTable(tableName);
 		await createUsersTable(tableName);
+
+		app = express();
+		app.use(signupRouter(tableName));
 	});
 
 	afterEach(async () => {
@@ -24,9 +26,6 @@ describe('/signup', () => {
 	});
 
 	test('Should return user if signup successful', async () => {
-		const router = signupRouter(tableName);
-		app.use(router);
-
 		const response = await request(app)
 			.post('/signup')
 			.field({
@@ -42,9 +41,6 @@ describe('/signup', () => {
 	});
 
 	test('Should return error if no username', async () => {
-		const router = signupRouter(tableName);
-		app.use(router);
-
 		const response = await request(app)
 			.post('/signup')
 			.field({
@@ -59,9 +55,6 @@ describe('/signup', () => {
 	});
 
 	test('Should return error if invalid email type', async () => {
-		const router = signupRouter(tableName);
-		app.use(router);
-
 		const response = await request(app)
 			.post('/signup')
 			.field({
@@ -76,9 +69,6 @@ describe('/signup', () => {
 	});
 
 	test('Should return error if no password', async () => {
-		const router = signupRouter(tableName);
-		app.use(router);
-
 		const response = await request(app)
 			.post('/signup')
 			.field({
@@ -93,9 +83,6 @@ describe('/signup', () => {
 	});
 
 	test('Should return error if passwords do not match', async () => {
-		const router = signupRouter(tableName);
-		app.use(router);
-
 		const response = await request(app)
 			.post('/signup')
 			.field({
@@ -110,9 +97,6 @@ describe('/signup', () => {
 	});
 
 	test('Should return error if no profile picture', async () => {
-		const router = signupRouter(tableName);
-		app.use(router);
-
 		const response = await request(app)
 			.post('/signup')
 			.field({

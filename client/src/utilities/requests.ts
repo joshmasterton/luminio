@@ -1,9 +1,14 @@
-export const request = async <T, R>(url: string, method: string, body: T, isFormData = false) => {
+import {type ErrorResponse} from '../types/utilities/request.types';
+
+export const request = async <T, R>(url: string, method: string, body?: T, isFormData = false) => {
 	const requestOptions: RequestInit = {
 		method,
 		credentials: 'include',
-		body: isFormData ? body as BodyInit : JSON.stringify(body),
 	};
+
+	if (body) {
+		requestOptions.body = isFormData ? body as BodyInit : JSON.stringify(body);
+	}
 
 	if (!isFormData) {
 		requestOptions.headers = {
@@ -16,7 +21,6 @@ export const request = async <T, R>(url: string, method: string, body: T, isForm
 
 		if (!response.ok) {
 			const errorResponse = await response.json() as ErrorResponse;
-			console.log(errorResponse);
 			throw new Error(errorResponse.error);
 		}
 

@@ -19,7 +19,7 @@ const mockFile = {
 };
 
 describe('signup', () => {
-	tableName = 'luminio_users_test_signup';
+	tableName = `luminio_users_test_signup_${Date.now()}`;
 
 	beforeEach(async () => {
 		await dropUsersTable(tableName);
@@ -30,7 +30,7 @@ describe('signup', () => {
 		await dropUsersTable(tableName);
 	});
 
-	test('Should hash the password and create a new user', async () => {
+	test('Should create a new user', async () => {
 		const newUser = await signup(tableName, 'testUser', 'test@email.com', 'password', mockFile as Express.Multer.File);
 
 		expect(newUser).toBeDefined();

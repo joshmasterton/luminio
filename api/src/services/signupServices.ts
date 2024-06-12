@@ -1,6 +1,5 @@
 import {createUser, getUser} from '../models/userModels';
 import {uploadToS3} from '../utilities/uploadToS3';
-import bcryptjs from 'bcryptjs';
 
 export const signup = async (
 	tableName: string,
@@ -15,11 +14,10 @@ export const signup = async (
 			throw new Error('User already exists');
 		}
 
-		const hashedPassword = await bcryptjs.hash(password, 10);
 		const uploadedPicture = await uploadToS3(profilePicture);
 
 		if (uploadedPicture) {
-			const newUser = await createUser(tableName, username, email, hashedPassword, uploadedPicture);
+			const newUser = await createUser(tableName, username, email, password, uploadedPicture);
 			return newUser;
 		}
 	} catch (error) {

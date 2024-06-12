@@ -1,7 +1,9 @@
 import {afterEach, beforeEach, expect} from 'vitest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
 import {describe, test} from 'vitest';
-import {createUser, getUser, getUsers} from '../../src/models/userModels';
+import {
+	createUser, getUser, getUserReturnPassword, getUsers,
+} from '../../src/models/userModels';
 
 describe('createUser', () => {
 	let tableName: string;
@@ -30,7 +32,7 @@ describe('getUser', () => {
 	let tableName: string;
 
 	beforeEach(async () => {
-		tableName = 'luminio_users_test_get_user';
+		tableName = `luminio_users_test_get_user_${Date.now()}`;
 
 		await dropUsersTable(tableName);
 		await createUsersTable(tableName);
@@ -56,11 +58,38 @@ describe('getUser', () => {
 	});
 });
 
+describe('getUserReturnPassword', () => {
+	let tableName: string;
+
+	beforeEach(async () => {
+		tableName = `luminio_users_test_get_user_${Date.now()}`;
+
+		await dropUsersTable(tableName);
+		await createUsersTable(tableName);
+	});
+
+	afterEach(async () => {
+		await dropUsersTable(tableName);
+	});
+
+	test('Should return password if found', async () => {
+		await createUser(tableName, 'testUser', 'test@email.com', 'Password', 'profile.jpg');
+
+		const password = await getUserReturnPassword(tableName, 'id', 1);
+		expect(password).toBeDefined();
+	});
+
+	test('Should return undefined if no user present', async () => {
+		const user = await getUser(tableName, 'id', 1);
+		expect(user).toBeUndefined();
+	});
+});
+
 describe('getUsers', () => {
 	let tableName: string;
 
 	beforeEach(async () => {
-		tableName = 'luminio_users_test_get_users';
+		tableName = `luminio_users_test_get_users_${Date.now()}`;
 
 		await dropUsersTable(tableName);
 		await createUsersTable(tableName);
