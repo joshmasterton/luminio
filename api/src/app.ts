@@ -2,9 +2,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import {loginRouter} from './routers/loginRouter';
 import {signupRouter} from './routers/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
 import {createUsersTable, dropUsersTable} from './database/db';
+import {userRouter} from './routers/userRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -15,6 +18,9 @@ app.use(cors({
 	credentials: true,
 	origin: CLIENT_URL,
 }));
+
+// Cookie parser
+app.use(cookieParser());
 
 // Body parser
 app.use(express.json());
@@ -37,7 +43,9 @@ dropUsersTable('luminio_users')
 	});
 
 // Auth routes
+app.use(loginRouter('luminio_users'));
 app.use(signupRouter('luminio_users'));
+app.use(userRouter);
 
 // Error handler
 app.use(errorMiddleware);

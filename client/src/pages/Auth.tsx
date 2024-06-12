@@ -1,4 +1,6 @@
-import {type ChangeEvent, type FormEvent, useState} from 'react';
+import {
+	type ChangeEvent, type FormEvent, useState,
+} from 'react';
 import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
 
@@ -46,10 +48,11 @@ export function Auth({isSignup = false}: AuthProps) {
 				const signup = await request('/signup', 'POST', formData, true);
 				console.log(signup);
 			} else {
-				await request('/login', 'POST', {
+				const login = await request('/login', 'POST', {
 					username: authDetails.username,
 					password: authDetails.password,
 				});
+				console.log(login);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
