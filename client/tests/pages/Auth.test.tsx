@@ -1,20 +1,32 @@
 import {
-	describe, expect, test, vi, vitest,
+	beforeEach,
+	describe, expect, test, vi,
 } from 'vitest';
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
 import {render} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
+import {Nav} from '../../src/components/Nav';
 import {Auth} from '../../src/pages/Auth';
 import {request} from '../../src/utilities/requests';
 import '@testing-library/jest-dom';
 
-vitest.mock('../../src/utilities/requests', () => ({
+vi.mock('../../src/utilities/requests', () => ({
 	request: vi.fn(),
+}));
+
+vi.mock('../../src/context/UserContext', () => ({
+	useUser: () => ({
+		setUser: vi.fn(),
+	}),
 }));
 
 const routes = [
 	{
 		path: '/*',
+		element: <Nav/>,
+	},
+	{
+		path: '/login',
 		element: <Auth/>,
 	},
 	{
@@ -23,9 +35,13 @@ const routes = [
 	},
 ];
 
-const createRouter = () => createMemoryRouter(routes, {initialEntries: ['/']});
+const createRouter = () => createMemoryRouter(routes, {initialEntries: ['/login']});
 
 describe('Auth component', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
 	test('Should render Login page', () => {
 		const router = createRouter();
 		const auth = render(<RouterProvider router={router}/>);

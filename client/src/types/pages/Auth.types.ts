@@ -4,7 +4,7 @@ type AuthProps = {
 
 type AuthDetailsType = {
 	username: string;
-	email: string;
+	email?: string;
 	profilePicture?: File;
 	password: string;
 	confirmPassword?: string;

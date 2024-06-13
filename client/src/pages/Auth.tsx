@@ -1,10 +1,11 @@
-import {
-	type ChangeEvent, type FormEvent, useState,
-} from 'react';
+import {type ChangeEvent, type FormEvent, useState} from 'react';
+import {type User} from '../types/utilities/request.types';
 import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
+import {useUser} from '../context/UserContext';
 
 export function Auth({isSignup = false}: AuthProps) {
+	const {setUser} = useUser();
 	const [authDetails, setAuthDetails] = useState<AuthDetailsType>({
 		username: 'testUser',
 		email: 'email@gmail.com',
@@ -35,8 +36,11 @@ export function Auth({isSignup = false}: AuthProps) {
 			if (isSignup) {
 				const formData = new FormData();
 				formData.append('username', authDetails.username);
-				formData.append('email', authDetails.email);
 				formData.append('password', authDetails.password);
+				if (authDetails.email) {
+					formData.append('email', authDetails.email);
+				}
+
 				if (authDetails.profilePicture) {
 					formData.append('profilePicture', authDetails.profilePicture);
 				}
@@ -45,14 +49,18 @@ export function Auth({isSignup = false}: AuthProps) {
 					formData.append('confirmPassword', authDetails.confirmPassword);
 				}
 
-				const signup = await request('/signup', 'POST', formData, true);
-				console.log(signup);
+				const signup = await request<FormData, User>('/signup', 'POST', formData, true);
+				if (signup) {
+					setUser(signup);
+				}
 			} else {
-				const login = await request('/login', 'POST', {
+				const login = await request<AuthDetailsType, User>('/login', 'POST', {
 					username: authDetails.username,
 					password: authDetails.password,
 				});
-				console.log(login);
+				if (login) {
+					setUser(login);
+				}
 			}
 		} catch (error) {
 			if (error instanceof Error) {
