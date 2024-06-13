@@ -24,7 +24,7 @@ export const uploadToS3 = async (picture: Express.Multer.File) => {
 
 			const s3Params = {
 				Bucket: 'zynqa',
-				Key: picture.fieldname,
+				Key: picture.originalname,
 				Body: optimizedImage,
 				ContentType: 'jpeg',
 				ACL: 'public-read' as ObjectCannedACL,

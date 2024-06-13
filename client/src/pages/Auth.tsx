@@ -3,6 +3,7 @@ import {type User} from '../types/utilities/request.types';
 import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
 import {useUser} from '../context/UserContext';
+import '../styles/pages/Auth.scss';
 
 export function Auth({isSignup = false}: AuthProps) {
 	const {setUser} = useUser();

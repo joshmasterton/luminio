@@ -1,0 +1,14 @@
+@use '../../App';
+
+#auth {
+	padding: App.$padding;
+	background: red;
+}
+
+#auth > form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: rebeccapurple;
+}

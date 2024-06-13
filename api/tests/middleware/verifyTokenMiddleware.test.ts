@@ -3,7 +3,7 @@ import express from 'express';
 import request from 'supertest';
 import {describe, expect, test} from 'vitest';
 import cookieParser from 'cookie-parser';
-import {verfiyTokenMiddleware} from '../../src/middleware/verifyTokenMiddleware';
+import {verifyTokenMiddleware} from '../../src/middleware/verifyTokenMiddleware';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 
 const mockUser = {
@@ -18,12 +18,11 @@ const mockUser = {
 	profile_picture: 'https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest.jpg',
 };
 
-describe('verifyTokenMiddlware', () => {
+describe('verifyTokenMiddleware', () => {
 	const app = express();
-
 	app.use(cookieParser());
 
-	app.get('/test', verfiyTokenMiddleware, (_req, res) => {
+	app.get('/test', verifyTokenMiddleware, (_req, res) => {
 		const {user} = res.locals;
 		res.status(200).json(user);
 	});
@@ -34,8 +33,7 @@ describe('verifyTokenMiddlware', () => {
 
 		const response = await request(app)
 			.get('/test')
-			.set('Cookie', `accessToken=${accessToken}`)
-			.set('Cookie', `refreshToken=${refreshToken}`);
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
 		expect(response.status).toBe(200);
 		expect(response.body.username).toEqual(mockUser.username);
@@ -44,12 +42,13 @@ describe('verifyTokenMiddlware', () => {
 		expect(response.headers['set-cookie'][1]).toBeDefined();
 	});
 
-	test('Should verify refresh token and set new access token aswell as user', async () => {
+	test('Should verify refresh token and set new access token as well as user', async () => {
+		const accessToken = generateToken(mockUser, '1ms');
 		const refreshToken = generateToken(mockUser, '7d');
 
 		const response = await request(app)
 			.get('/test')
-			.set('Cookie', `refreshToken=${refreshToken}`);
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
 		expect(response.status).toBe(200);
 		expect(response.body.username).toEqual(mockUser.username);
@@ -64,12 +63,23 @@ describe('verifyTokenMiddlware', () => {
 		expect(response.body).toEqual({error: 'No authorization'});
 	});
 
-	test('Should return 401 if no refresh token is provided', async () => {
+	test('Should return 401 if only access token is provided', async () => {
 		const accessToken = generateToken(mockUser, '7m');
 
 		const response = await request(app)
 			.get('/test')
 			.set('Cookie', `accessToken=${accessToken}`);
+
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({error: 'No authorization'});
+	});
+
+	test('Should return 401 if only refresh token is provided', async () => {
+		const refreshToken = generateToken(mockUser, '7d');
+
+		const response = await request(app)
+			.get('/test')
+			.set('Cookie', `refreshToken=${refreshToken}`);
 
 		expect(response.status).toBe(401);
 		expect(response.body).toEqual({error: 'No authorization'});

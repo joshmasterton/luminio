@@ -28,14 +28,13 @@ describe('/user', () => {
 		app.use(userRouter);
 	});
 
-	test('Should return user if verified token present', async () => {
+	test('Should return user if verified tokens are present', async () => {
 		const accessToken = generateToken(mockUser, '7m');
 		const refreshToken = generateToken(mockUser, '7d');
 
 		const response = await request(app)
 			.get('/user')
-			.set('Cookie', `accessToken=${accessToken}`)
-			.set('Cookie', `refreshToken=${refreshToken}`);
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
 		expect(response.status).toBe(201);
 		expect(response.body.username).toBe('testUser');
@@ -48,8 +47,7 @@ describe('/user', () => {
 
 		const response = await request(app)
 			.get('/user')
-			.set('Cookie', `accessToken=${expiredAccessToken}`)
-			.set('Cookie', `refreshToken=${refreshToken}`);
+			.set('Cookie', [`accessToken=${expiredAccessToken}`, `refreshToken=${refreshToken}`]);
 
 		expect(response.status).toBe(201);
 		expect(response.body.username).toBe('testUser');
@@ -57,32 +55,53 @@ describe('/user', () => {
 	});
 
 	test('Should return 401 if no tokens present', async () => {
-		const response = await request(app)
-			.get('/user');
+		const response = await request(app).get('/user');
 
 		expect(response.status).toBe(401);
 		expect(response.body).toEqual({error: 'No authorization'});
 	});
 
-	test('Should return 500 if invalid token', async () => {
+	test('Should return 401 if only access token is present', async () => {
+		const accessToken = generateToken(mockUser, '7m');
+
 		const response = await request(app)
 			.get('/user')
-			.set('Cookie', 'refreshToken=invalidToken');
+			.set('Cookie', `accessToken=${accessToken}`);
 
-		expect(response.status).toBe(500);
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({error: 'No authorization'});
+	});
+
+	test('Should return 401 if only refresh token is present', async () => {
+		const refreshToken = generateToken(mockUser, '7d');
+
+		const response = await request(app)
+			.get('/user')
+			.set('Cookie', `refreshToken=${refreshToken}`);
+
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({error: 'No authorization'});
+	});
+
+	test('Should return 500 if invalid token is provided', async () => {
+		const response = await request(app)
+			.get('/user')
+			.set('Cookie', 'refreshToken=invalidToken')
+			.set('Cookie', 'accessToken=invalidToken');
+
+		expect(response.status).toBe(401);
 		expect(response.body.error).toBeDefined();
 	});
 
-	test('Should return 500 if refresh token expired', async () => {
+	test('Should return 401 if refresh token expired', async () => {
 		const expiredAccessToken = generateToken(mockUser, '1ms');
 		const expiredRefreshToken = generateToken(mockUser, '1ms');
 
 		const response = await request(app)
 			.get('/user')
-			.set('Cookie', `accessToken=${expiredAccessToken}`)
-			.set('Cookie', `refreshToken=${expiredRefreshToken}`);
+			.set('Cookie', [`accessToken=${expiredAccessToken}`, `refreshToken=${expiredRefreshToken}`]);
 
-		expect(response.status).toBe(500);
-		expect(response.body.error).toBeDefined();
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({error: 'No authorization'});
 	});
 });

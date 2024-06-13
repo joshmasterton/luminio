@@ -18,8 +18,8 @@ export const signupController = async (tableName: string, req: Request, res: Res
 			const accessToken = generateToken(user, '7m');
 			const refreshToken = generateToken(user, '7d');
 
-			res.cookie('accessToken', accessToken, {maxAge: 7 * 60 * 1000});
-			res.cookie('refreshToken', refreshToken, {maxAge: 7 * 24 * 60 * 60 * 1000});
+			res.cookie('accessToken', accessToken, {maxAge: 8 * 60 * 1000});
+			res.cookie('refreshToken', refreshToken, {maxAge: 8 * 24 * 60 * 60 * 1000});
 			return res.status(201).json(user);
 		}
 

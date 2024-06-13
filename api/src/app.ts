@@ -8,6 +8,7 @@ import {signupRouter} from './routers/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
 import {createUsersTable, dropUsersTable} from './database/db';
 import {userRouter} from './routers/userRouter';
+import {logoutRouter} from './routers/logoutRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -46,6 +47,7 @@ dropUsersTable('luminio_users')
 app.use(loginRouter('luminio_users'));
 app.use(signupRouter('luminio_users'));
 app.use(userRouter);
+app.use(logoutRouter);
 
 // Error handler
 app.use(errorMiddleware);

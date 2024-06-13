@@ -1,9 +1,11 @@
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
+import {ThemeProvider} from './context/ThemeContext';
 import {UserProvider} from './context/UserContext';
 import {Auth} from './pages/Auth';
 import {PublicRoute} from './utilities/PublicRoute';
 import {ProtectedRoute} from './utilities/ProtectedRoute';
 import {Nav} from './components/Nav';
+import './App.scss';
 
 const routes = [
 	{
@@ -24,8 +26,10 @@ const router = createBrowserRouter(routes);
 
 export function App() {
 	return (
-		<UserProvider>
-			<RouterProvider router={router}/>
-		</UserProvider>
+		<ThemeProvider>
+			<UserProvider>
+				<RouterProvider router={router}/>
+			</UserProvider>
+		</ThemeProvider>
 	);
 }

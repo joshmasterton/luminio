@@ -11,7 +11,7 @@ export const useUser = () => {
 	const context = useContext(UserContext);
 
 	if (!context) {
-		throw new Error('Cannot useUser unless inside UserProvider');
+		throw new Error('Must useUser inside UserProvider');
 	}
 
 	return context;
