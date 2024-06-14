@@ -3,6 +3,7 @@ import {
 	describe, expect, test, vi,
 } from 'vitest';
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
+import {ThemeProvider} from '../../src/context/ThemeContext';
 import {render} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 import {Nav} from '../../src/components/Nav';
@@ -44,13 +45,21 @@ describe('Auth component', () => {
 
 	test('Should render Login page', () => {
 		const router = createRouter();
-		const auth = render(<RouterProvider router={router}/>);
+		const auth = render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
 		expect(auth.getByRole('heading', {name: 'Login'}));
 	});
 
 	test('Should render Signup page after user navigates', async () => {
 		const router = createRouter();
-		const auth = render(<RouterProvider router={router}/>);
+		const auth = render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
 
 		const switchPageLink = auth.getByRole('link', {name: 'Signup'});
 		await userEvent.click(switchPageLink);
@@ -66,7 +75,11 @@ describe('Auth component', () => {
 
 	test('Should update state when input changes', async () => {
 		const router = createRouter();
-		const auth = render(<RouterProvider router={router}/>);
+		const auth = render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
 
 		const usernameInput = auth.getByLabelText('Username') as HTMLInputElement;
 		const passwordInput = auth.getByLabelText('Password') as HTMLInputElement;
@@ -83,7 +96,11 @@ describe('Auth component', () => {
 
 	test('Should handle file input type correctly', async () => {
 		const router = createRouter();
-		const auth = render(<RouterProvider router={router}/>);
+		const auth = render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
 		const testFile = new File(['test content'], 'test.png', {type: 'image/png'});
 
 		const switchPageLink = auth.getByRole('link', {name: 'Signup'});
@@ -98,7 +115,11 @@ describe('Auth component', () => {
 
 	test('Should handle form submission for login', async () => {
 		const router = createRouter();
-		const auth = render(<RouterProvider router={router}/>);
+		const auth = render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
 
 		const submitButton = auth.getByRole('button', {name: 'Login'});
 		await userEvent.click(submitButton);
@@ -108,7 +129,11 @@ describe('Auth component', () => {
 
 	test('Should handle form submission for signup', async () => {
 		const router = createRouter();
-		const auth = render(<RouterProvider router={router}/>);
+		const auth = render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
 
 		const switchPageLink = auth.getByRole('link', {name: 'Signup'});
 		await userEvent.click(switchPageLink);

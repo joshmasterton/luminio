@@ -1,14 +1,49 @@
-@use '../../App';
+@use '../../styles/App.scss';
 
 #auth {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	gap: App.$padding;
 	padding: App.$padding;
-	background: red;
+	padding-top: calc(App.$padding * 2);
+	padding-bottom: calc(App.$padding * 5);
 }
 
 #auth > form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	width: 100%;
+	max-width: App.$maxWidth;
+	padding: App.$paddingContainer;
+	gap: App.$paddingContainer;
+	background-color: var(--background-color-shade);
+}
+
+#auth > form > header {
+	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	background: rebeccapurple;
+	gap: App.$paddingSmall;
+}
+
+#auth > form > main {
+	display: flex;
+	flex-direction: column;
+	gap: App.$padding;
+}
+
+#auth > form > main > button {
+	margin-top: App.$padding;
+}
+
+#auth > form > footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: App.$paddingSmall;
 }

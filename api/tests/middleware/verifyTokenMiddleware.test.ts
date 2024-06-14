@@ -42,7 +42,21 @@ describe('verifyTokenMiddleware', () => {
 		expect(response.headers['set-cookie'][1]).toBeDefined();
 	});
 
-	test('Should verify refresh token and set new access token as well as user', async () => {
+	test('Should verify refresh token and set new access token as well as user if access token is missing', async () => {
+		const refreshToken = generateToken(mockUser, '7d');
+
+		const response = await request(app)
+			.get('/test')
+			.set('Cookie', `refreshToken=${refreshToken}`);
+
+		expect(response.status).toBe(200);
+		expect(response.body.username).toEqual(mockUser.username);
+		expect(response.body.id).toEqual(mockUser.id);
+		expect(response.headers['set-cookie'][0]).toBeDefined();
+		expect(response.headers['set-cookie'][1]).toBeDefined();
+	});
+
+	test('Should verify refresh token and set new access token as well as user if access token is expired', async () => {
 		const accessToken = generateToken(mockUser, '1ms');
 		const refreshToken = generateToken(mockUser, '7d');
 
@@ -64,22 +78,11 @@ describe('verifyTokenMiddleware', () => {
 	});
 
 	test('Should return 401 if only access token is provided', async () => {
-		const accessToken = generateToken(mockUser, '7m');
+		const accessToken = generateToken(mockUser, '7d');
 
 		const response = await request(app)
 			.get('/test')
 			.set('Cookie', `accessToken=${accessToken}`);
-
-		expect(response.status).toBe(401);
-		expect(response.body).toEqual({error: 'No authorization'});
-	});
-
-	test('Should return 401 if only refresh token is provided', async () => {
-		const refreshToken = generateToken(mockUser, '7d');
-
-		const response = await request(app)
-			.get('/test')
-			.set('Cookie', `refreshToken=${refreshToken}`);
 
 		expect(response.status).toBe(401);
 		expect(response.body).toEqual({error: 'No authorization'});

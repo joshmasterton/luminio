@@ -42,11 +42,12 @@ export const UserProvider = ({children}: UserProviderProps) => {
 	const logout = async () => {
 		try {
 			await request('/logout', 'POST');
-			await getUser();
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
 			}
+		} finally {
+			await getUser();
 		}
 	};
 

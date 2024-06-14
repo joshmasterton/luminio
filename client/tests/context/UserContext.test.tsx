@@ -7,9 +7,10 @@ import {request} from '../../src/utilities/requests';
 import {act} from 'react';
 import {type RenderResult, render} from '@testing-library/react';
 import {UserProvider, useUser} from '../../src/context/UserContext';
-import '@testing-library/jest-dom';
 import {ProtectedRoute} from '../../src/utilities/ProtectedRoute';
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
+import {ThemeProvider} from '../../src/context/ThemeContext';
+import '@testing-library/jest-dom';
 
 vi.mock('../../src/utilities/requests', () => ({
 	request: vi.fn(),
@@ -45,9 +46,11 @@ describe('UserProvider', () => {
 
 	test('Renders loading state initially', () => {
 		const mockComponent = render(
-			<UserProvider>
-				<div>Child</div>
-			</UserProvider>,
+			<ThemeProvider>
+				<UserProvider>
+					<div>Child</div>
+				</UserProvider>
+			</ThemeProvider>,
 		);
 
 		expect(mockComponent.getByText('Loading')).toBeInTheDocument();
@@ -72,9 +75,11 @@ describe('UserProvider', () => {
 
 		await act(async () => {
 			mockComponent = render(
-				<UserProvider>
-					<TestComponent/>
-				</UserProvider>,
+				<ThemeProvider>
+					<UserProvider>
+						<TestComponent/>
+					</UserProvider>
+				</ThemeProvider>,
 			);
 		});
 
@@ -97,9 +102,11 @@ describe('UserProvider', () => {
 
 		await act(async () => {
 			mockComponent = render(
-				<UserProvider>
-					<RouterProvider router={router}/>
-				</UserProvider>,
+				<ThemeProvider>
+					<UserProvider>
+						<RouterProvider router={router}/>
+					</UserProvider>
+				</ThemeProvider>,
 			);
 		});
 

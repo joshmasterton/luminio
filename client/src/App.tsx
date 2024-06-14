@@ -5,7 +5,7 @@ import {Auth} from './pages/Auth';
 import {PublicRoute} from './utilities/PublicRoute';
 import {ProtectedRoute} from './utilities/ProtectedRoute';
 import {Nav} from './components/Nav';
-import './App.scss';
+import './styles/App.scss';
 
 const routes = [
 	{

@@ -5,35 +5,37 @@ import {generateToken, verifyToken} from '../utilities/tokenGenerator';
 export const verifyTokenMiddleware = (req: Request, res: Response, next: NextFunction) => {
 	const {accessToken, refreshToken} = req.cookies as TokenCookies;
 
-	if (!accessToken || !refreshToken) {
+	if (!refreshToken) {
 		return res.status(401).json({error: 'No authorization'});
 	}
 
 	try {
-		// Verify the access token first
-		const decodedAccessToken = verifyToken(accessToken);
+		if (accessToken) {
+			const decodedAccessToken = verifyToken(accessToken);
 
-		// If access token is valid, refresh the tokens
-		if (req.path !== '/logout') {
-			res.cookie('accessToken', accessToken, {maxAge: 7 * 60 * 1000});
-			res.cookie('refreshToken', refreshToken, {maxAge: 7 * 24 * 60 * 60 * 1000});
+			if (req.path !== '/logout') {
+				res.cookie('accessToken', accessToken, {maxAge: 8 * 60 * 1000, httpOnly: true});
+				res.cookie('refreshToken', refreshToken, {maxAge: 8 * 24 * 60 * 60 * 1000, httpOnly: true});
+			}
+
+			res.locals.user = decodedAccessToken;
+			next();
+			return;
 		}
 
-		res.locals.user = decodedAccessToken;
-		next();
+		throw new Error('AccessTokenMissing');
 	} catch (accessTokenError) {
-		if (accessTokenError instanceof Error && accessTokenError.name !== 'TokenExpiredError') {
+		if (accessTokenError instanceof Error && accessTokenError.name !== 'TokenExpiredError' && accessTokenError.message !== 'AccessTokenMissing') {
 			return res.status(401).json({error: 'No authorization'});
 		}
 
-		// If access token is expired, verify the refresh token
 		try {
 			const decodedRefreshToken = verifyToken(refreshToken);
 			const newAccessToken = generateToken(decodedRefreshToken, '7m');
 
 			if (req.path !== '/logout') {
-				res.cookie('accessToken', newAccessToken, {maxAge: 7 * 60 * 1000});
-				res.cookie('refreshToken', refreshToken, {maxAge: 7 * 24 * 60 * 60 * 1000});
+				res.cookie('accessToken', newAccessToken, {maxAge: 8 * 60 * 1000, httpOnly: true});
+				res.cookie('refreshToken', refreshToken, {maxAge: 8 * 24 * 60 * 60 * 1000, httpOnly: true});
 			}
 
 			res.locals.user = decodedRefreshToken;

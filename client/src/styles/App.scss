@@ -1,0 +1,169 @@
+$maxWidth: 30rem;
+$height: 3rem;
+
+$paddingSmall: 0.5rem;
+
+$padding: 1rem;
+$paddingContainer: calc($padding * 2);
+$borderRadius: 0.25rem;
+$transition: 0.5s ease;
+
+$fontLarge: 1.5rem;
+$fontNormal: 1rem;
+$fontSmall: 0.75rem;
+
+[data-theme='dark'] {
+	--background-color: rgb(15, 15, 18);
+	--background-color-shade: rgb(20, 20, 26);
+	--background-color-shade-max: rgb(26, 26, 34);
+	--background-color-focus: rgb(32, 32, 40);
+	--text-color: white;
+	--primary: rgb(0, 89, 255);
+	--outline: 0.1rem solid rgb(26, 26, 34);
+	--outline-focus: 0.1rem solid rgb(32, 32, 40);
+	--box-shadow: 0 0 0 0.2rem rgb(0, 89, 255);
+}
+
+[data-theme='light'] {
+	--background-color: rgb(244, 244, 248);
+	--background-color-shade: rgb(255, 255, 255);
+	--background-color-shade-max: rgb(244, 244, 248);
+	--background-color-focus: rgb(235, 235, 238);
+	--text-color: black;
+	--primary: rgb(60, 255, 0);
+	--outline: 0.1rem solid rgb(244, 244, 248);
+	--outline-focus: 0.1rem solid rgb(235, 235, 238);
+	--box-shadow: 0 0 0 0.2rem rgb(60, 255, 0);
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
+	font-size: $fontNormal;
+	font-weight: 500;
+	line-height: 1.5;
+	border-radius: $borderRadius;
+	border-style: none;
+	list-style: none;
+	outline: 0.1rem solid transparent;
+	color: var(--text-color);
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+*:focus {
+	outline: var(--outline-focus);
+	box-shadow: var(--box-shadow);
+	background-color: var(--background-color-focus);
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+::placeholder {
+	opacity: 50%;
+	color: var(--text-color);
+}
+
+button:hover, input:hover, a:hover {
+	outline: var(--outline);
+	box-shadow: var(--box-shadow);
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	} 50% {
+		transform: scale(0.75);
+	} 100% {
+		transform: scale(1);
+	}
+}
+
+html, body, #root {
+	display: flex;
+	width: 100%;
+	min-height: 100%;
+	background-color: var(--background-color);
+	color: var(--text-color);
+}
+
+img {
+	width: $height;
+	height: $height;
+	object-fit: cover;
+	overflow: hidden;
+}
+
+h1 {
+	font-size: $fontLarge;
+}
+
+p {
+	font-size: $fontSmall;
+}
+
+button, input, a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: $height;
+	padding: $padding;
+	transition: box-shadow $transition, outline-color $transition, transform $transition;
+	background-color: var(--background-color-shade-max);
+}
+
+.transparentLink {
+	width: fit-content;
+	height: fit-content;
+	padding: 0;
+	font-size: $fontSmall;
+	background: transparent;
+}
+
+.primaryButton {
+	background: var(--primary);
+}
+
+.transparentButton {
+	width: fit-content;
+	background: transparent;
+}
+
+.theme {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: $height;
+	width: calc($height * 2);
+	background: var(--background-color-shade-max);
+}
+
+.theme.dark > button {
+	transform: translateX(-50%);
+}
+
+.theme.light > button {
+	transform: translateX(50%);
+}
+
+.themeButton {
+	width: $height;
+	padding: 0;
+	background: var(--primary);
+}
+
+.userButton {
+	height: $height;
+	width: $height;
+	padding: 0;
+}
+
+label {
+	display: flex;
+	flex-direction: column;
+	gap: $paddingSmall;
+}

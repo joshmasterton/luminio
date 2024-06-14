@@ -3,10 +3,15 @@ import {type User} from '../types/utilities/request.types';
 import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
 import {useUser} from '../context/UserContext';
+import {useTheme} from '../context/ThemeContext';
+import {ThemeButton} from '../components/Buttons';
+import lightLogo from '../../public/zynqa_logo_light.png';
+import darkLogo from '../../public/zynqa_logo_dark.png';
 import '../styles/pages/Auth.scss';
 
 export function Auth({isSignup = false}: AuthProps) {
 	const {setUser} = useUser();
+	const {theme} = useTheme();
 	const [authDetails, setAuthDetails] = useState<AuthDetailsType>({
 		username: 'testUser',
 		email: 'email@gmail.com',
@@ -72,16 +77,18 @@ export function Auth({isSignup = false}: AuthProps) {
 
 	return (
 		<div id='auth'>
+			<img alt='Logo' src={theme === 'dark' ? lightLogo : darkLogo}/>
 			<form name='authForm' method='POST' autoComplete='off' noValidate onSubmit={async e => {
 				await handleSubmit(e);
 			}}>
 				<header>
 					<h1>{isSignup ? 'Signup' : 'Login'}</h1>
+					<ThemeButton/>
 				</header>
 				<main>
 					<label htmlFor='username'>
 						Username
-						<input id='username' name='username' type='text' value={authDetails.username} onChange={e => {
+						<input id='username' placeholder='Username' name='username' type='text' value={authDetails.username} onChange={e => {
 							handleInputChange(e);
 						}}/>
 					</label>
@@ -89,7 +96,7 @@ export function Auth({isSignup = false}: AuthProps) {
 						<>
 							<label htmlFor='email'>
 								Email
-								<input id='email' name='email' type='email' value={authDetails.email} onChange={e => {
+								<input id='email' placeholder='Email' name='email' type='email' value={authDetails.email} onChange={e => {
 									handleInputChange(e);
 								}}/>
 							</label>
@@ -103,32 +110,32 @@ export function Auth({isSignup = false}: AuthProps) {
 					)}
 					<label htmlFor='password'>
 						Password
-						<input id='password' name='password' type='password' value={authDetails.password} onChange={e => {
+						<input id='password' placeholder='Password' name='password' type='password' value={authDetails.password} onChange={e => {
 							handleInputChange(e);
 						}}/>
 					</label>
 					{isSignup && (
 						<label htmlFor='confirmPassword'>
 							Confirm Password
-							<input id='confirmPassword' name='confirmPassword' value={authDetails.confirmPassword} type='password' onChange={e => {
+							<input id='confirmPassword' placeholder='Confirm Password' name='confirmPassword' value={authDetails.confirmPassword} type='password' onChange={e => {
 								handleInputChange(e);
 							}}/>
 						</label>
 					)}
-					<button type='submit'>
+					<button type='submit' className='primaryButton'>
 						{isSignup ? 'Signup' : 'Login'}
 					</button>
 				</main>
 				<footer>
 					{isSignup ? (
 						<>
-							<div>Already have an account?</div>
-							<Link to='/'>Login</Link>
+							<p>Already have an account?</p>
+							<Link to='/' className='transparentLink'>Login</Link>
 						</>
 					) : (
 						<>
-							<div>Dont have an account?</div>
-							<Link to='/signup'>Signup</Link>
+							<p>Dont have an account?</p>
+							<Link to='/signup' className='transparentLink'>Signup</Link>
 						</>
 					)}
 				</footer>

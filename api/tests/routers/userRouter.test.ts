@@ -39,6 +39,7 @@ describe('/user', () => {
 		expect(response.status).toBe(201);
 		expect(response.body.username).toBe('testUser');
 		expect(response.body.id).toBe(1);
+		expect(response.headers['set-cookie']).toBeDefined();
 	});
 
 	test('Should generate new access token if expired', async () => {
@@ -52,6 +53,22 @@ describe('/user', () => {
 		expect(response.status).toBe(201);
 		expect(response.body.username).toBe('testUser');
 		expect(response.body.id).toBe(1);
+		expect(response.headers['set-cookie'][0]).toBeDefined();
+		expect(response.headers['set-cookie'][1]).toBeDefined();
+	});
+
+	test('Should generate new access token if missing', async () => {
+		const refreshToken = generateToken(mockUser, '7d');
+
+		const response = await request(app)
+			.get('/user')
+			.set('Cookie', `refreshToken=${refreshToken}`);
+
+		expect(response.status).toBe(201);
+		expect(response.body.username).toBe('testUser');
+		expect(response.body.id).toBe(1);
+		expect(response.headers['set-cookie'][0]).toBeDefined();
+		expect(response.headers['set-cookie'][1]).toBeDefined();
 	});
 
 	test('Should return 401 if no tokens present', async () => {
@@ -72,18 +89,21 @@ describe('/user', () => {
 		expect(response.body).toEqual({error: 'No authorization'});
 	});
 
-	test('Should return 401 if only refresh token is present', async () => {
+	test('Should return user and set new access token if only refresh token is present', async () => {
 		const refreshToken = generateToken(mockUser, '7d');
 
 		const response = await request(app)
 			.get('/user')
 			.set('Cookie', `refreshToken=${refreshToken}`);
 
-		expect(response.status).toBe(401);
-		expect(response.body).toEqual({error: 'No authorization'});
+		expect(response.status).toBe(201);
+		expect(response.body.username).toBe('testUser');
+		expect(response.body.id).toBe(1);
+		expect(response.headers['set-cookie'][0]).toBeDefined();
+		expect(response.headers['set-cookie'][1]).toBeDefined();
 	});
 
-	test('Should return 500 if invalid token is provided', async () => {
+	test('Should return 401 if invalid token is provided', async () => {
 		const response = await request(app)
 			.get('/user')
 			.set('Cookie', 'refreshToken=invalidToken')
