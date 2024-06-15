@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
 import {useUser} from '../context/UserContext';
 import {useTheme} from '../context/ThemeContext';
+import {Loading} from '../components/Loading';
 import {ThemeButton} from '../components/Buttons';
 import lightLogo from '../../public/zynqa_logo_light.png';
 import darkLogo from '../../public/zynqa_logo_dark.png';
@@ -12,6 +13,7 @@ import '../styles/pages/Auth.scss';
 export function Auth({isSignup = false}: AuthProps) {
 	const {setUser} = useUser();
 	const {theme} = useTheme();
+	const [loading, setLoading] = useState(false);
 	const [authDetails, setAuthDetails] = useState<AuthDetailsType>({
 		username: 'testUser',
 		email: 'email@gmail.com',
@@ -37,8 +39,12 @@ export function Auth({isSignup = false}: AuthProps) {
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		if (loading) {
+			return;
+		}
 
 		try {
+			setLoading(true);
 			if (isSignup) {
 				const formData = new FormData();
 				formData.append('username', authDetails.username);
@@ -72,6 +78,8 @@ export function Auth({isSignup = false}: AuthProps) {
 			if (error instanceof Error) {
 				console.error(error);
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -123,7 +131,13 @@ export function Auth({isSignup = false}: AuthProps) {
 						</label>
 					)}
 					<button type='submit' className='primaryButton'>
-						{isSignup ? 'Signup' : 'Login'}
+						{loading ? (
+							<Loading className='primary'/>
+						) : (
+							<div>
+								{isSignup ? 'Signup' : 'Login'}
+							</div>
+						)}
 					</button>
 				</main>
 				<footer>

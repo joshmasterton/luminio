@@ -1,5 +1,4 @@
 import {
-	beforeEach,
 	describe, expect, test, vi,
 } from 'vitest';
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
@@ -39,10 +38,6 @@ const routes = [
 const createRouter = () => createMemoryRouter(routes, {initialEntries: ['/login']});
 
 describe('Auth component', () => {
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
-
 	test('Should render Login page', () => {
 		const router = createRouter();
 		const auth = render(

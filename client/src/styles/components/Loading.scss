@@ -1,0 +1,41 @@
+@use '../App.scss';
+
+.loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.loading > div {
+	display: flex;
+	width: calc(App.$height / 2);
+	height: calc(App.$height / 2);
+	border-radius: 10rem;
+	padding: calc(App.$paddingSmall / 2);
+	overflow: hidden;
+	animation: 1s infinite spinner;
+}
+
+.loading.primary > div {
+	background: linear-gradient(
+		transparent,
+		var(--text-color),
+	);
+}
+
+@keyframes spinner {
+	from {
+		transform: rotate(0deg);
+	} to {
+		transform: rotate(360deg);
+	}
+}
+
+.loading > div > div {
+	width: 100%;
+	height: 100%;
+	border-radius: 10rem;
+	background: var(--primary);
+}

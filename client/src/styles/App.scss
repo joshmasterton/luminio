@@ -91,6 +91,9 @@ html, body, #root {
 }
 
 img {
+	display: flex;
+	flex-direction: column;
+	text-align: start;
 	width: $height;
 	height: $height;
 	object-fit: cover;
@@ -131,35 +134,6 @@ button, input, a {
 .transparentButton {
 	width: fit-content;
 	background: transparent;
-}
-
-.theme {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: $height;
-	width: calc($height * 2);
-	background: var(--background-color-shade-max);
-}
-
-.theme.dark > button {
-	transform: translateX(-50%);
-}
-
-.theme.light > button {
-	transform: translateX(50%);
-}
-
-.themeButton {
-	width: $height;
-	padding: 0;
-	background: var(--primary);
-}
-
-.userButton {
-	height: $height;
-	width: $height;
-	padding: 0;
 }
 
 label {

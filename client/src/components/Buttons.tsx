@@ -1,11 +1,12 @@
-import {type User} from '../types/utilities/request.types';
+import {type UserButtonType} from '../types/components/Buttons.types';
 import {useTheme} from '../context/ThemeContext';
 import {BiMoon} from 'react-icons/bi';
+import '../styles/components/Buttons.scss';
 
-export function UserButton({user}: {user: User | undefined}) {
+export function UserButton({user, type}: UserButtonType) {
 	return (
-		<button type='button' className='userButton' aria-label='User'>
-			<img alt='User' src={user?.profile_picture}/>
+		<button type='button' className={`userButton ${type}`} aria-label='User'>
+			<img alt='Profile Picture' src={user?.profile_picture}/>
 		</button>
 	);
 }
@@ -13,8 +14,8 @@ export function UserButton({user}: {user: User | undefined}) {
 export function ThemeButton() {
 	const {theme, toggleTheme} = useTheme();
 	return (
-		<div className={`theme ${theme}`}>
-			<button type='button' className='themeButton' aria-label='Theme toggler' onClick={e => {
+		<div className={`themeToggler ${theme}`}>
+			<button type='button' aria-label='Theme toggler' onClick={e => {
 				toggleTheme(e);
 			}}>
 				<BiMoon/>

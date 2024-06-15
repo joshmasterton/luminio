@@ -1,5 +1,6 @@
 import {useState, type MouseEvent} from 'react';
-import {BiHome, BiLogOut, BiMenu} from 'react-icons/bi';
+import {BiHome, BiMenu} from 'react-icons/bi';
+import {CgLogOut} from 'react-icons/cg';
 import {useUser} from '../context/UserContext';
 import {Link} from 'react-router-dom';
 import {ThemeButton, UserButton} from './Buttons';
@@ -31,10 +32,10 @@ export function Nav() {
 							</Link>
 						</li>
 						<li>
-							<button type='button' className='transparentButton' aria-label='Logout' onClick={async () => {
+							<button type='button' className='transparentButton' aria-label='Logout Button 1' onClick={async () => {
 								await logout();
 							}}>
-								<BiLogOut/>
+								<CgLogOut/>
 							</button>
 						</li>
 						<li>
@@ -52,10 +53,10 @@ export function Nav() {
 						</Link>
 					</li>
 					<li>
-						<button type='button' className='transparentButton' aria-label='Logout' onClick={async () => {
+						<button type='button' className='transparentButton' aria-label='Logout Button 2' onClick={async () => {
 							await logout();
 						}}>
-							<BiLogOut/>
+							<CgLogOut/>
 							Logout
 						</button>
 					</li>
@@ -67,9 +68,9 @@ export function Nav() {
 			<footer>
 				<ul>
 					<li>
-						<UserButton user={user}/>
+						<UserButton user={user} type='large'/>
 						<div>
-							<div>{user?.username}</div>
+							<h1>{user?.username}</h1>
 							<p>{user?.email}</p>
 						</div>
 					</li>
@@ -80,10 +81,10 @@ export function Nav() {
 						</Link>
 					</li>
 					<li>
-						<button type='button' className='transparentButton' aria-label='Logout' onClick={async () => {
+						<button type='button' className='transparentButton' aria-label='Logout Button 3' onClick={async () => {
 							await logout();
 						}}>
-							<BiLogOut/>
+							<CgLogOut/>
 							Logout
 						</button>
 					</li>

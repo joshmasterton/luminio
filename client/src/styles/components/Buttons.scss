@@ -1,0 +1,36 @@
+@use '../App.scss';
+
+.themeToggler {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: App.$height;
+	width: calc(App.$height * 2);
+	background: var(--background-color-shade-max);
+}
+
+.themeToggler > button {
+	width: App.$height;
+	padding: 0;
+	background: var(--primary);
+}
+
+.themeToggler.dark > button {
+	transform: translateX(-50%);
+}
+
+.themeToggler.light > button {
+	transform: translateX(50%);
+}
+
+.userButton {
+	height: App.$height;
+	width: App.$height;
+	padding: 0;
+}
+
+.userButton.large,
+.userButton.large > img {
+	height: 13rem;
+	min-width: 100%;
+}
