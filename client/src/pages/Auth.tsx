@@ -3,15 +3,17 @@ import {type User} from '../types/utilities/request.types';
 import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
 import {useUser} from '../context/UserContext';
+import {usePopup} from '../context/PopupContext';
 import {useTheme} from '../context/ThemeContext';
 import {Loading} from '../components/Loading';
 import {ThemeButton} from '../components/Buttons';
-import lightLogo from '../../public/zynqa_logo_light.png';
-import darkLogo from '../../public/zynqa_logo_dark.png';
+import lightLogo from '/zynqa_logo_light.png';
+import darkLogo from '/zynqa_logo_dark.png';
 import '../styles/pages/Auth.scss';
 
 export function Auth({isSignup = false}: AuthProps) {
 	const {setUser} = useUser();
+	const {setPopup} = usePopup();
 	const {theme} = useTheme();
 	const [loading, setLoading] = useState(false);
 	const [authDetails, setAuthDetails] = useState<AuthDetailsType>({
@@ -77,6 +79,7 @@ export function Auth({isSignup = false}: AuthProps) {
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error);
+				setPopup(error.message);
 			}
 		} finally {
 			setLoading(false);

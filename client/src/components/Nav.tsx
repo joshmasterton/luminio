@@ -4,9 +4,13 @@ import {CgLogOut} from 'react-icons/cg';
 import {useUser} from '../context/UserContext';
 import {Link} from 'react-router-dom';
 import {ThemeButton, UserButton} from './Buttons';
+import {useTheme} from '../context/ThemeContext';
+import lightLogo from '/zynqa_logo_light.png';
+import darkLogo from '/zynqa_logo_dark.png';
 import '../styles/components/Nav.scss';
 
 export function Nav() {
+	const {theme} = useTheme();
 	const {user, logout} = useUser();
 	const [isMenu, setIsMenu] = useState(false);
 
@@ -17,13 +21,15 @@ export function Nav() {
 
 	return (
 		<nav id='nav'>
+			<div />
 			<header>
 				<div>
-					<button type='button' className='transparentButton' onClick={e => {
+					<button type='button' className='transparentButton' aria-label='Menu Button' onClick={e => {
 						handleMenuSwitch(e);
 					}}>
 						<BiMenu/>
 					</button>
+					<img alt='Logo' src={theme === 'dark' ? lightLogo : darkLogo}/>
 					<UserButton user={user}/>
 					<ul>
 						<li>
@@ -87,9 +93,6 @@ export function Nav() {
 							<CgLogOut/>
 							Logout
 						</button>
-					</li>
-					<li>
-						<ThemeButton/>
 					</li>
 				</ul>
 			</footer>

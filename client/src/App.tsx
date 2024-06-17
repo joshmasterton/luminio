@@ -4,6 +4,7 @@ import {UserProvider} from './context/UserContext';
 import {Auth} from './pages/Auth';
 import {PublicRoute} from './utilities/PublicRoute';
 import {ProtectedRoute} from './utilities/ProtectedRoute';
+import {Popup, PopupProvider} from './context/PopupContext';
 import {Nav} from './components/Nav';
 import './styles/App.scss';
 
@@ -28,7 +29,10 @@ export function App() {
 	return (
 		<ThemeProvider>
 			<UserProvider>
-				<RouterProvider router={router}/>
+				<PopupProvider>
+					<RouterProvider router={router}/>
+					<Popup/>
+				</PopupProvider>
 			</UserProvider>
 		</ThemeProvider>
 	);

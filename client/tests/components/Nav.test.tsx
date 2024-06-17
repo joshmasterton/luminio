@@ -1,36 +1,20 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import {
-	type Mock, beforeEach, describe, test, vi,
+	type Mock, describe, test, vi,
 	expect,
 } from 'vitest';
-import userEvent from '@testing-library/user-event';
-import {screen} from '@testing-library/react';
-import {Nav} from '../../src/components/Nav';
+import {render, screen} from '@testing-library/react';
+import {useUser} from '../../src/context/UserContext';
+import {mockUser} from '../mockData/mockUser';
 import {ProtectedRoute} from '../../src/utilities/ProtectedRoute';
-import {ThemeProvider} from '../../src/context/ThemeContext';
-import {UserProvider, useUser} from '../../src/context/UserContext';
+import {Nav} from '../../src/components/Nav';
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
-import {render} from '@testing-library/react';
+import {ThemeProvider} from '../../src/context/ThemeContext';
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('../../src/context/UserContext', () => ({
 	useUser: vi.fn(),
-	UserProvider: vi.fn().mockImplementation(({children}) => (
-		<div>{children}</div>
-	)),
 }));
-
-const mockUser = {
-	id: 1,
-	username: 'testUser',
-	email: 'test@email.com',
-	friends: 0,
-	likes: 0,
-	dislikes: 0,
-	created_at: new Date(),
-	last_online: new Date(),
-	profile_picture: 'https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest.jpg',
-};
 
 const routes = [
 	{
@@ -43,52 +27,67 @@ const routes = [
 	},
 ];
 
-const router = createMemoryRouter(routes, {initialEntries: ['/']});
+const router = createMemoryRouter(routes);
 
 describe('Nav', () => {
-	beforeEach(() => {
+	test('Should render Nav if user present', () => {
 		(useUser as Mock).mockReturnValue({
 			user: mockUser,
-			logout: vi.fn().mockImplementation(async () => {
-				(useUser as Mock).mockReturnValue({
-					user: undefined,
-					logout: vi.fn(),
-				});
-
-				await router.navigate('/login');
-			}),
+			logout: vi.fn(),
 		});
-	});
 
-	test('Renders user information', () => {
 		render(
 			<ThemeProvider>
-				<UserProvider>
-					<RouterProvider router={router}/>
-				</UserProvider>
+				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
 
-		const profilePicture = screen.getAllByAltText('Profile Picture');
+		const profilePictures = screen.getAllByAltText('Profile Picture');
 
-		profilePicture.forEach(picture => {
-			expect(picture).toBeInTheDocument();
+		profilePictures.forEach(profilePicture => {
+			expect(profilePicture).toBeInTheDocument();
 		});
+
+		expect(screen.getByText(mockUser.username)).toBeInTheDocument();
+		expect(screen.getByText(mockUser.email)).toBeInTheDocument();
 	});
 
-	test('Should log user out on logout click', async () => {
+	test('Should render Login if user not present', () => {
+		(useUser as Mock).mockReturnValue({
+			user: undefined,
+			logout: vi.fn(),
+		});
+
 		render(
 			<ThemeProvider>
-				<UserProvider>
-					<RouterProvider router={router}/>
-				</UserProvider>
+				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
 
-		const logoutButton = screen.getByLabelText('Logout Button 1');
+		expect(screen.getByText('Login')).toBeInTheDocument();
+	});
 
-		await userEvent.click(logoutButton);
+	test('Should toggle menu visibility on menu click', async () => {
+		await router.navigate('/');
 
-		expect(router.state.location.pathname).toBe('/login');
+		(useUser as Mock).mockReturnValue({
+			user: mockUser,
+			logout: vi.fn(),
+		});
+
+		render(
+			<ThemeProvider>
+				<RouterProvider router={router}/>
+			</ThemeProvider>,
+		);
+
+		const menuButton = screen.getByLabelText('Menu Button');
+		await userEvent.click(menuButton);
+
+		const navDropdown = screen.getByRole('main');
+		expect(navDropdown).toHaveClass('active');
+
+		await userEvent.click(menuButton);
+		expect(navDropdown).toHaveClass('hidden');
 	});
 });

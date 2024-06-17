@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import {
 	describe, expect, test, vi,
 } from 'vitest';
 import {RouterProvider, createMemoryRouter} from 'react-router-dom';
 import {ThemeProvider} from '../../src/context/ThemeContext';
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 import {Nav} from '../../src/components/Nav';
 import {Auth} from '../../src/pages/Auth';
@@ -40,28 +41,28 @@ const createRouter = () => createMemoryRouter(routes, {initialEntries: ['/login'
 describe('Auth component', () => {
 	test('Should render Login page', () => {
 		const router = createRouter();
-		const auth = render(
+		render(
 			<ThemeProvider>
 				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
-		expect(auth.getByRole('heading', {name: 'Login'}));
+		expect(screen.getByRole('heading', {name: 'Login'}));
 	});
 
 	test('Should render Signup page after user navigates', async () => {
 		const router = createRouter();
-		const auth = render(
+		render(
 			<ThemeProvider>
 				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
 
-		const switchPageLink = auth.getByRole('link', {name: 'Signup'});
+		const switchPageLink = screen.getByRole('link', {name: 'Signup'});
 		await userEvent.click(switchPageLink);
 
-		const signupHeading = auth.getByRole('heading', {name: 'Signup'});
-		const emailLabelElement = auth.getByLabelText('Email');
-		const confirmPasswordLabelElement = auth.getByLabelText('Confirm Password');
+		const signupHeading = screen.getByRole('heading', {name: 'Signup'});
+		const emailLabelElement = screen.getByLabelText('Email');
+		const confirmPasswordLabelElement = screen.getByLabelText('Confirm Password');
 
 		expect(signupHeading).toBeInTheDocument();
 		expect(emailLabelElement).toBeInTheDocument();
@@ -70,14 +71,14 @@ describe('Auth component', () => {
 
 	test('Should update state when input changes', async () => {
 		const router = createRouter();
-		const auth = render(
+		render(
 			<ThemeProvider>
 				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
 
-		const usernameInput = auth.getByLabelText('Username') as HTMLInputElement;
-		const passwordInput = auth.getByLabelText('Password') as HTMLInputElement;
+		const usernameInput = screen.getByLabelText('Username') as HTMLInputElement;
+		const passwordInput = screen.getByLabelText('Password') as HTMLInputElement;
 
 		await userEvent.clear(usernameInput);
 		await userEvent.clear(passwordInput);
@@ -91,17 +92,18 @@ describe('Auth component', () => {
 
 	test('Should handle file input type correctly', async () => {
 		const router = createRouter();
-		const auth = render(
+		render(
 			<ThemeProvider>
 				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
+
 		const testFile = new File(['test content'], 'test.png', {type: 'image/png'});
 
-		const switchPageLink = auth.getByRole('link', {name: 'Signup'});
+		const switchPageLink = screen.getByRole('link', {name: 'Signup'});
 		await userEvent.click(switchPageLink);
 
-		const fileInput = auth.getByLabelText('Profile Picture') as HTMLInputElement;
+		const fileInput = screen.getByLabelText('Profile Picture') as HTMLInputElement;
 		await userEvent.upload(fileInput, testFile);
 
 		expect(fileInput?.files?.[0]).toEqual(testFile);
@@ -110,13 +112,13 @@ describe('Auth component', () => {
 
 	test('Should handle form submission for login', async () => {
 		const router = createRouter();
-		const auth = render(
+		render(
 			<ThemeProvider>
 				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
 
-		const submitButton = auth.getByRole('button', {name: 'Login'});
+		const submitButton = screen.getByRole('button', {name: 'Login'});
 		await userEvent.click(submitButton);
 
 		expect(request).toHaveBeenCalledWith('/login', 'POST', expect.anything());
@@ -124,16 +126,16 @@ describe('Auth component', () => {
 
 	test('Should handle form submission for signup', async () => {
 		const router = createRouter();
-		const auth = render(
+		render(
 			<ThemeProvider>
 				<RouterProvider router={router}/>
 			</ThemeProvider>,
 		);
 
-		const switchPageLink = auth.getByRole('link', {name: 'Signup'});
+		const switchPageLink = screen.getByRole('link', {name: 'Signup'});
 		await userEvent.click(switchPageLink);
 
-		const submitButton = auth.getByRole('button', {name: 'Signup'});
+		const submitButton = screen.getByRole('button', {name: 'Signup'});
 		await userEvent.click(submitButton);
 
 		expect(request).toHaveBeenCalledWith('/signup', 'POST', expect.any(FormData), true);
