@@ -9,3 +9,8 @@ type AuthDetailsType = {
 	password: string;
 	confirmPassword?: string;
 };
+
+type ShowPasswordsType = {
+	password: boolean;
+	confirmPassword: boolean;
+};

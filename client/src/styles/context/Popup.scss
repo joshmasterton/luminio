@@ -11,8 +11,6 @@
 	height: 100%;
 	padding: App.$padding;
 	transition: transform App.$transition;
-	backdrop-filter: blur(1rem);
-	-webkit-backdrop-filter: blur(1rem);
 	z-index: 1;
 }
 
@@ -24,7 +22,30 @@
 	transform: translateY(-100%);
 }
 
+#popup > button {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	backdrop-filter: blur(1rem);
+	-webkit-backdrop-filter: blur(1rem);
+	background: transparent;
+	box-shadow: 0 0 0 0;
+	transition: opacity App.$transition;
+	outline: none;
+}
+
+#popup.active > button {
+	opacity: 100%;
+}
+
+#popup.hidden > button {
+	opacity: 0;
+}
+
 #popup > div {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -33,13 +54,19 @@
 	gap: App.$padding;
 	width: 100%;
 	max-width: App.$maxWidth;
+	box-shadow: var(--shadow);
 	background: var(--background-color-shade);
+}
+
+#popup > div > svg {
+	width: App.$height;
 }
 
 #popup > div > div {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	width: 100%;
+	padding-bottom: calc(App.$padding / 1.5);
 	text-align: center;
-	min-height: App.$height;
 }

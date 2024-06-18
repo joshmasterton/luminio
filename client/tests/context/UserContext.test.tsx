@@ -6,7 +6,8 @@ import {act} from 'react';
 import {type RenderResult, render, screen} from '@testing-library/react';
 import {UserProvider, useUser} from '../../src/context/UserContext';
 import {ProtectedRoute} from '../../src/utilities/ProtectedRoute';
-import {RouterProvider, createMemoryRouter} from 'react-router-dom';
+import {RouterProvider} from 'react-router-dom';
+import {createRouter} from '../mockHelpers/mockHelpers';
 import {ThemeProvider} from '../../src/context/ThemeContext';
 import {mockUser} from '../mockData/mockUser';
 import '@testing-library/jest-dom';
@@ -36,7 +37,7 @@ const routes = [
 	},
 ];
 
-const router = createMemoryRouter(routes, {initialEntries: ['/']});
+const router = createRouter(routes, '/');
 
 describe('UserProvider', () => {
 	test('Fetches user data succesfully', async () => {

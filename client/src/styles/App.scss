@@ -5,7 +5,7 @@ $paddingSmall: 0.5rem;
 
 $padding: 1rem;
 $paddingContainer: calc($padding * 2);
-$borderRadius: 0.25rem;
+$borderRadius: 0.5rem;
 $transition: 0.5s ease;
 
 $fontLarge: 1.5rem;
@@ -22,6 +22,7 @@ $fontSmall: 0.75rem;
 	--outline: 0.1rem solid rgb(26, 26, 34);
 	--outline-focus: 0.1rem solid rgb(32, 32, 40);
 	--box-shadow: 0 0 0 0.2rem rgb(0, 89, 255);
+	--shadow: 0 0 0.4rem 0 rgba(5, 5, 7, 0.5);
 }
 
 [data-theme='light'] {
@@ -34,6 +35,7 @@ $fontSmall: 0.75rem;
 	--outline: 0.1rem solid rgb(244, 244, 248);
 	--outline-focus: 0.1rem solid rgb(235, 235, 238);
 	--box-shadow: 0 0 0 0.2rem rgb(60, 255, 0);
+	--shadow: 0 0 0.4rem 0rem rgba(15, 15, 18, 0.1);
 }
 
 * {
@@ -67,7 +69,7 @@ $fontSmall: 0.75rem;
 	color: var(--text-color);
 }
 
-button:hover, input:hover, a:hover {
+button:hover, input:hover, a:hover, .labelFile > main:hover {
 	outline: var(--outline);
 	box-shadow: var(--box-shadow);
 }
@@ -90,7 +92,7 @@ html, body, #root {
 	color: var(--text-color);
 }
 
-img {
+img, svg {
 	display: flex;
 	flex-direction: column;
 	text-align: start;
@@ -100,12 +102,21 @@ img {
 	overflow: hidden;
 }
 
+svg {
+	width: fit-content;
+	height: fit-content;
+}
+
 h1 {
 	font-size: $fontLarge;
 }
 
 p {
 	font-size: $fontSmall;
+}
+
+button {
+	cursor: pointer;
 }
 
 button, input, a {
@@ -140,4 +151,43 @@ label {
 	display: flex;
 	flex-direction: column;
 	gap: $paddingSmall;
+}
+
+.labelPassword {
+	position: relative;
+}
+
+.labelPassword > label > input {
+	padding-right: calc($height + $padding);
+}
+
+.labelPassword > button {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: fit-content;
+	background: transparent;
+}
+
+.labelFile {
+	display: flex;
+	cursor: pointer;
+}
+
+.labelFile > main {
+	display: flex;
+	width: 100%;
+	transition: box-shadow $transition, outline-color $transition, transform $transition;
+	background: var(--background-color-shade-max);
+}
+
+.labelFile > main > svg,
+.labelFile > main > img {
+	border-radius: 1rem;
+	padding: $paddingSmall;
+	height: $height;
+}
+
+.labelFile > input {
+	display: none;
 }

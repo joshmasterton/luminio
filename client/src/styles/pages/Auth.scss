@@ -21,6 +21,7 @@
 	max-width: App.$maxWidth;
 	padding: App.$paddingContainer;
 	gap: App.$paddingContainer;
+	box-shadow: var(--shadow);
 	background-color: var(--background-color-shade);
 }
 

@@ -1,6 +1,6 @@
 import {useState, type MouseEvent} from 'react';
 import {BiHome, BiMenu} from 'react-icons/bi';
-import {CgLogOut} from 'react-icons/cg';
+import {CgClose, CgLogOut} from 'react-icons/cg';
 import {useUser} from '../context/UserContext';
 import {Link} from 'react-router-dom';
 import {ThemeButton, UserButton} from './Buttons';
@@ -27,7 +27,7 @@ export function Nav() {
 					<button type='button' className='transparentButton' aria-label='Menu Button' onClick={e => {
 						handleMenuSwitch(e);
 					}}>
-						<BiMenu/>
+						{isMenu ? <CgClose/> : <BiMenu/>}
 					</button>
 					<img alt='Logo' src={theme === 'dark' ? lightLogo : darkLogo}/>
 					<UserButton user={user}/>

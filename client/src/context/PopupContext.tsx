@@ -2,6 +2,7 @@ import {
 	createContext, useContext, useEffect, useState,
 } from 'react';
 import {type PopupProviderProps, type PopupContextType} from '../types/context/PopupContext.types';
+import {MdError} from 'react-icons/md';
 import '../styles/context/Popup.scss';
 
 const PopupContext = createContext<PopupContextType | undefined>(undefined);
@@ -54,8 +55,11 @@ export function Popup() {
 
 	return (
 		<div id='popup' className={popupActive ? 'active' : 'hidden'}>
+			<button type='button' aria-label='Close Popup' onClick={() => {
+				setPopupActive(false);
+			}}/>
 			<div>
-				<h1>Error</h1>
+				<MdError/>
 				<div>{popup}</div>
 				<button type='button' className='primaryButton' onClick={() => {
 					setPopupActive(false);

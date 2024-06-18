@@ -4,7 +4,7 @@ import {
 } from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {useUser} from '../../src/context/UserContext';
-import {ProtectedRoute} from '../../src/utilities/ProtectedRoute';
+import {PublicRoute} from '../../src/utilities/PublicRoute';
 import {RouterProvider} from 'react-router-dom';
 import {createRouter} from '../mockHelpers/mockHelpers';
 import {mockUser} from '../mockData/mockUser';
@@ -16,31 +16,31 @@ vi.mock('../../src/context/UserContext', () => ({
 
 const routes = [
 	{
-		path: '/*',
-		element: <ProtectedRoute><div>Mock Component</div></ProtectedRoute>,
+		path: '/login',
+		element: <PublicRoute><div>Mock Component</div></PublicRoute>,
 	},
 	{
-		path: '/login',
-		element: <div>Login</div>,
+		path: '/',
+		element: <div>Home</div>,
 	},
 ];
 
-describe('ProtectedRoute', () => {
-	test('Should render children when user is defined', async () => {
-		const router = createRouter(routes, '/');
+describe('PublicRoute', () => {
+	test('Should navigate to home when user is defined', async () => {
+		const router = createRouter(routes, '/login');
 		(useUser as Mock).mockReturnValue({user: mockUser});
 
 		render(<RouterProvider router={router}/>);
 
-		expect(screen.getByText('Mock Component')).toBeInTheDocument();
+		expect(screen.getByText('Home')).toBeInTheDocument();
 	});
 
-	test('Should navigate to login when user is undefined', () => {
-		const router = createRouter(routes, '/');
+	test('Should render children when user is undefined', () => {
+		const router = createRouter(routes, '/login');
 		(useUser as Mock).mockReturnValue({user: undefined});
 
 		render(<RouterProvider router={router}/>);
 
-		expect(screen.getByText('Login')).toBeInTheDocument();
+		expect(screen.getByText('Mock Component')).toBeInTheDocument();
 	});
 });

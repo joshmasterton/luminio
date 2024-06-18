@@ -27,6 +27,7 @@
 	height: 100%;
 	padding: App.$padding;
 	gap: App.$padding;
+	box-shadow: var(--shadow);
 	background-color: var(--background-color-shade);
 }
 
@@ -67,6 +68,7 @@
 	flex-direction: column;
 	padding: App.$padding;
 	gap: App.$padding;
+	box-shadow: var(--shadow);
 	background: var(--background-color-shade);
 }
 
@@ -86,15 +88,14 @@
 
 #nav > footer {
 	position: fixed;
-	top: calc(App.$height * 2);
+	top: calc(App.$height * 2 - App.$padding);
 	left: 0;
 	display: none;
 	flex-direction: column;
 	overflow: scroll;
-	height: calc(100% - ((App.$height * 2) + App.$padding));
+	height: calc(100% - ((App.$height * 2)));
 	width: calc((App.$height * 5) + (App.$padding * 2));
 	padding: App.$padding;
-	padding-top: 0;
 	margin-top: App.$padding;
 	transition: transform App.$transition;
 }
@@ -105,6 +106,7 @@
 	flex: 1;
 	padding: App.$padding;
 	gap: App.$padding;
+	box-shadow: var(--shadow);
 	background: var(--background-color-shade);
 }
 
@@ -128,6 +130,13 @@
 	justify-content: center;
 	align-items: center;
 	gap: App.$padding;
+}
+
+#nav > footer > ul > li:first-of-type > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 #nav > footer > ul > li:first-of-type > button {

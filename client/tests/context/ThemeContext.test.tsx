@@ -41,8 +41,11 @@ describe('ThemeProvider', () => {
 		);
 
 		const toggleThemeButton = screen.getByText('toggleTheme');
-		await userEvent.click(toggleThemeButton);
 
+		await userEvent.click(toggleThemeButton);
 		expect(screen.getByText('light')).toBeInTheDocument();
+
+		await userEvent.click(toggleThemeButton);
+		expect(screen.getByText('dark')).toBeInTheDocument();
 	});
 });

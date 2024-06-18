@@ -5,8 +5,10 @@ import {request} from '../utilities/requests';
 import {useUser} from '../context/UserContext';
 import {usePopup} from '../context/PopupContext';
 import {useTheme} from '../context/ThemeContext';
+import {IoImage} from 'react-icons/io5';
 import {Loading} from '../components/Loading';
 import {ThemeButton} from '../components/Buttons';
+import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs';
 import lightLogo from '/zynqa_logo_light.png';
 import darkLogo from '/zynqa_logo_dark.png';
 import '../styles/pages/Auth.scss';
@@ -16,21 +18,29 @@ export function Auth({isSignup = false}: AuthProps) {
 	const {setPopup} = usePopup();
 	const {theme} = useTheme();
 	const [loading, setLoading] = useState(false);
+	const [passwords, setPasswords] = useState<ShowPasswordsType>({
+		password: false,
+		confirmPassword: false,
+	});
 	const [authDetails, setAuthDetails] = useState<AuthDetailsType>({
-		username: 'testUser',
-		email: 'email@gmail.com',
+		username: '',
+		email: '',
 		profilePicture: undefined,
-		password: 'Password',
-		confirmPassword: 'Password',
+		password: '',
+		confirmPassword: '',
 	});
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value, files} = e.target;
 		if (name === 'profilePicture' && files) {
-			setAuthDetails(prevState => ({
-				...prevState,
-				[name]: files[0],
-			}));
+			if (e?.target?.files?.[0].type.includes('image')) {
+				setAuthDetails(prevState => ({
+					...prevState,
+					[name]: files[0],
+				}));
+			} else {
+				setPopup('Must be a valid image type');
+			}
 		} else {
 			setAuthDetails(prevState => ({
 				...prevState,
@@ -78,12 +88,18 @@ export function Auth({isSignup = false}: AuthProps) {
 			}
 		} catch (error) {
 			if (error instanceof Error) {
-				console.error(error);
 				setPopup(error.message);
 			}
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const handleShowPassword = (password: keyof ShowPasswordsType) => {
+		setPasswords(prevState => ({
+			...prevState,
+			[password]: !prevState[password],
+		}));
 	};
 
 	return (
@@ -111,27 +127,60 @@ export function Auth({isSignup = false}: AuthProps) {
 									handleInputChange(e);
 								}}/>
 							</label>
-							<label htmlFor='profilePicture'>
-								Profile Picture
+							<label htmlFor='profilePicture' className='labelFile'>
+								<div>Profile Picture</div>
+								<main>
+									{authDetails?.profilePicture ? (
+										<img alt='Profile Picture' src={URL.createObjectURL(authDetails?.profilePicture)}/>
+									) : <IoImage/>}
+								</main>
 								<input id='profilePicture' name='profilePicture' type='file' onChange={e => {
 									handleInputChange(e);
 								}}/>
 							</label>
 						</>
 					)}
-					<label htmlFor='password'>
-						Password
-						<input id='password' placeholder='Password' name='password' type='password' value={authDetails.password} onChange={e => {
-							handleInputChange(e);
-						}}/>
-					</label>
-					{isSignup && (
-						<label htmlFor='confirmPassword'>
-							Confirm Password
-							<input id='confirmPassword' placeholder='Confirm Password' name='confirmPassword' value={authDetails.confirmPassword} type='password' onChange={e => {
-								handleInputChange(e);
-							}}/>
+					<div className='labelPassword'>
+						<label htmlFor='password'>
+							Password
+							<input
+								id='password'
+								placeholder='Password'
+								name='password'
+								type={passwords.password ? 'text' : 'password'}
+								value={authDetails.password}
+								onChange={e => {
+									handleInputChange(e);
+								}}
+							/>
 						</label>
+						<button type='button' aria-label='Show Password' onClick={() => {
+							handleShowPassword('password');
+						}}>
+							{passwords.password ? <BsEyeSlashFill/> : <BsEyeFill/>}
+						</button>
+					</div>
+					{isSignup && (
+						<div className='labelPassword'>
+							<label htmlFor='confirmPassword'>
+								Confirm Password
+								<input
+									id='confirmPassword'
+									placeholder='Confirm Password'
+									type={passwords.confirmPassword ? 'text' : 'password'}
+									name='confirmPassword'
+									value={authDetails.confirmPassword}
+									onChange={e => {
+										handleInputChange(e);
+									}}
+								/>
+							</label>
+							<button type='button' aria-label='Show Confirm Password' onClick={() => {
+								handleShowPassword('confirmPassword');
+							}}>
+								{passwords.confirmPassword ? <BsEyeSlashFill/> : <BsEyeFill/>}
+							</button>
+						</div>
 					)}
 					<button type='submit' className='primaryButton'>
 						{loading ? (
@@ -147,7 +196,7 @@ export function Auth({isSignup = false}: AuthProps) {
 					{isSignup ? (
 						<>
 							<p>Already have an account?</p>
-							<Link to='/' className='transparentLink'>Login</Link>
+							<Link to='/login' className='transparentLink'>Login</Link>
 						</>
 					) : (
 						<>
