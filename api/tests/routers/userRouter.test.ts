@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import cookieParser from 'cookie-parser';
 import request from 'supertest';
 import express, {type Express} from 'express';
@@ -7,21 +6,10 @@ import {
 } from 'vitest';
 import {userRouter} from '../../src/routers/userRouter';
 import {generateToken} from '../../src/utilities/tokenGenerator';
+import {mockUser} from '../mockData/mockUser';
 
 describe('/user', () => {
 	let app: Express;
-	const mockUser = {
-		id: 1,
-		username: 'testUser',
-		email: 'test@email.com',
-		friends: 0,
-		likes: 0,
-		dislikes: 0,
-		created_at: new Date(),
-		last_online: new Date(),
-		profile_picture: 'https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest.jpg',
-	};
-
 	beforeEach(() => {
 		app = express();
 		app.use(cookieParser());

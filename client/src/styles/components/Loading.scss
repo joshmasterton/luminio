@@ -25,6 +25,13 @@
 	);
 }
 
+.loading.background > div {
+	background: linear-gradient(
+		transparent,
+		var(--primary),
+	);
+}
+
 @keyframes spinner {
 	from {
 		transform: rotate(0deg);
@@ -38,4 +45,8 @@
 	height: 100%;
 	border-radius: 10rem;
 	background: var(--primary);
+}
+
+.loading.background > div > div {
+	background: var(--background-color);
 }

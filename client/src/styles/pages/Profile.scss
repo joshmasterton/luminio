@@ -1,0 +1,120 @@
+@use '../App.scss';
+
+#profile {
+	width: 100%;
+	min-height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: App.$padding;
+}
+
+#profile > #profileContainer {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	max-width: App.$maxWidthSmall;
+	margin-top: calc(App.$height + (App.$padding * 3));
+	padding: App.$padding;
+	gap: App.$padding;
+	box-shadow: var(--shadow);
+	background: var(--background-color-shade);
+}
+
+#profile > #profileContainer > button {
+	position: absolute;
+	top: calc(App.$padding * 1.25);
+	right: calc(App.$padding * 1.25);
+	width: fit-content;
+}
+
+#profile > #profileContainer > img {
+	width: 100%;
+	height: calc(App.$height * 3.5);
+}
+
+#profile > #profileContainer > main {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	width: 100%;
+	gap: App.$padding;
+}
+
+#profile > #profileContainer > main > form {
+	display: flex;
+	flex-direction: column;
+	gap: App.$padding;
+}
+
+#profile > #profileContainer > main > header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#profile > #profileContainer > main > div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: App.$padding;
+}
+
+#profile > #profileContainer > main > div > button {
+	display: flex;
+	width: fit-content;
+	height: App.$height;
+	gap: App.$padding;
+	flex: 1;
+}
+
+@media screen and (min-width: calc(App.$maxWidth * 1.5)) {
+	#profile > #profileContainer {
+		display: flex;
+		flex-direction: row;
+		width: fit-content;
+		height: 100%;
+		max-height: calc(App.$height * 5.5);
+		max-width: App.$maxWidth;
+	}
+
+	#profile > #profileContainer > img {
+		height: 100%;
+		max-width: calc(App.$height * 4);
+		object-fit: cover;
+	}	
+
+	#profile > #profileContainer > button {
+		position: absolute;
+		left: calc(App.$padding * 1.25);
+		right: calc(App.$padding * 1.25);
+		width: fit-content;
+	}	
+
+	#profile > #profileContainer > main {
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	#profile > #profileContainer > main > header {
+		height: 6.5rem;
+	}
+
+	#profile > #profileContainer > main > div {
+		flex-wrap: nowrap;
+	}
+
+	#profile > #profileContainer > main > div > button {
+		flex-direction: row;
+	}
+}

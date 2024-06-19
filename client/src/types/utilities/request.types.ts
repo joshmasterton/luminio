@@ -7,6 +7,7 @@ export type User = {
 	username: string;
 	email: string;
 	friends: number;
+	comments: number;
 	likes: number;
 	dislikes: number;
 	created_at: Date;

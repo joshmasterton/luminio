@@ -4,6 +4,7 @@ import {
 	createContext, useContext, useEffect, useState,
 } from 'react';
 import {request} from '../utilities/requests';
+import {Loading} from '../components/Loading';
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -59,7 +60,7 @@ export const UserProvider = ({children}: UserProviderProps) => {
 	}, []);
 
 	if (loading) {
-		return <div>Loading</div>;
+		return <Loading className='background'/>;
 	}
 
 	return (

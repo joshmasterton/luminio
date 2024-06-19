@@ -1,22 +1,10 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import express from 'express';
 import request from 'supertest';
 import {describe, expect, test} from 'vitest';
 import cookieParser from 'cookie-parser';
 import {verifyTokenMiddleware} from '../../src/middleware/verifyTokenMiddleware';
 import {generateToken} from '../../src/utilities/tokenGenerator';
-
-const mockUser = {
-	id: 1,
-	username: 'testUser',
-	email: 'test@email.com',
-	friends: 0,
-	likes: 0,
-	dislikes: 0,
-	created_at: new Date(),
-	last_online: new Date(),
-	profile_picture: 'https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest.jpg',
-};
+import {mockUser} from '../mockData/mockUser';
 
 describe('verifyTokenMiddleware', () => {
 	const app = express();

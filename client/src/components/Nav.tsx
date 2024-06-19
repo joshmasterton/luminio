@@ -29,7 +29,7 @@ export function Nav() {
 					}}>
 						{isMenu ? <CgClose/> : <BiMenu/>}
 					</button>
-					<img alt='Logo' src={theme === 'dark' ? lightLogo : darkLogo}/>
+					<img alt='Logo' className='logo' src={theme === 'dark' ? lightLogo : darkLogo}/>
 					<UserButton user={user}/>
 					<ul>
 						<li>
@@ -76,7 +76,7 @@ export function Nav() {
 					<li>
 						<UserButton user={user} type='large'/>
 						<div>
-							<h1>{user?.username}</h1>
+							<div>{user?.username}</div>
 							<p>{user?.email}</p>
 						</div>
 					</li>
