@@ -1,25 +1,13 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import express from 'express';
 import {describe, expect, test} from 'vitest';
 import request from 'supertest';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 import {logoutRouter} from '../../src/routers/logoutRouter';
 import cookieParser from 'cookie-parser';
+import {mockUser} from '../mockData/mockUser';
 
 describe('/logout', () => {
 	const app = express();
-	const mockUser = {
-		id: 1,
-		username: 'testUser',
-		email: 'test@email.com',
-		friends: 0,
-		likes: 0,
-		dislikes: 0,
-		created_at: new Date(),
-		last_online: new Date(),
-		profile_picture: 'https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest.jpg',
-	};
-
 	app.use(cookieParser());
 	app.use(logoutRouter);
 

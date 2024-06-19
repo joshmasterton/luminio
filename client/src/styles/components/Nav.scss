@@ -5,7 +5,7 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: calc(App.$height * 2);
+	height: calc(App.$height * 1.75);
 	backdrop-filter: blur(1rem);
 	-webkit-backdrop-filter: blur(1rem);
 	z-index: 1;
@@ -88,14 +88,15 @@
 
 #nav > footer {
 	position: fixed;
-	top: calc(App.$height * 2 - App.$padding);
+	top: calc(App.$height * 2 - App.$padding * 2);
 	left: 0;
 	display: none;
 	flex-direction: column;
 	overflow: scroll;
-	height: calc(100% - ((App.$height * 2)));
-	width: calc((App.$height * 5) + (App.$padding * 2));
+	height: calc(100% - ((App.$height * 2) - App.$padding));
+	width: calc((App.$height * 5) + (App.$padding * 1));
 	padding: App.$padding;
+	padding-top: calc(App.$padding * 2);
 	margin-top: App.$padding;
 	transition: transform App.$transition;
 }
@@ -141,6 +142,11 @@
 
 #nav > footer > ul > li:first-of-type > button {
 	width: fit-content;
+	height: calc(App.$height * 3.5);
+}
+
+#nav > footer > ul > li:first-of-type > button > img {
+	height: 100%;
 }
 
 @media screen and (min-width: App.$maxWidth) {

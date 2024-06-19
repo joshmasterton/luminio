@@ -1,0 +1,41 @@
+@use '../App.scss';
+
+#returnNav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: App.$padding;
+	z-index: 1;
+}
+
+#returnNav > div {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: calc(App.$height * 1.75);
+	backdrop-filter: blur(1rem);
+	-webkit-backdrop-filter: blur(1rem);
+}
+
+#returnNav > header {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: App.$padding;
+}
+
+#returnNav > header > div {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: App.$padding;
+	background-color: var(--background-color);
+}
+
+#returnNav > header > div > button {
+	width: fit-content;
+	background: transparent;
+}

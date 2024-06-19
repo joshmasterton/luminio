@@ -37,6 +37,7 @@ export const createUsersTable = async (tableName: string) => {
 				email VARCHAR(255) NOT NULL,
 				password VARCHAR(255) NOT NULL,
 				friends INT DEFAULT 0,
+				comments INT DEFAULT 0,
 				likes INT DEFAULT 0,
 				dislikes INT DEFAULT 0,
 				created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,

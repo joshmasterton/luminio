@@ -6,9 +6,10 @@ import cookieParser from 'cookie-parser';
 import {loginRouter} from './routers/loginRouter';
 import {signupRouter} from './routers/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
-import {createUsersTable, dropUsersTable} from './database/db';
+import {createUsersTable} from './database/db';
 import {userRouter} from './routers/userRouter';
 import {logoutRouter} from './routers/logoutRouter';
+import {profileRouter} from './routers/profileRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -28,15 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Database initializtion
-dropUsersTable('luminio_users')
-	.then(() => {
-		createUsersTable('luminio_users')
-			.catch(error => {
-				if (error instanceof Error) {
-					console.error(error.message);
-				}
-			});
-	})
+createUsersTable('luminio_users')
 	.catch(error => {
 		if (error instanceof Error) {
 			console.error(error.message);
@@ -46,6 +39,7 @@ dropUsersTable('luminio_users')
 // Auth routes
 app.use(loginRouter('luminio_users'));
 app.use(signupRouter('luminio_users'));
+app.use(profileRouter('luminio_users'));
 app.use(userRouter);
 app.use(logoutRouter);
 

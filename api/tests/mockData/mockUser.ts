@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-export const mockUser = {
+export 	const mockUser = {
 	id: 1,
 	username: 'testUser',
 	email: 'test@email.com',
-	comments: 0,
 	friends: 0,
+	comments: 0,
 	likes: 0,
 	dislikes: 0,
 	created_at: new Date(),

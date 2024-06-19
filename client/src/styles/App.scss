@@ -1,4 +1,5 @@
 $maxWidth: 30rem;
+$maxWidthSmall: 15rem;
 $height: 3rem;
 
 $paddingSmall: 0.5rem;
@@ -99,7 +100,10 @@ img, svg {
 	width: $height;
 	height: $height;
 	object-fit: cover;
-	overflow: hidden;
+}
+
+.logo {
+	padding: $paddingSmall;
 }
 
 svg {

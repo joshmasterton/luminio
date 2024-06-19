@@ -114,7 +114,7 @@ export function Auth({isSignup = false}: AuthProps) {
 				</header>
 				<main>
 					<label htmlFor='username'>
-						Username
+						<p>Username</p>
 						<input id='username' placeholder='Username' name='username' type='text' value={authDetails.username} onChange={e => {
 							handleInputChange(e);
 						}}/>
@@ -122,13 +122,13 @@ export function Auth({isSignup = false}: AuthProps) {
 					{isSignup && (
 						<>
 							<label htmlFor='email'>
-								Email
+								<p>Email</p>
 								<input id='email' placeholder='Email' name='email' type='email' value={authDetails.email} onChange={e => {
 									handleInputChange(e);
 								}}/>
 							</label>
 							<label htmlFor='profilePicture' className='labelFile'>
-								<div>Profile Picture</div>
+								<p>Profile Picture</p>
 								<main>
 									{authDetails?.profilePicture ? (
 										<img alt='Profile Picture' src={URL.createObjectURL(authDetails?.profilePicture)}/>
@@ -142,7 +142,7 @@ export function Auth({isSignup = false}: AuthProps) {
 					)}
 					<div className='labelPassword'>
 						<label htmlFor='password'>
-							Password
+							<p>Password</p>
 							<input
 								id='password'
 								placeholder='Password'
@@ -163,7 +163,7 @@ export function Auth({isSignup = false}: AuthProps) {
 					{isSignup && (
 						<div className='labelPassword'>
 							<label htmlFor='confirmPassword'>
-								Confirm Password
+								<p>Confirm Password</p>
 								<input
 									id='confirmPassword'
 									placeholder='Confirm Password'
