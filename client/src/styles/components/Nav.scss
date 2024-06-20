@@ -1,16 +1,5 @@
 @use '../App.scss';
 
-#nav > div {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: calc(App.$height * 1.75);
-	backdrop-filter: blur(1rem);
-	-webkit-backdrop-filter: blur(1rem);
-	z-index: 1;
-}
-
 #nav > header {
 	position: fixed;
 	top: 0;
@@ -60,7 +49,7 @@
 }
 
 #nav > main.hidden {
-	transform: translateY( - calc((App.$height * 4) + (App.$padding * 2)));
+	transform: translateY( - calc((App.$height * 5) + (App.$padding * 3)));
 }
 
 #nav > main > ul {
@@ -88,16 +77,15 @@
 
 #nav > footer {
 	position: fixed;
-	top: calc(App.$height * 2 - App.$padding * 2);
 	left: 0;
 	display: none;
 	flex-direction: column;
 	overflow: scroll;
-	height: calc(100% - ((App.$height * 2) - App.$padding));
+	height: 100%;
+	top: 0;
 	width: calc((App.$height * 5) + (App.$padding * 1));
 	padding: App.$padding;
-	padding-top: calc(App.$padding * 2);
-	margin-top: App.$padding;
+	padding-top: calc(App.$padding * 7);
 	transition: transform App.$transition;
 }
 

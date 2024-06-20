@@ -3,6 +3,7 @@ import {createUsersTable, dropUsersTable} from '../../src/database/db';
 import {describe, test} from 'vitest';
 import {
 	createUser, getUser, getUserReturnPassword, getUsers,
+	updateUser,
 } from '../../src/models/userModels';
 
 describe('createUser', () => {
@@ -111,5 +112,31 @@ describe('getUsers', () => {
 		const usersPageTwo = await getUsers(tableName, 'created_at', 2, 2);
 		expect(usersPageTwo?.length).toBe(1);
 		expect(usersPageTwo?.[0].username).toBe('testUser1');
+	});
+});
+
+describe('updateUser', () => {
+	let tableName: string;
+
+	beforeEach(async () => {
+		tableName = `luminio_users_test_get_users_${Date.now()}`;
+
+		await dropUsersTable(tableName);
+		await createUsersTable(tableName);
+	});
+
+	afterEach(async () => {
+		await dropUsersTable(tableName);
+	});
+
+	test('Should return updated user', async () => {
+		const user = await createUser(tableName, 'testUser1', 'test1@email.com', 'Password', 'profile.jpg');
+
+		if (user?.username) {
+			const updatedUser = await updateUser(tableName, user?.username, 'newUsername', 'random.jpg');
+
+			expect(updatedUser?.username).toBe('newUsername');
+			expect(updatedUser?.profile_picture).toBe('random.jpg');
+		}
 	});
 });

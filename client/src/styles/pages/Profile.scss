@@ -13,7 +13,7 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	width: 100%;
 	max-width: App.$maxWidthSmall;
@@ -26,8 +26,8 @@
 
 #profile > #profileContainer > button {
 	position: absolute;
-	top: calc(App.$padding * 1.25);
-	right: calc(App.$padding * 1.25);
+	top: calc(App.$padding * 1.5);
+	right: calc(App.$padding * 1.5);
 	width: fit-content;
 }
 
@@ -45,6 +45,7 @@
 }
 
 #profile > #profileContainer > main > form {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: App.$padding;
@@ -72,49 +73,4 @@
 	height: App.$height;
 	gap: App.$padding;
 	flex: 1;
-}
-
-@media screen and (min-width: calc(App.$maxWidth * 1.5)) {
-	#profile > #profileContainer {
-		display: flex;
-		flex-direction: row;
-		width: fit-content;
-		height: 100%;
-		max-height: calc(App.$height * 5.5);
-		max-width: App.$maxWidth;
-	}
-
-	#profile > #profileContainer > img {
-		height: 100%;
-		max-width: calc(App.$height * 4);
-		object-fit: cover;
-	}	
-
-	#profile > #profileContainer > button {
-		position: absolute;
-		left: calc(App.$padding * 1.25);
-		right: calc(App.$padding * 1.25);
-		width: fit-content;
-	}	
-
-	#profile > #profileContainer > main {
-		display: flex;
-		flex-direction: column;
-		justify-content: end;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	#profile > #profileContainer > main > header {
-		height: 6.5rem;
-	}
-
-	#profile > #profileContainer > main > div {
-		flex-wrap: nowrap;
-	}
-
-	#profile > #profileContainer > main > div > button {
-		flex-direction: row;
-	}
 }

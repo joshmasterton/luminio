@@ -3,6 +3,7 @@ import request from 'supertest';
 import cookieParser from 'cookie-parser';
 import {
 	describe, test, beforeEach, expect,
+	afterEach,
 } from 'vitest';
 import {profileRouter} from '../../src/routers/profileRouter';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
@@ -24,6 +25,10 @@ describe('/profile', () => {
 		app.use(express.urlencoded({extended: false}));
 		app.use(cookieParser());
 		app.use(profileRouter(tableName));
+	});
+
+	afterEach(async () => {
+		await dropUsersTable(tableName);
 	});
 
 	test('Should return profile of user on success', async () => {

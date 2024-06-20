@@ -45,7 +45,7 @@ export const UserProvider = ({children}: UserProviderProps) => {
 			await request('/logout', 'POST');
 		} catch (error) {
 			if (error instanceof Error) {
-				console.error(error.message);
+				setUser(undefined);
 			}
 		} finally {
 			await getUser();
@@ -55,7 +55,9 @@ export const UserProvider = ({children}: UserProviderProps) => {
 	useEffect(() => {
 		getUser()
 			.catch(error => {
-				console.error(error);
+				if (error instanceof Error) {
+					setUser(undefined);
+				}
 			});
 	}, []);
 

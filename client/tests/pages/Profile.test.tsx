@@ -74,4 +74,56 @@ describe('Profile page', () => {
 		await userEvent.click(editButton);
 		expect(form).not.toBeInTheDocument();
 	});
+
+	test('Should update user details on update profile', async () => {
+		const updatedUser = {...mockUser, username: 'newUsername'};
+		(request as Mock)
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(updatedUser));
+		const router = createRouter(routes, '/profile');
+		await act(async () => {
+			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
+		});
+
+		const editButton = screen.getByLabelText('Edit Button');
+		await userEvent.click(editButton);
+
+		const usernameInput = screen.getByLabelText('Username');
+		await userEvent.type(usernameInput, 'newUsername');
+
+		const saveUpdateButton = screen.getByRole('button', {name: 'Save'});
+
+		const form = screen.getByLabelText('Edit Form');
+		expect(form).toBeInTheDocument();
+
+		await userEvent.click(saveUpdateButton);
+		expect(request).toHaveBeenCalledWith('/updateProfile', 'PUT', expect.any(FormData), true);
+		expect(router.state.location.pathname).toBe('/profile/newUsername');
+	});
+
+	test('Should update user details on update profile', async () => {
+		(request as Mock)
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.reject(new Error('Network error')));
+		const router = createRouter(routes, '/profile');
+		await act(async () => {
+			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
+		});
+
+		const editButton = screen.getByLabelText('Edit Button');
+		await userEvent.click(editButton);
+
+		const usernameInput = screen.getByLabelText('Username');
+		await userEvent.type(usernameInput, 'newUsername');
+
+		const saveUpdateButton = screen.getByRole('button', {name: 'Save'});
+
+		const form = screen.getByLabelText('Edit Form');
+		expect(form).toBeInTheDocument();
+
+		await userEvent.click(saveUpdateButton);
+		expect(screen.getByText('Network error')).toBeInTheDocument();
+	});
 });

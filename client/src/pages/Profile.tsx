@@ -18,7 +18,7 @@ export function Profile() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const username = location.pathname.split('/').pop();
-	const {user} = useUser();
+	const {user, setUser} = useUser();
 	const {setPopup} = usePopup();
 	const [loading, setLoading] = useState(false);
 	const [profile, setProfile] = useState<User | undefined>(undefined);
@@ -85,7 +85,16 @@ export function Profile() {
 				formData.append('profilePicture', editDetails.profilePicture);
 			}
 
-			await request('/updateProfile', 'PUT', formData, true);
+			const response = await request<FormData, User>('/updateProfile', 'PUT', formData, true);
+			if (response) {
+				setUser(response);
+				navigate(`/profile/${response?.username}`);
+				setEditDetails({
+					username: response.username,
+					profilePicture: undefined,
+				});
+			}
+
 			setIsEdit(!isEdit);
 		} catch (error) {
 			if (error instanceof Error) {
@@ -103,7 +112,7 @@ export function Profile() {
 					console.error(error.message);
 				}
 			});
-	}, []);
+	}, [location, user]);
 
 	return (
 		<div id='profile'>

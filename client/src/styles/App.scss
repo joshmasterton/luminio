@@ -1,5 +1,5 @@
 $maxWidth: 30rem;
-$maxWidthSmall: 15rem;
+$maxWidthSmall: 17.5rem;
 $height: 3rem;
 
 $paddingSmall: 0.5rem;
@@ -14,16 +14,16 @@ $fontNormal: 1rem;
 $fontSmall: 0.75rem;
 
 [data-theme='dark'] {
-	--background-color: rgb(15, 15, 18);
-	--background-color-shade: rgb(20, 20, 26);
-	--background-color-shade-max: rgb(26, 26, 34);
-	--background-color-focus: rgb(32, 32, 40);
+	--background-color: rgb(22, 22, 25);
+	--background-color-shade: rgb(30, 30, 35);
+	--background-color-shade-max: rgb(40, 40, 46);
+	--background-color-focus: rgb(42, 42, 58);
 	--text-color: white;
-	--primary: rgb(0, 89, 255);
-	--outline: 0.1rem solid rgb(26, 26, 34);
+	--primary: rgb(65, 43, 239);
+	--outline: 0.1rem solid rgb(40, 40, 46);
 	--outline-focus: 0.1rem solid rgb(32, 32, 40);
-	--box-shadow: 0 0 0 0.2rem rgb(0, 89, 255);
-	--shadow: 0 0 0.4rem 0 rgba(5, 5, 7, 0.5);
+	--box-shadow: 0 0 0 0.2rem rgb(65, 43, 239);
+	--shadow: 0 0 0.4rem 0 rgba(10, 10, 13, 0.5);
 }
 
 [data-theme='light'] {
@@ -32,10 +32,10 @@ $fontSmall: 0.75rem;
 	--background-color-shade-max: rgb(244, 244, 248);
 	--background-color-focus: rgb(235, 235, 238);
 	--text-color: black;
-	--primary: rgb(60, 255, 0);
+	--primary: rgb(131, 115, 255);
 	--outline: 0.1rem solid rgb(244, 244, 248);
 	--outline-focus: 0.1rem solid rgb(235, 235, 238);
-	--box-shadow: 0 0 0 0.2rem rgb(60, 255, 0);
+	--box-shadow: 0 0 0 0.2rem rgb(131, 115, 255);
 	--shadow: 0 0 0.4rem 0rem rgba(15, 15, 18, 0.1);
 }
 
