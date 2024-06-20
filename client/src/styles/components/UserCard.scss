@@ -1,0 +1,37 @@
+@use '../App.scss';
+
+.userCard {
+	display: flex;
+	justify-content: start;
+	flex-wrap: wrap;
+	height: calc(App.$height + (App.$padding * 2));
+	max-height: calc(App.$height + (App.$padding * 2));
+	padding: App.$padding;
+	gap: App.$padding;
+	overflow: hidden;
+	background: var(--background-color-shade-max);
+	text-decoration: none;
+}
+
+.userCard > header {
+	flex: 1;
+	min-width: calc(App.$height * 2);
+}
+
+.userCard > footer {
+	display: flex;
+	justify-content: end;
+	padding: App.$padding;
+}
+
+.userCard > footer > div {
+	width: 1rem;
+	height: 1rem;
+	background: var(--primary-gradient);
+}
+
+@media screen and (min-width: App.$maxWidthLarge) {
+	.userCard > main {
+		display: flex;
+	}
+}

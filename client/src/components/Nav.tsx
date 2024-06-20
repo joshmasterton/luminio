@@ -1,5 +1,7 @@
 import {useState, type MouseEvent} from 'react';
-import {BiHome, BiMenu, BiUser} from 'react-icons/bi';
+import {
+	BiGroup, BiHome, BiMenu, BiUser,
+} from 'react-icons/bi';
 import {CgClose, CgLogOut} from 'react-icons/cg';
 import {useUser} from '../context/UserContext';
 import {Link} from 'react-router-dom';
@@ -21,6 +23,7 @@ export function Nav() {
 
 	return (
 		<nav id='nav'>
+			<div/>
 			<header>
 				<div>
 					<button type='button' className='transparentButton' aria-label='Menu Button' onClick={e => {
@@ -39,6 +42,11 @@ export function Nav() {
 						<li>
 							<Link to={`/profile/${user?.username}`} className='transparentButton'>
 								<BiUser/>
+							</Link>
+						</li>
+						<li>
+							<Link to='/users' className='transparentButton'>
+								<BiGroup/>
 							</Link>
 						</li>
 						<li>
@@ -66,6 +74,12 @@ export function Nav() {
 						<Link to={`/profile/${user?.username}`} className='transparentButton'>
 							<BiUser/>
 							Profile
+						</Link>
+					</li>
+					<li>
+						<Link to='/users' className='transparentButton'>
+							<BiGroup/>
+							Users
 						</Link>
 					</li>
 					<li>
@@ -100,6 +114,12 @@ export function Nav() {
 						<Link to={`/profile/${user?.username}`} className='transparentButton'>
 							<BiUser/>
 							Profile
+						</Link>
+					</li>
+					<li>
+						<Link to='/users' className='transparentButton'>
+							<BiGroup/>
+							Users
 						</Link>
 					</li>
 					<li>

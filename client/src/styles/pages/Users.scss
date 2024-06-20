@@ -1,0 +1,44 @@
+@use '../App.scss';
+
+#users {
+	display: flex;
+	width: 100%;
+	margin-top: calc((App.$height * 2));
+	padding: App.$padding;
+	gap: App.$padding;
+}
+
+#users > main {
+	width: 100%;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: App.$padding;
+	padding: App.$padding;
+	background: var(--background-color-shade);
+}
+
+#users > main > div {
+	padding: App.$padding;
+	background: var(--background-color-shade-max);
+}
+
+#users > footer {
+	display: none;
+	flex: 1;
+	height: 100%;
+	box-shadow: var(--shadow);
+	background: var(--background-color-shade);
+}
+
+@media screen and (min-width: App.$maxWidth) {
+	#users {
+		margin-left: calc(App.$maxWidthSmall);
+	}
+}
+
+@media screen and (min-width: App.$maxWidthLarge) {
+	#users > footer {
+		display: flex;
+	}
+}

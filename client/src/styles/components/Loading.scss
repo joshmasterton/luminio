@@ -21,7 +21,7 @@
 .loading.primary > div {
 	background: linear-gradient(
 		transparent,
-		var(--text-color),
+		white
 	);
 }
 
@@ -44,7 +44,8 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 10rem;
-	background: var(--primary);
+	background: var(--primary-gradient);
+	background-attachment: inherit;
 }
 
 .loading.background > div > div {

@@ -12,7 +12,8 @@
 .themeToggler > button {
 	width: App.$height;
 	padding: 0;
-	background: var(--primary);
+	color: white;
+	background: var(--primary-gradient);
 }
 
 .themeToggler.dark > button {

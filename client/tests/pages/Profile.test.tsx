@@ -19,7 +19,7 @@ vi.mock('../../src/utilities/requests', () => ({
 
 const routes = [
 	{
-		path: '/profile',
+		path: `/profile/${mockUser.username}`,
 		element: <ProtectedRoute><Profile/></ProtectedRoute>,
 	},
 	{
@@ -33,7 +33,7 @@ describe('Profile page', () => {
 		(request as Mock)
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(mockUser));
-		const router = createRouter(routes, '/profile');
+		const router = createRouter(routes, `/profile/${mockUser.username}`);
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
@@ -48,7 +48,7 @@ describe('Profile page', () => {
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.reject(new Error('Network error')));
 		const router = createRouter(routes, '/');
-		await router.navigate('/profile');
+		await router.navigate(`/profile/${mockUser.username}`);
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
@@ -60,7 +60,7 @@ describe('Profile page', () => {
 		(request as Mock)
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(mockUser));
-		const router = createRouter(routes, '/profile');
+		const router = createRouter(routes, `/profile/${mockUser.username}`);
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
@@ -81,7 +81,7 @@ describe('Profile page', () => {
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(updatedUser));
-		const router = createRouter(routes, '/profile');
+		const router = createRouter(routes, `/profile/${mockUser.username}`);
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
@@ -99,15 +99,15 @@ describe('Profile page', () => {
 
 		await userEvent.click(saveUpdateButton);
 		expect(request).toHaveBeenCalledWith('/updateProfile', 'PUT', expect.any(FormData), true);
-		expect(router.state.location.pathname).toBe('/profile/newUsername');
+		expect(screen.getByText('newUsername')).toBeInTheDocument();
 	});
 
-	test('Should update user details on update profile', async () => {
+	test('Should return error popup on error response', async () => {
 		(request as Mock)
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.reject(new Error('Network error')));
-		const router = createRouter(routes, '/profile');
+		const router = createRouter(routes, `/profile/${mockUser.username}`);
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});

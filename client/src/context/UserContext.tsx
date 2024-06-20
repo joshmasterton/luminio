@@ -32,7 +32,6 @@ export const UserProvider = ({children}: UserProviderProps) => {
 			}
 		} catch (error) {
 			if (error instanceof Error) {
-				console.error(error.message);
 				setUser(undefined);
 			}
 		} finally {
@@ -61,7 +60,8 @@ export const UserProvider = ({children}: UserProviderProps) => {
 			});
 	}, []);
 
-	if (loading) {
+	if (
+		loading) {
 		return <Loading className='background'/>;
 	}
 

@@ -33,7 +33,7 @@ export const getUserReturnPassword = async <T>(tableName: string, condition: str
 	}
 };
 
-export const getUsers = async (tableName: string, sort = 'created_at', page = 0, limit = 1) => {
+export const getUsers = async (tableName: string, sort = 'created_at', page = 0, limit = 10) => {
 	try {
 		const result = await queryDb(`
 			SELECT id, username, email, friends, comments, likes, dislikes,

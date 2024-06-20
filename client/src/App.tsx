@@ -6,6 +6,7 @@ import {PublicRoute} from './utilities/PublicRoute';
 import {ProtectedRoute} from './utilities/ProtectedRoute';
 import {Popup, PopupProvider} from './context/PopupContext';
 import {Profile} from './pages/Profile';
+import {Users} from './pages/Users';
 import {Nav} from './components/Nav';
 import './styles/App.scss';
 
@@ -13,6 +14,10 @@ const routes = [
 	{
 		path: '/*',
 		element: <ProtectedRoute><Nav/></ProtectedRoute>,
+	},
+	{
+		path: '/users',
+		element: <ProtectedRoute><Users/></ProtectedRoute>,
 	},
 	{
 		path: '/profile/:username',

@@ -11,6 +11,7 @@ import {userRouter} from './routers/userRouter';
 import {logoutRouter} from './routers/logoutRouter';
 import {profileRouter} from './routers/profileRouter';
 import {updateProfileRouter} from './routers/updateProfileRouter';
+import {usersRouter} from './routers/usersRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -42,6 +43,7 @@ app.use(loginRouter('luminio_users'));
 app.use(signupRouter('luminio_users'));
 app.use(profileRouter('luminio_users'));
 app.use(updateProfileRouter('luminio_users'));
+app.use(usersRouter('luminio_users'));
 app.use(userRouter);
 app.use(logoutRouter);
 

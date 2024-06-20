@@ -88,7 +88,7 @@ export function Profile() {
 			const response = await request<FormData, User>('/updateProfile', 'PUT', formData, true);
 			if (response) {
 				setUser(response);
-				navigate(`/profile/${response?.username}`);
+				setProfile(response);
 				setEditDetails({
 					username: response.username,
 					profilePicture: undefined,
@@ -115,90 +115,92 @@ export function Profile() {
 	}, [location, user]);
 
 	return (
-		<div id='profile'>
+		<>
 			<ReturnNav/>
-			<div id='profileContainer'>
-				{user?.username === profile?.username ? (
-					<button type='button' aria-label='Edit Button' onClick={e => {
-						handleIsEdit(e);
-					}}>
-						{isEdit ? <CgClose/> : <BiEdit/>}
-					</button>
-				) : null}
-				<img alt='Profile Picture' src={profile?.profile_picture}/>
-				<main>
-					{isEdit ? (
-						<form method='PUT' autoComplete='off' aria-label='Edit Form' onSubmit={async e => {
-							await handleSubmit(e);
+			<div id='profile'>
+				<div id='profileContainer'>
+					{user?.username === profile?.username ? (
+						<button type='button' aria-label='Edit Button' onClick={e => {
+							handleIsEdit(e);
 						}}>
-							<label htmlFor='username'>
-								<p>Username</p>
-								<input
-									type='text'
-									name='username'
-									id='username'
-									value={editDetails.username}
-									placeholder={editDetails.username}
-									onChange={e => {
-										handleInputChange(e);
-									}}
-								/>
-							</label>
-							<label htmlFor='profilePicture' className='labelFile'>
-								<p>Profile Picture</p>
-								<main>
-									{editDetails?.profilePicture ? (
-										<img alt='Profile Picture' src={URL.createObjectURL(editDetails?.profilePicture)}/>
-									) : <IoImage/>}
-								</main>
-								<input
-									id='profilePicture'
-									name='profilePicture'
-									type='file'
-									onChange={e => {
-										handleInputChange(e);
-									}}
-								/>
-							</label>
-							<button type='submit' className='primaryButton'>
-								{loading ? (
-									<Loading className='primary'/>
-								) : 'Save'}
-							</button>
-						</form>
-					) : (
-						<>
-							<header>
-								<div>{profile?.username}</div>
-								<p>{profile?.email}</p>
-							</header>
-							<div>
-								<button type='button' aria-label='likes'>
-									<p>{profile?.likes}</p>
-									<BiSolidUpvote/>
+							{isEdit ? <CgClose/> : <BiEdit/>}
+						</button>
+					) : null}
+					<img alt='Profile Picture' src={profile?.profile_picture}/>
+					<main>
+						{isEdit ? (
+							<form method='PUT' autoComplete='off' aria-label='Edit Form' onSubmit={async e => {
+								await handleSubmit(e);
+							}}>
+								<label htmlFor='username'>
+									<p>Username</p>
+									<input
+										type='text'
+										name='username'
+										id='username'
+										value={editDetails.username}
+										placeholder={editDetails.username}
+										onChange={e => {
+											handleInputChange(e);
+										}}
+									/>
+								</label>
+								<label htmlFor='profilePicture' className='labelFile'>
+									<p>Profile Picture</p>
+									<main>
+										{editDetails?.profilePicture ? (
+											<img alt='Profile Picture' src={URL.createObjectURL(editDetails?.profilePicture)}/>
+										) : <IoImage/>}
+									</main>
+									<input
+										id='profilePicture'
+										name='profilePicture'
+										type='file'
+										onChange={e => {
+											handleInputChange(e);
+										}}
+									/>
+								</label>
+								<button type='submit' className='primaryButton'>
+									{loading ? (
+										<Loading className='primary'/>
+									) : 'Save'}
 								</button>
-								<button type='button' aria-label='dislikes'>
-									<p>{profile?.dislikes}</p>
-									<BiSolidDownvote/>
-								</button>
-								<button type='button' aria-label='comments'>
-									<p>{profile?.comments}</p>
-									<BiComment/>
-								</button>
-							</div>
-							<div>
-								<button type='button' aria-label='Add Friend' className='primaryButton'>
-								Add
-								</button>
-								<button type='button' aria-label='Remove Friend'>
-								Remove
-								</button>
-							</div>
+							</form>
+						) : (
+							<>
+								<header>
+									<div>{profile?.username}</div>
+									<p>{profile?.email}</p>
+								</header>
+								<div>
+									<button type='button' aria-label='likes'>
+										<BiSolidUpvote/>
+										<p>{profile?.likes}</p>
+									</button>
+									<button type='button' aria-label='dislikes'>
+										<BiSolidDownvote/>
+										<p>{profile?.dislikes}</p>
+									</button>
+									<button type='button' aria-label='comments'>
+										<BiComment/>
+										<p>{profile?.comments}</p>
+									</button>
+								</div>
+								<div>
+									<button type='button' aria-label='Add Friend' className='primaryButton'>
+										Add
+									</button>
+									<button type='button' aria-label='Remove Friend'>
+										Remove
+									</button>
+								</div>
 
-						</>
-					)}
-				</main>
+							</>
+						)}
+					</main>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }

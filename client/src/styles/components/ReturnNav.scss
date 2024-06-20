@@ -32,7 +32,8 @@
 	justify-content: space-between;
 	width: 100%;
 	padding: App.$padding;
-	background-color: var(--background-color);
+	box-shadow: var(--shadow);
+	background-color: var(--background-color-shade);
 }
 
 #returnNav > header > div > button {

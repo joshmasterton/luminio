@@ -1,5 +1,16 @@
 @use '../App.scss';
 
+#nav > div {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: calc(App.$height * 1.75);
+	backdrop-filter: blur(1rem);
+	-webkit-backdrop-filter: blur(1rem);
+	z-index: 1;
+}
+
 #nav > header {
 	position: fixed;
 	top: 0;
@@ -49,7 +60,7 @@
 }
 
 #nav > main.hidden {
-	transform: translateY( - calc((App.$height * 5) + (App.$padding * 3)));
+	transform: translateY( - calc((App.$height * 6) + (App.$padding * 4)));
 }
 
 #nav > main > ul {

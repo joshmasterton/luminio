@@ -1,5 +1,6 @@
-$maxWidth: 30rem;
-$maxWidthSmall: 17.5rem;
+$maxWidth: 27.5rem;
+$maxWidthLarge: 65rem;
+$maxWidthSmall: 15rem;
 $height: 3rem;
 
 $paddingSmall: 0.5rem;
@@ -14,15 +15,21 @@ $fontNormal: 1rem;
 $fontSmall: 0.75rem;
 
 [data-theme='dark'] {
-	--background-color: rgb(22, 22, 25);
-	--background-color-shade: rgb(30, 30, 35);
-	--background-color-shade-max: rgb(40, 40, 46);
-	--background-color-focus: rgb(42, 42, 58);
+	--background-color: rgb(20, 20, 24);
+	--background-color-shade: rgb(27, 27, 34);
+	--background-color-shade-max: rgb(34, 34, 43);
+	--background-color-focus: rgb(42, 42, 51);
 	--text-color: white;
-	--primary: rgb(65, 43, 239);
-	--outline: 0.1rem solid rgb(40, 40, 46);
+	--primary: #E00957;
+	--primary-gradient: linear-gradient(
+		45deg,
+		#dc598b,
+		#be41a1,
+		#E00957
+	);
+	--outline: 0.1rem solid rgb(34, 34, 43);
 	--outline-focus: 0.1rem solid rgb(32, 32, 40);
-	--box-shadow: 0 0 0 0.2rem rgb(65, 43, 239);
+	--box-shadow: 0 0 0 0.2rem #E00957;
 	--shadow: 0 0 0.4rem 0 rgba(10, 10, 13, 0.5);
 }
 
@@ -32,10 +39,16 @@ $fontSmall: 0.75rem;
 	--background-color-shade-max: rgb(244, 244, 248);
 	--background-color-focus: rgb(235, 235, 238);
 	--text-color: black;
-	--primary: rgb(131, 115, 255);
+	--primary: #E00957;
+	--primary-gradient: linear-gradient(
+		45deg,
+		#dc598b,
+		#be41a1,
+		#E00957
+	);
 	--outline: 0.1rem solid rgb(244, 244, 248);
 	--outline-focus: 0.1rem solid rgb(235, 235, 238);
-	--box-shadow: 0 0 0 0.2rem rgb(131, 115, 255);
+	--box-shadow: 0 0 0 0.2rem #E00957;
 	--shadow: 0 0 0.4rem 0rem rgba(15, 15, 18, 0.1);
 }
 
@@ -51,7 +64,7 @@ $fontSmall: 0.75rem;
 	border-style: none;
 	list-style: none;
 	outline: 0.1rem solid transparent;
-	color: var(--text-color);
+	color: inherit;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -143,7 +156,8 @@ button, input, a {
 }
 
 .primaryButton {
-	background: var(--primary);
+	color: white;
+	background: var(--primary-gradient);
 }
 
 .transparentButton {
