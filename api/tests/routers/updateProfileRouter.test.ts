@@ -7,10 +7,11 @@ import {
 import {beforeEach} from 'vitest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
 import {updateProfileRouter} from '../../src/routers/updateProfileRouter';
-import {createUser} from '../../src/models/userModels';
+import {createUser, getUserReturnPassword} from '../../src/models/userModels';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import bcryptjs from 'bcryptjs';
 
 describe('/updateProfile', () => {
 	let app: Express;
@@ -35,6 +36,7 @@ describe('/updateProfile', () => {
 
 	test('Should update user details on success', async () => {
 		const user = await createUser(tableName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
+		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
 		const accessToken = generateToken(user!, '1m');
 		const refreshToken = generateToken(user!, '7m');
 
@@ -42,11 +44,20 @@ describe('/updateProfile', () => {
 			.put('/updateProfile')
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
 			.field({
-				username: 'testUserNew',
+				username: 'newUsername',
+				password: 'newPassword',
+				confirmPassword: 'newPassword',
 			})
 			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest2.jpg'));
 
-		expect(response.body.username).toBe('testUserNew');
+		const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username));
+		if (updatedPassword) {
+			const comparePassword = await bcryptjs.compare('newPassword', updatedPassword);
+			expect(comparePassword).toBeTruthy();
+		}
+
+		expect(response.body.username).toBe('newUsername');
+		expect(response.body.profile_picture).toBe('https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest2.jpg');
 	});
 
 	test('Should throw error if username already taken', async () => {
@@ -66,7 +77,7 @@ describe('/updateProfile', () => {
 		expect(response.body).toEqual({error: 'Username already taken'});
 	});
 
-	test('Should throw error in no username or profile picture provided', async () => {
+	test('Should throw error in no username, profile picture or passoword', async () => {
 		const user = await createUser(tableName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
 		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
 		const accessToken = generateToken(user!, '1m');
@@ -77,6 +88,22 @@ describe('/updateProfile', () => {
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
 		expect(response.body).toEqual({error: 'Nothing to update user with'});
+	});
+
+	test('Should throw error in passwords do not match', async () => {
+		const user = await createUser(tableName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
+		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
+		const accessToken = generateToken(user!, '1m');
+		const refreshToken = generateToken(user!, '7m');
+
+		const response = await request(app)
+			.put('/updateProfile')
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
+			.field({
+				password: 'newPassword',
+			});
+
+		expect(response.body).toEqual({error: 'Passwords must match'});
 	});
 
 	test('Should update just username', async () => {
@@ -107,7 +134,33 @@ describe('/updateProfile', () => {
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
 			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest2.jpg'));
 
+		const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username))!;
+		const comparePassword = await bcryptjs.compare('Password', updatedPassword);
+
 		expect(response.body.username).toBe('testUser');
+		expect(comparePassword).toBeTruthy();
 		expect(response.body.profile_picture).toBe('https://zynqa.s3.eu-west-2.amazonaws.com/profilePictureTest2.jpg');
+	});
+
+	test('Should update just password', async () => {
+		const user = await createUser(tableName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
+		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
+		const accessToken = generateToken(user!, '1m');
+		const refreshToken = generateToken(user!, '7m');
+
+		const response = await request(app)
+			.put('/updateProfile')
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
+			.field({
+				password: 'newPassword',
+				confirmPassword: 'newPassword',
+			});
+
+		const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username))!;
+		const comparePassword = await bcryptjs.compare('newPassword', updatedPassword);
+
+		expect(response.body.username).toBe('testUser');
+		expect(comparePassword).toBeTruthy();
+		expect(response.body.profile_picture).toBe('profile.jpg');
 	});
 });

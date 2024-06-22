@@ -94,7 +94,7 @@
 	overflow: scroll;
 	height: 100%;
 	top: 0;
-	width: calc((App.$height * 5) + (App.$padding * 1));
+	width: calc(App.$height * 5);
 	padding: App.$padding;
 	padding-top: calc(App.$padding * 7);
 	transition: transform App.$transition;

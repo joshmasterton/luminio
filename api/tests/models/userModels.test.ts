@@ -5,6 +5,7 @@ import {
 	createUser, getUser, getUserReturnPassword, getUsers,
 	updateUser,
 } from '../../src/models/userModels';
+import bcryptjs from 'bcryptjs';
 
 describe('createUser', () => {
 	let tableName: string;
@@ -133,7 +134,13 @@ describe('updateUser', () => {
 		const user = await createUser(tableName, 'testUser1', 'test1@email.com', 'Password', 'profile.jpg');
 
 		if (user?.username) {
-			const updatedUser = await updateUser(tableName, user?.username, 'newUsername', 'random.jpg');
+			const updatedUser = await updateUser(tableName, user?.username, 'newUsername', 'newPassword', 'random.jpg');
+
+			const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username));
+			if (updatedPassword) {
+				const comparePassword = await bcryptjs.compare('Password', updatedPassword);
+				expect(comparePassword).toBeTruthy();
+			}
 
 			expect(updatedUser?.username).toBe('newUsername');
 			expect(updatedUser?.profile_picture).toBe('random.jpg');

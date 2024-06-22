@@ -5,14 +5,22 @@ import {generateToken} from '../utilities/tokenGenerator';
 export const updateProfileController = async (tableName: string, req: Request, res: Response) => {
 	try {
 		const oldUsername = res.locals.user.username as string;
-		let {username} = req.body as {username: string | undefined};
 		const profilePicture = req.file;
+		let {username, password, confirmPassword} = req.body as {
+			username: string | undefined;
+			password: string | undefined;
+			confirmPassword: string | undefined;
+		};
 
 		if (oldUsername === username) {
 			username = undefined;
 		}
 
-		const updatedProfile = await updateProfile(tableName, oldUsername, username, profilePicture);
+		if (password !== confirmPassword) {
+			throw new Error('Passwords must match');
+		}
+
+		const updatedProfile = await updateProfile(tableName, oldUsername, username, password, profilePicture);
 
 		if (updatedProfile) {
 			const accessToken = generateToken(updatedProfile, '7m');

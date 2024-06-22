@@ -10,6 +10,7 @@ import {Loading} from '../components/Loading';
 import {
 	BiComment, BiEdit, BiSolidDownvote, BiSolidUpvote,
 } from 'react-icons/bi';
+import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs';
 import {IoImage} from 'react-icons/io5';
 import {CgClose} from 'react-icons/cg';
 import '../styles/pages/Profile.scss';
@@ -21,10 +22,16 @@ export function Profile() {
 	const {user, setUser} = useUser();
 	const {setPopup} = usePopup();
 	const [loading, setLoading] = useState(false);
+	const [passwords, setPasswords] = useState<ShowPasswordsType>({
+		password: false,
+		confirmPassword: false,
+	});
 	const [profile, setProfile] = useState<User | undefined>(undefined);
 	const [isEdit, setIsEdit] = useState(false);
 	const [editDetails, setEditDetails] = useState<EditDetails>({
 		username: user?.username,
+		password: '',
+		confirmPassword: '',
 		profilePicture: undefined,
 	});
 
@@ -85,12 +92,20 @@ export function Profile() {
 				formData.append('profilePicture', editDetails.profilePicture);
 			}
 
+			if (editDetails.password && editDetails.confirmPassword) {
+				formData.append('password', editDetails.password);
+				formData.append('confirmPassword', editDetails.password);
+			}
+
 			const response = await request<FormData, User>('/updateProfile', 'PUT', formData, true);
 			if (response) {
 				setUser(response);
 				setProfile(response);
+				setPopup('Successfully updated profile');
 				setEditDetails({
-					username: response.username,
+					username: response?.username,
+					password: '',
+					confirmPassword: '',
 					profilePicture: undefined,
 				});
 			}
@@ -103,6 +118,13 @@ export function Profile() {
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const handleShowPassword = (password: keyof ShowPasswordsType) => {
+		setPasswords(prevState => ({
+			...prevState,
+			[password]: !prevState[password],
+		}));
 	};
 
 	useEffect(() => {
@@ -145,6 +167,46 @@ export function Profile() {
 										}}
 									/>
 								</label>
+								<div className='labelPassword'>
+									<label htmlFor='password'>
+										<p>Password</p>
+										<input
+											id='password'
+											placeholder='Password'
+											type={passwords.password ? 'text' : 'password'}
+											name='password'
+											value={editDetails.password}
+											onChange={e => {
+												handleInputChange(e);
+											}}
+										/>
+									</label>
+									<button type='button' aria-label='Show Confirm Password' onClick={() => {
+										handleShowPassword('password');
+									}}>
+										{passwords.password ? <BsEyeSlashFill/> : <BsEyeFill/>}
+									</button>
+								</div>
+								<div className='labelPassword'>
+									<label htmlFor='confirmPassword'>
+										<p>Confirm Password</p>
+										<input
+											id='confirmPassword'
+											placeholder='Confirm Password'
+											type={passwords.confirmPassword ? 'text' : 'password'}
+											name='confirmPassword'
+											value={editDetails.confirmPassword}
+											onChange={e => {
+												handleInputChange(e);
+											}}
+										/>
+									</label>
+									<button type='button' aria-label='Show Confirm Password' onClick={() => {
+										handleShowPassword('confirmPassword');
+									}}>
+										{passwords.confirmPassword ? <BsEyeSlashFill/> : <BsEyeFill/>}
+									</button>
+								</div>
 								<label htmlFor='profilePicture' className='labelFile'>
 									<p>Profile Picture</p>
 									<main>

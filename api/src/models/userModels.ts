@@ -68,26 +68,24 @@ export const createUser = async (tableName: string, username: string, email: str
 	}
 };
 
-export const updateUser = async (tableName: string, oldUsername: string, username?: string, profilePicture?: string) => {
+export const updateUser = async (tableName: string, oldUsername: string, username?: string, password?: string, profilePicture?: string) => {
 	try {
-		if (username && profilePicture) {
-			await queryDb(`
-				UPDATE ${tableName}
-				SET username = $1, username_lower_case = $2, profile_picture = $3
-				WHERE username = $4
-			`, [username, username.toLowerCase(), profilePicture, oldUsername]);
-
-			return await getUser(tableName, 'username', username);
-		}
-
 		if (username) {
 			await queryDb(`
 				UPDATE ${tableName}
 				SET username = $1, username_lower_case = $2
 				WHERE username = $3
 			`, [username, username.toLowerCase(), oldUsername]);
+		}
 
-			return await getUser(tableName, 'username', username);
+		if (password) {
+			const hashedPassword = await bcryptjs.hash(password, 10);
+
+			await queryDb(`
+				UPDATE ${tableName}
+				SET password = $1
+				WHERE username = $2
+			`, [hashedPassword, username ?? oldUsername]);
 		}
 
 		if (profilePicture) {
@@ -95,10 +93,10 @@ export const updateUser = async (tableName: string, oldUsername: string, usernam
 				UPDATE ${tableName}
 				SET profile_picture = $1
 				WHERE username = $2
-			`, [profilePicture, oldUsername]);
-
-			return await getUser(tableName, 'username', oldUsername);
+			`, [profilePicture, username ?? oldUsername]);
 		}
+
+		return await getUser(tableName, 'username', username ?? oldUsername);
 	} catch (error) {
 		if (error instanceof Error) {
 			throw error;

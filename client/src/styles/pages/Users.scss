@@ -15,6 +15,7 @@
 	flex-direction: column;
 	gap: App.$padding;
 	padding: App.$padding;
+	box-shadow: var(--shadow);
 	background: var(--background-color-shade);
 }
 
@@ -33,7 +34,7 @@
 
 @media screen and (min-width: App.$maxWidth) {
 	#users {
-		margin-left: calc(App.$maxWidthSmall);
+		margin-left: calc(App.$maxWidthSmall - (App.$padding * 2.5));
 	}
 }
 
