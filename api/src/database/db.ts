@@ -61,3 +61,32 @@ export const dropUsersTable = async (tableName: string) => {
 		}
 	}
 };
+
+export const createFriendsTable = async (tableName: string) => {
+	try {
+		await queryDb(`
+			CREATE TABLE IF NOT EXISTS ${tableName} (
+				id SERIAL PRIMARY KEY,
+				friend_one_username VARCHAR(255),
+				friend_two_username VARCHAR(255),
+				friend_initiator VARCHAR(255),
+				friendship_accepted BOOLEAN DEFAULT false,
+				created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+			)
+		`, []);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};
+
+export const dropFriendsTable = async (tableName: string) => {
+	try {
+		await queryDb(`DROP TABLE IF EXISTS ${tableName}`, []);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};

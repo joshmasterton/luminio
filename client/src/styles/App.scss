@@ -1,4 +1,4 @@
-$maxWidth: 27.5rem;
+$maxWidth: 35rem;
 $maxWidthLarge: 65rem;
 $maxWidthSmall: 16.5rem;
 $height: 3rem;
@@ -20,16 +20,15 @@ $fontSmall: 0.75rem;
 	--background-color-shade-max: rgb(34, 34, 43);
 	--background-color-focus: rgb(42, 42, 51);
 	--text-color: white;
-	--primary: #E00957;
+	--primary: #f9255e;
 	--primary-gradient: linear-gradient(
 		45deg,
-		#dc598b,
-		#be41a1,
-		#E00957
+		#f935c5,
+		#f9255e
 	);
 	--outline: 0.1rem solid rgb(34, 34, 43);
 	--outline-focus: 0.1rem solid rgb(32, 32, 40);
-	--box-shadow: 0 0 0 0.2rem #E00957;
+	--box-shadow: 0 0 0 0.2rem #f9255e;
 	--shadow: 0 0 0.4rem 0 rgba(10, 10, 13, 0.5);
 }
 
@@ -39,12 +38,11 @@ $fontSmall: 0.75rem;
 	--background-color-shade-max: rgb(244, 244, 248);
 	--background-color-focus: rgb(235, 235, 238);
 	--text-color: black;
-	--primary: #E00957;
+	--primary: #f9255e;
 	--primary-gradient: linear-gradient(
 		45deg,
-		#dc598b,
-		#be41a1,
-		#E00957
+		#f935c5,
+		#f9255e
 	);
 	--outline: 0.1rem solid rgb(244, 244, 248);
 	--outline-focus: 0.1rem solid rgb(235, 235, 238);
