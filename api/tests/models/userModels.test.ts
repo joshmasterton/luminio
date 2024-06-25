@@ -1,5 +1,7 @@
 import {afterEach, beforeEach, expect} from 'vitest';
-import {createUsersTable, dropUsersTable} from '../../src/database/db';
+import {
+	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
+} from '../../src/database/db';
 import {describe, test} from 'vitest';
 import {
 	createUser, getUser, getUserReturnPassword, getUsers,
@@ -111,32 +113,36 @@ describe('getUsers', () => {
 		expect(usersPageOne?.[0].username).toBe('testUser3');
 
 		const usersPageTwo = await getUsers(tableName, 'created_at', 2, 2);
-		expect(usersPageTwo?.length).toBe(1);
-		expect(usersPageTwo?.[0].username).toBe('testUser1');
+		expect(usersPageTwo?.length).toBe(0);
 	});
 });
 
 describe('updateUser', () => {
-	let tableName: string;
+	let usersTable: string;
+	let friendsTable: string;
 
 	beforeEach(async () => {
-		tableName = `luminio_users_test_get_users_${Date.now()}`;
+		usersTable = `luminio_users_test_get_users_${Date.now()}`;
+		friendsTable = `luminio_friends_test_get_users_${Date.now()}`;
 
-		await dropUsersTable(tableName);
-		await createUsersTable(tableName);
+		await dropUsersTable(usersTable);
+		await dropFriendsTable(friendsTable);
+		await createUsersTable(usersTable);
+		await createFriendsTable(friendsTable);
 	});
 
 	afterEach(async () => {
-		await dropUsersTable(tableName);
+		await dropUsersTable(usersTable);
+		await dropFriendsTable(friendsTable);
 	});
 
 	test('Should return updated user', async () => {
-		const user = await createUser(tableName, 'testUser1', 'test1@email.com', 'Password', 'profile.jpg');
+		const user = await createUser(usersTable, 'testUser1', 'test1@email.com', 'Password', 'profile.jpg');
 
 		if (user?.username) {
-			const updatedUser = await updateUser(tableName, user?.username, 'newUsername', 'newPassword', 'random.jpg');
+			const updatedUser = await updateUser(usersTable, user?.username, 'newUsername', 'newPassword', 'random.jpg');
 
-			const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username));
+			const updatedPassword = (await getUserReturnPassword(usersTable, 'username', user?.username));
 			if (updatedPassword) {
 				const comparePassword = await bcryptjs.compare('Password', updatedPassword);
 				expect(comparePassword).toBeTruthy();

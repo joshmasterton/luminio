@@ -65,7 +65,7 @@ describe('/signup', () => {
 			})
 			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest.jpg'));
 
-		expect(response.body).toEqual({error: 'Email required'});
+		expect(response.body).toEqual({error: 'Valid email type required'});
 	});
 
 	test('Should return error if no password', async () => {

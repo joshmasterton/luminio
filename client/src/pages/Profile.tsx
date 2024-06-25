@@ -1,4 +1,4 @@
-import {type User} from '../types/utilities/request.types';
+import {type Friendship, type User} from '../types/utilities/request.types';
 import {type FormEvent, type ChangeEvent, type MouseEvent} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {ReturnNav} from '../components/ReturnNav';
@@ -8,7 +8,8 @@ import {useUser} from '../context/UserContext';
 import {usePopup} from '../context/PopupContext';
 import {Loading} from '../components/Loading';
 import {
-	BiComment, BiEdit, BiSolidDownvote, BiSolidUpvote,
+	BiComment, BiDownArrowAlt, BiEdit, BiGroup,
+	BiUpArrowAlt,
 } from 'react-icons/bi';
 import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs';
 import {IoImage} from 'react-icons/io5';
@@ -18,6 +19,7 @@ import '../styles/pages/Profile.scss';
 export function Profile() {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const [friendship, setFriendship] = useState<Friendship | undefined>(undefined);
 	const usernamePathname = location.pathname.split('/').pop();
 	const {user, setUser} = useUser();
 	const {setPopup} = usePopup();
@@ -43,12 +45,15 @@ export function Profile() {
 			const profile = await request<undefined, User>(`/profile/?username=${usernamePathname}`, 'GET');
 			if (profile) {
 				setProfile(profile);
+				const friendship = await request<unknown, Friendship>(`/getFriendship?friendId=${profile?.id}`, 'GET');
+				setFriendship(friendship);
 			} else {
 				navigate(-1);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
 				navigate(-1);
+				console.error(error.message);
 			}
 		} finally {
 			setLoading(false);
@@ -131,6 +136,38 @@ export function Profile() {
 			...prevState,
 			[password]: !prevState[password],
 		}));
+	};
+
+	const handleAddFriend = async (e: MouseEvent<HTMLButtonElement>) => {
+		try {
+			e.currentTarget.blur();
+			const friendship = await request<unknown, Friendship>('/addRemoveFriend', 'POST', {
+				type: 'add',
+				friendId: profile?.id,
+			});
+
+			setFriendship(friendship);
+		} catch (error) {
+			if (error instanceof Error) {
+				setPopup(error.message);
+			}
+		}
+	};
+
+	const handleRemoveFriend = async (e: MouseEvent<HTMLButtonElement>) => {
+		try {
+			e.currentTarget.blur();
+			const friendship = await request<unknown, Friendship>('/addRemoveFriend', 'POST', {
+				type: 'remove',
+				friendId: profile?.id,
+			});
+
+			setFriendship(friendship);
+		} catch (error) {
+			if (error instanceof Error) {
+				setPopup(error.message);
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -248,27 +285,44 @@ export function Profile() {
 									</header>
 									<div>
 										<button type='button' aria-label='likes'>
-											<BiSolidUpvote/>
+											<BiUpArrowAlt/>
 											<p>{profile?.likes}</p>
 										</button>
 										<button type='button' aria-label='dislikes'>
-											<BiSolidDownvote/>
+											<BiDownArrowAlt/>
 											<p>{profile?.dislikes}</p>
 										</button>
 										<button type='button' aria-label='comments'>
 											<BiComment/>
 											<p>{profile?.comments}</p>
 										</button>
+										<button type='button' aria-label='friends'>
+											<BiGroup/>
+											<p>{profile?.friends}</p>
+										</button>
 									</div>
 									{profile?.id === user?.id ? null : (
-										<div>
-											<button type='button' aria-label='Add Friend' className='primaryButton'>
-													Add
-											</button>
-											<button type='button' aria-label='Remove Friend'>
-													Remove
-											</button>
-										</div>
+										<footer>
+											{friendship?.id && friendship.friendship_accepted ? (
+												<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
+													await handleRemoveFriend(e);
+												}}>
+													Remove friend
+												</button>
+											) : (
+												<button type='button' aria-label='Add Friend' className='primaryButton' onClick={async e => {
+													await handleAddFriend(e);
+												}}>
+													{friendship?.friendship_accepted ? 'Friends' : 'Add friend'}
+												</button>
+											)}
+										</footer>
+									)}
+									{friendship?.id && !(friendship?.friendship_accepted) && (
+										<p>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.username
+											?	'Waiting for friendship response'
+											:	'Waiting for you to repsond'
+										}</p>
 									)}
 								</>
 							)}

@@ -18,7 +18,7 @@
 	flex-direction: column;
 	justify-content: center;
 	width: 100%;
-	max-width: App.$maxWidth;
+	max-width: calc(App.$maxWidth / 1.25);
 	padding: App.$paddingContainer;
 	gap: App.$paddingContainer;
 	box-shadow: var(--shadow);

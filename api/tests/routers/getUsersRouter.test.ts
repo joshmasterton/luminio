@@ -4,10 +4,12 @@ import {
 } from 'vitest';
 import request from 'supertest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {usersRouter} from '../../src/routers/usersRouter';
+import {getUsersRouter} from '../../src/routers/getUsersRouter';
 import {createUser} from '../../src/models/userModels';
+import {generateToken} from '../../src/utilities/tokenGenerator';
+import cookieParser from 'cookie-parser';
 
-describe('/users', () => {
+describe('/getUsers', () => {
 	let app: Express;
 	let tableName: string;
 
@@ -18,9 +20,10 @@ describe('/users', () => {
 		await createUsersTable(tableName);
 
 		app = express();
+		app.use(cookieParser());
 		app.use(express.json());
 		app.use(express.urlencoded({extended: false}));
-		app.use(usersRouter(tableName));
+		app.use(getUsersRouter(tableName));
 	});
 
 	afterEach(async () => {
@@ -28,30 +31,38 @@ describe('/users', () => {
 	});
 
 	test('Return list of users with query params', async () => {
-		await createUser(tableName, 'testUserOne', 'test1@email.com', 'Password', 'profile.jpg');
+		const user = await createUser(tableName, 'testUserOne', 'test1@email.com', 'Password', 'profile.jpg');
 		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
 		await createUser(tableName, 'testUserThree', 'test1@email.com', 'Password', 'profile.jpg');
 
+		const accessToken = generateToken(user!, '1m');
+		const refreshToken = generateToken(user!, '7m');
+
 		const response = await request(app)
-			.get('/users')
+			.get('/getUsers')
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
 			.query({
 				sort: 'username',
 				page: 0,
 			});
 
-		expect(response.body?.length).toBe(3);
+		expect(response.body?.length).toBe(2);
 		expect(response.body?.[0].username).toBe('testUserTwo');
 	});
 
 	test('Return list of users with query params', async () => {
-		await createUser(tableName, 'testUserOne', 'test1@email.com', 'Password', 'profile.jpg');
+		const user = await createUser(tableName, 'testUserOne', 'test1@email.com', 'Password', 'profile.jpg');
 		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
 		await createUser(tableName, 'testUserThree', 'test1@email.com', 'Password', 'profile.jpg');
 
-		const response = await request(app)
-			.get('/users');
+		const accessToken = generateToken(user!, '1m');
+		const refreshToken = generateToken(user!, '7m');
 
-		expect(response.body?.length).toBe(3);
+		const response = await request(app)
+			.get('/getUsers')
+			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
+
+		expect(response.body?.length).toBe(2);
 		expect(response.body?.[0].username).toBe('testUserThree');
 	});
 });

@@ -5,7 +5,9 @@ import {
 	expect,
 } from 'vitest';
 import {beforeEach} from 'vitest';
-import {createUsersTable, dropUsersTable} from '../../src/database/db';
+import {
+	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
+} from '../../src/database/db';
 import {updateProfileRouter} from '../../src/routers/updateProfileRouter';
 import {createUser, getUserReturnPassword} from '../../src/models/userModels';
 import {generateToken} from '../../src/utilities/tokenGenerator';
@@ -16,22 +18,27 @@ import bcryptjs from 'bcryptjs';
 describe('/updateProfile', () => {
 	let app: Express;
 	let tableName: string;
+	let friendsTable: string;
 
 	beforeEach(async () => {
 		tableName = `luminio_users_test_update_profile_router_${Date.now()}`;
+		friendsTable = `luminio_friends_test_update_profile_router_${Date.now()}`;
 
 		await dropUsersTable(tableName);
+		await dropFriendsTable(friendsTable);
 		await createUsersTable(tableName);
+		await createFriendsTable(friendsTable);
 
 		app = express();
 		app.use(express.json());
 		app.use(cookieParser());
 		app.use(express.urlencoded({extended: false}));
-		app.use(updateProfileRouter(tableName));
+		app.use(updateProfileRouter(tableName, friendsTable));
 	});
 
 	afterEach(async () => {
 		await dropUsersTable(tableName);
+		await dropFriendsTable(friendsTable);
 	});
 
 	test('Should update user details on success', async () => {

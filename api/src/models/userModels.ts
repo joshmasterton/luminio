@@ -40,7 +40,7 @@ export const getUsers = async (tableName: string, sort = 'created_at', page = 0,
 			created_at, last_online, profile_picture FROM ${tableName}
 			ORDER BY ${sort} DESC
 			LIMIT $1 OFFSET $2
-		`, [limit, page]);
+		`, [limit, page * limit]);
 
 		return result?.rows as User[];
 	} catch (error) {

@@ -1,5 +1,5 @@
 import {
-	createContext, useContext, useEffect, useState,
+	createContext, useContext, useEffect, useRef, useState,
 } from 'react';
 import {type PopupProviderProps, type PopupContextType} from '../types/context/PopupContext.types';
 import {MdError} from 'react-icons/md';
@@ -38,9 +38,11 @@ export const PopupProvider = ({children}: PopupProviderProps) => {
 
 export function Popup() {
 	const {popup, setPopup, popupActive, setPopupActive} = usePopup();
+	const popupButtonRef = useRef<HTMLButtonElement>(null);
 
 	useEffect(() => {
 		if (!popupActive) {
+			popupButtonRef.current?.blur();
 			setTimeout(() => {
 				setPopup(undefined);
 			}, 400);
@@ -49,6 +51,7 @@ export function Popup() {
 
 	useEffect(() => {
 		if (popup) {
+			popupButtonRef.current?.focus();
 			setPopupActive(true);
 		}
 	}, [popup]);
@@ -61,7 +64,7 @@ export function Popup() {
 			<div>
 				<MdError/>
 				<div>{popup}</div>
-				<button type='button' className='primaryButton' onClick={() => {
+				<button type='button' ref={popupButtonRef} className='primaryButton' onClick={() => {
 					setPopupActive(false);
 				}}>
 					Close

@@ -13,7 +13,7 @@ export const signupRouter = (tableName: string) => {
 		'/signup',
 		upload.single('profilePicture'),
 		check('username').trim().customSanitizer(escapeHtml).isString().notEmpty().withMessage('Username required'),
-		check('email').trim().customSanitizer(escapeHtml).isEmail().withMessage('Email required'),
+		check('email').trim().customSanitizer(escapeHtml).isEmail().withMessage('Valid email type required'),
 		check('password').trim().customSanitizer(escapeHtml).isString().isLength({min: 6}).withMessage('Password must be at least 6 characters'),
 		check('confirmPassword').trim().customSanitizer(escapeHtml).custom((value, {req}) => value === req.body.password).withMessage('Passwords must match'),
 		validatorMiddleware,

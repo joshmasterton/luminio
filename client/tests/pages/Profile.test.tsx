@@ -10,6 +10,7 @@ import {Nav} from '../../src/components/Nav';
 import {act} from 'react';
 import {request} from '../../src/utilities/requests';
 import {mockUser} from '../mockData/mockUser';
+import {mockFriendship} from '../mockData/mockFriendship';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
@@ -80,6 +81,7 @@ describe('Profile page', () => {
 		(request as Mock)
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockFriendship))
 			.mockImplementationOnce(async () => Promise.resolve(updatedUser));
 		const router = createRouter(routes, `/profile/${mockUser.username}`);
 		await act(async () => {
@@ -106,6 +108,7 @@ describe('Profile page', () => {
 		(request as Mock)
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockFriendship))
 			.mockImplementationOnce(async () => Promise.reject(new Error('Network error')));
 		const router = createRouter(routes, `/profile/${mockUser.username}`);
 		await act(async () => {
@@ -125,5 +128,19 @@ describe('Profile page', () => {
 
 		await userEvent.click(saveUpdateButton);
 		expect(screen.getByText('Network error')).toBeInTheDocument();
+	});
+
+	test('Should get current friendship status', async () => {
+		(request as Mock)
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockFriendship))
+			.mockImplementationOnce(async () => Promise.reject(new Error('Network error')));
+		const router = createRouter(routes, `/profile/${mockUser.username}`);
+		await act(async () => {
+			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
+		});
+
+		expect(screen.getByText('Waiting for friendship response')).toBeInTheDocument();
 	});
 });

@@ -20,6 +20,7 @@
 	margin-top: calc(App.$height + (App.$padding * 3));
 	padding: App.$padding;
 	gap: App.$padding;
+	text-align: center;
 	box-shadow: var(--shadow);
 	background: var(--background-color-shade);
 }
@@ -49,6 +50,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: App.$padding;
+	text-align: start;
 }
 
 #profile > #profileContainer > main > header {
@@ -64,13 +66,34 @@
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	gap: App.$padding;
+	gap: App.$paddingSmall;
+	padding: App.$paddingSmall;
+	background: var(--background-color-shade-max);
 }
 
 #profile > #profileContainer > main > div > button {
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: fit-content;
-	height: App.$height;
-	gap: App.$padding;
+	height: fit-content;
 	flex: 1;
+	padding: App.$paddingSmall;
+	gap: App.$paddingSmall;
+	background: transparent;
+}
+
+#profile > #profileContainer > main > footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	width: 100%;
+	gap: App.$padding;
+}
+
+#profile > #profileContainer > main > footer > button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: App.$padding;
 }

@@ -67,9 +67,9 @@ export const createFriendsTable = async (tableName: string) => {
 		await queryDb(`
 			CREATE TABLE IF NOT EXISTS ${tableName} (
 				id SERIAL PRIMARY KEY,
-				friend_one_username VARCHAR(255),
-				friend_two_username VARCHAR(255),
-				friend_initiator VARCHAR(255),
+				friend_one_id INT,
+				friend_two_id INT,
+				friend_initiator INT,
 				friendship_accepted BOOLEAN DEFAULT false,
 				created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 			)

@@ -4,7 +4,7 @@ import {
 } from 'react-icons/bi';
 import {CgClose, CgLogOut} from 'react-icons/cg';
 import {useUser} from '../context/UserContext';
-import {Link, useLocation} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {ThemeButton, UserButton} from './Buttons';
 import {useTheme} from '../context/ThemeContext';
 import lightLogo from '/zynqa_logo_light.png';
@@ -15,8 +15,6 @@ export function Nav() {
 	const {theme} = useTheme();
 	const {user, logout} = useUser();
 	const [isMenu, setIsMenu] = useState(false);
-	const location = useLocation();
-	const currentLocation = location.pathname.split('/').pop();
 
 	const handleMenuSwitch = (e: MouseEvent<HTMLButtonElement>) => {
 		setIsMenu(!isMenu);
@@ -37,7 +35,7 @@ export function Nav() {
 					<UserButton user={user}/>
 					<ul>
 						<li>
-							<Link to='/' className={`transparentButton ${currentLocation === '' ? 'active' : null}`}>
+							<Link to='/' className='transparentButton'>
 								<BiHome/>
 							</Link>
 						</li>
@@ -47,7 +45,7 @@ export function Nav() {
 							</Link>
 						</li>
 						<li>
-							<Link to='/users' className={`transparentButton ${currentLocation === 'users' ? 'active' : null}`}>
+							<Link to='/users' className='transparentButton'>
 								<BiGroup/>
 							</Link>
 						</li>
@@ -67,7 +65,7 @@ export function Nav() {
 			<main className={isMenu ? 'active' : 'hidden'}>
 				<ul>
 					<li>
-						<Link to='/' className={`transparentButton ${currentLocation === '' ? 'active' : null}`}>
+						<Link to='/' className='transparentButton'>
 							<BiHome/>
 							Home
 						</Link>
@@ -79,7 +77,7 @@ export function Nav() {
 						</Link>
 					</li>
 					<li>
-						<Link to='/users' className={`transparentButton ${currentLocation === 'users' ? 'active' : null}`}>
+						<Link to='/users' className='transparentButton'>
 							<BiGroup/>
 							Users
 						</Link>
@@ -107,7 +105,7 @@ export function Nav() {
 						</div>
 					</li>
 					<li>
-						<Link to='/' className={`transparentButton ${currentLocation === '' ? 'active' : null}`}>
+						<Link to='/' className='transparentButton'>
 							<BiHome/>
 							Home
 						</Link>
@@ -119,7 +117,7 @@ export function Nav() {
 						</Link>
 					</li>
 					<li>
-						<Link to='/users' className={`transparentButton ${currentLocation === 'users' ? 'active' : null}`}>
+						<Link to='/users' className='transparentButton'>
 							<BiGroup/>
 							Users
 						</Link>

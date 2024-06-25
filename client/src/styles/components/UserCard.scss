@@ -20,14 +20,11 @@
 
 .userCard > footer {
 	display: flex;
+	align-items: center;
 	justify-content: end;
 	padding: App.$padding;
-}
-
-.userCard > footer > div {
-	width: 1rem;
-	height: 1rem;
-	background: var(--primary-gradient);
+	gap: App.$padding;
+	height: 100%;
 }
 
 @media screen and (min-width: App.$maxWidthLarge) {
