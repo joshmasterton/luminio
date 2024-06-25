@@ -53,8 +53,6 @@ describe('/getFriendship', async () => {
 				friendId: userTwo?.id,
 			});
 
-		console.log(response.body);
-
 		expect(response.body.id).toBe(1);
 		expect(response.body.friend_one_id).toBe(user?.id);
 		expect(response.body.friend_two_id).toBe(userTwo?.id);

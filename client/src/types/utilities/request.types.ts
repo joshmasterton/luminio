@@ -17,9 +17,9 @@ export type User = {
 
 export type Friendship = {
 	id: number;
-	friend_one_username: string;
-	friend_two_username: string;
-	friend_initiator: string;
+	friend_one_id: number;
+	friend_two_id: number;
+	friend_initiator: number;
 	friendship_accepted: boolean;
 	created_at: Date;
 };

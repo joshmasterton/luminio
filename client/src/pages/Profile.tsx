@@ -19,8 +19,8 @@ import '../styles/pages/Profile.scss';
 export function Profile() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [friendship, setFriendship] = useState<Friendship | undefined>(undefined);
 	const usernamePathname = location.pathname.split('/').pop();
+	const [friendship, setFriendship] = useState<Friendship | undefined>(undefined);
 	const {user, setUser} = useUser();
 	const {setPopup} = usePopup();
 	const [loading, setLoading] = useState(true);
@@ -53,7 +53,6 @@ export function Profile() {
 		} catch (error) {
 			if (error instanceof Error) {
 				navigate(-1);
-				console.error(error.message);
 			}
 		} finally {
 			setLoading(false);
@@ -147,6 +146,9 @@ export function Profile() {
 			});
 
 			setFriendship(friendship);
+			if (usernamePathname) {
+				await getProfile(usernamePathname);
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				setPopup(error.message);
@@ -163,6 +165,9 @@ export function Profile() {
 			});
 
 			setFriendship(friendship);
+			if (usernamePathname) {
+				await getProfile(usernamePathname);
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				setPopup(error.message);
@@ -319,7 +324,7 @@ export function Profile() {
 										</footer>
 									)}
 									{friendship?.id && !(friendship?.friendship_accepted) && (
-										<p>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.username
+										<p>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.id
 											?	'Waiting for friendship response'
 											:	'Waiting for you to repsond'
 										}</p>

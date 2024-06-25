@@ -19,7 +19,7 @@ export const getFriendship = async (tableName: string, friendOneId: number, frie
 
 export const addFriend = async (tableName: string, friendOneId: number, friendTwoId: number) => {
 	try {
-		const result = await queryDb(`
+		const result = await queryDb<number>(`
 			INSERT INTO ${tableName} (friend_one_id, friend_two_id, friend_initiator)
 			VALUES ($1, $2, $1) RETURNING *;
 		`, [friendOneId, friendTwoId]);
