@@ -1,8 +1,8 @@
 import express from 'express';
-import {verifyTokenMiddleware} from '../middleware/verifyTokenMiddleware';
+import {verifyTokenMiddleware} from '../../middleware/verifyTokenMiddleware';
 import {query} from 'express-validator';
-import {escapeHtml} from '../utilities/customSanitization';
-import {profileController} from '../controllers/profileController';
+import {escapeHtml} from '../../utilities/customSanitization';
+import {profileController} from '../../controllers/usersControllers/profileController';
 
 export const profileRouter = (tableName: string) => {
 	const router = express.Router();

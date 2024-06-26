@@ -1,8 +1,8 @@
 import express from 'express';
-import {validatorMiddleware} from '../middleware/validatorMiddleware';
+import {validatorMiddleware} from '../../middleware/validatorMiddleware';
 import {check} from 'express-validator';
-import {loginController} from '../controllers/loginController';
-import {escapeHtml} from '../utilities/customSanitization';
+import {loginController} from '../../controllers/authControllers/loginController';
+import {escapeHtml} from '../../utilities/customSanitization';
 
 export const loginRouter = (tableName: string) => {
 	const router = express.Router();

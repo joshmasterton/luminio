@@ -1,5 +1,5 @@
 import {type Request, type Response} from 'express';
-import {addRemoveFriend} from '../services/addRemoveFriendServices';
+import {addRemoveFriend} from '../../services/friendshipsServices/addRemoveFriendServices';
 
 export const addRemoveFriendController = async (friendsTable: string, usersTable: string, req: Request, res: Response) => {
 	try {

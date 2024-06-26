@@ -1,7 +1,7 @@
 import {type Request, type Response} from 'express';
-import {type LoginRequestBody} from '../types/controllers/loginController.types';
-import {login} from '../services/loginServices';
-import {generateToken} from '../utilities/tokenGenerator';
+import {type LoginRequestBody} from '../../types/controllers/loginController.types';
+import {login} from '../../services/authServices/loginServices';
+import {generateToken} from '../../utilities/tokenGenerator';
 
 export const loginController = async (tableName: string, req: Request, res: Response) => {
 	try {

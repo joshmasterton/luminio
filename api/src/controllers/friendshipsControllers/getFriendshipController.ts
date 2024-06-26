@@ -1,5 +1,5 @@
 import {type Request, type Response} from 'express';
-import {getFriendship} from '../models/friendModels';
+import {getFriendship} from '../../models/friendModels';
 
 export const getFriendshipController = async (tableName: string, req: Request, res: Response) => {
 	const {friendId} = req.query as unknown as {friendId: number};

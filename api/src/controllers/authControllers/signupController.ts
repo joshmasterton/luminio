@@ -1,7 +1,7 @@
 import {type Request, type Response} from 'express';
-import {type SignupRequestBody} from '../types/controllers/signupController.types';
-import {signup} from '../services/signupServices';
-import {generateToken} from '../utilities/tokenGenerator';
+import {type SignupRequestBody} from '../../types/controllers/signupController.types';
+import {signup} from '../../services/authServices/signupServices';
+import {generateToken} from '../../utilities/tokenGenerator';
 
 export const signupController = async (tableName: string, req: Request, res: Response) => {
 	try {

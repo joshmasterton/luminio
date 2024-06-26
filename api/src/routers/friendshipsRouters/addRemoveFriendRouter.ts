@@ -1,9 +1,9 @@
 import express from 'express';
-import {validatorMiddleware} from '../middleware/validatorMiddleware';
+import {validatorMiddleware} from '../../middleware/validatorMiddleware';
 import {check} from 'express-validator';
-import {escapeHtml} from '../utilities/customSanitization';
-import {addRemoveFriendController} from '../controllers/addRemoveFriendController';
-import {verifyTokenMiddleware} from '../middleware/verifyTokenMiddleware';
+import {escapeHtml} from '../../utilities/customSanitization';
+import {addRemoveFriendController} from '../../controllers/friendshipsControllers/addRemoveFriendController';
+import {verifyTokenMiddleware} from '../../middleware/verifyTokenMiddleware';
 
 export const addRemoveFriendRouter = (friendsTable: string, usersTable: string) => {
 	const router = express.Router();

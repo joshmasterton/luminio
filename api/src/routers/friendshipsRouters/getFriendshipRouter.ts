@@ -1,7 +1,7 @@
 import express from 'express';
 import {query} from 'express-validator';
-import {getFriendshipController} from '../controllers/getFriendshipController';
-import {verifyTokenMiddleware} from '../middleware/verifyTokenMiddleware';
+import {getFriendshipController} from '../../controllers/friendshipsControllers/getFriendshipController';
+import {verifyTokenMiddleware} from '../../middleware/verifyTokenMiddleware';
 
 export const getFriendshipRouter = (tableName: string) => {
 	const router = express.Router();

@@ -4,7 +4,7 @@ import express, {type Express} from 'express';
 import {
 	beforeEach, describe, expect, test,
 } from 'vitest';
-import {userRouter} from '../../src/routers/userRouter';
+import {userRouter} from '../../src/routers/authRouters/userRouter';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 import {mockUser} from '../mockData/mockUser';
 

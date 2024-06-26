@@ -1,4 +1,4 @@
-import {getUser, getUserReturnPassword} from '../models/userModels';
+import {getUser, getUserReturnPassword} from '../../models/userModels';
 import bcryptjs from 'bcryptjs';
 
 export const login = async (

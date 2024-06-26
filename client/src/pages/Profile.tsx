@@ -193,145 +193,150 @@ export function Profile() {
 				{loading ? (
 					<Loading className='background'/>
 				) : (
-					<div id='profileContainer'>
-						{user?.username === profile?.username ? (
-							<button type='button' aria-label='Edit Button' onClick={e => {
-								handleIsEdit(e);
-							}}>
-								{isEdit ? <CgClose/> : <BiEdit/>}
-							</button>
-						) : null}
-						<img alt='Profile Picture' src={profile?.profile_picture}/>
-						<main>
-							{isEdit ? (
-								<form method='PUT' autoComplete='off' aria-label='Edit Form' onSubmit={async e => {
-									await handleSubmit(e);
+					<div id='profileContainer' className={isEdit ? 'edit' : ''}>
+						<div>
+							{user?.username === profile?.username ? (
+								<button type='button' aria-label='Edit Button' onClick={e => {
+									handleIsEdit(e);
 								}}>
-									<label htmlFor='username'>
-										<p>Username</p>
-										<input
-											type='text'
-											name='username'
-											id='username'
-											value={editDetails.username}
-											placeholder={editDetails.username}
-											onChange={e => {
-												handleInputChange(e);
-											}}
-										/>
-									</label>
-									<div className='labelPassword'>
-										<label htmlFor='password'>
-											<p>Password</p>
+									{isEdit ? <CgClose/> : <BiEdit/>}
+								</button>
+							) : null}
+							<div className='imgContainer'>
+								<img alt='Profile Picture' src={profile?.profile_picture}/>
+								<img alt='Profile Picture' src={profile?.profile_picture}/>
+							</div>
+							<main>
+								{isEdit ? (
+									<form method='PUT' autoComplete='off' aria-label='Edit Form' onSubmit={async e => {
+										await handleSubmit(e);
+									}}>
+										<label htmlFor='username'>
+											<p>Username</p>
 											<input
-												id='password'
-												placeholder='Password'
-												type={passwords.password ? 'text' : 'password'}
-												name='password'
-												value={editDetails.password}
+												type='text'
+												name='username'
+												id='username'
+												value={editDetails.username}
+												placeholder={editDetails.username}
 												onChange={e => {
 													handleInputChange(e);
 												}}
 											/>
 										</label>
-										<button type='button' aria-label='Show Confirm Password' onClick={() => {
-											handleShowPassword('password');
-										}}>
-											{passwords.password ? <BsEyeSlashFill/> : <BsEyeFill/>}
-										</button>
-									</div>
-									<div className='labelPassword'>
-										<label htmlFor='confirmPassword'>
-											<p>Confirm Password</p>
+										<div className='labelPassword'>
+											<label htmlFor='password'>
+												<p>Password</p>
+												<input
+													id='password'
+													placeholder='Password'
+													type={passwords.password ? 'text' : 'password'}
+													name='password'
+													value={editDetails.password}
+													onChange={e => {
+														handleInputChange(e);
+													}}
+												/>
+											</label>
+											<button type='button' aria-label='Show Confirm Password' onClick={() => {
+												handleShowPassword('password');
+											}}>
+												{passwords.password ? <BsEyeSlashFill/> : <BsEyeFill/>}
+											</button>
+										</div>
+										<div className='labelPassword'>
+											<label htmlFor='confirmPassword'>
+												<p>Confirm Password</p>
+												<input
+													id='confirmPassword'
+													placeholder='Confirm Password'
+													type={passwords.confirmPassword ? 'text' : 'password'}
+													name='confirmPassword'
+													value={editDetails.confirmPassword}
+													onChange={e => {
+														handleInputChange(e);
+													}}
+												/>
+											</label>
+											<button type='button' aria-label='Show Confirm Password' onClick={() => {
+												handleShowPassword('confirmPassword');
+											}}>
+												{passwords.confirmPassword ? <BsEyeSlashFill/> : <BsEyeFill/>}
+											</button>
+										</div>
+										<label htmlFor='profilePicture' className='labelFile'>
+											<p>Profile Picture</p>
+											<main>
+												{editDetails?.profilePicture ? (
+													<img alt='Profile Picture' src={URL.createObjectURL(editDetails?.profilePicture)}/>
+												) : <IoImage/>}
+											</main>
 											<input
-												id='confirmPassword'
-												placeholder='Confirm Password'
-												type={passwords.confirmPassword ? 'text' : 'password'}
-												name='confirmPassword'
-												value={editDetails.confirmPassword}
+												id='profilePicture'
+												name='profilePicture'
+												type='file'
 												onChange={e => {
 													handleInputChange(e);
 												}}
 											/>
 										</label>
-										<button type='button' aria-label='Show Confirm Password' onClick={() => {
-											handleShowPassword('confirmPassword');
-										}}>
-											{passwords.confirmPassword ? <BsEyeSlashFill/> : <BsEyeFill/>}
+										<button type='submit' className='primaryButton'>
+											{loadingUpdate ? (
+												<Loading className='primary'/>
+											) : 'Save'}
 										</button>
-									</div>
-									<label htmlFor='profilePicture' className='labelFile'>
-										<p>Profile Picture</p>
-										<main>
-											{editDetails?.profilePicture ? (
-												<img alt='Profile Picture' src={URL.createObjectURL(editDetails?.profilePicture)}/>
-											) : <IoImage/>}
-										</main>
-										<input
-											id='profilePicture'
-											name='profilePicture'
-											type='file'
-											onChange={e => {
-												handleInputChange(e);
-											}}
-										/>
-									</label>
-									<button type='submit' className='primaryButton'>
-										{loadingUpdate ? (
-											<Loading className='primary'/>
-										) : 'Save'}
-									</button>
-								</form>
-							) : (
-								<>
-									<header>
-										<div>{profile?.username}</div>
-										<p>{profile?.email}</p>
-									</header>
-									<div>
-										<button type='button' aria-label='likes'>
-											<BiUpArrowAlt/>
-											<p>{profile?.likes}</p>
-										</button>
-										<button type='button' aria-label='dislikes'>
-											<BiDownArrowAlt/>
-											<p>{profile?.dislikes}</p>
-										</button>
-										<button type='button' aria-label='comments'>
-											<BiComment/>
-											<p>{profile?.comments}</p>
-										</button>
-										<button type='button' aria-label='friends'>
-											<BiGroup/>
-											<p>{profile?.friends}</p>
-										</button>
-									</div>
-									{profile?.id === user?.id ? null : (
-										<footer>
-											{friendship?.id && friendship.friendship_accepted ? (
-												<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
-													await handleRemoveFriend(e);
-												}}>
-													Remove friend
-												</button>
-											) : (
-												<button type='button' aria-label='Add Friend' className='primaryButton' onClick={async e => {
-													await handleAddFriend(e);
-												}}>
-													{friendship?.friendship_accepted ? 'Friends' : 'Add friend'}
-												</button>
-											)}
-										</footer>
-									)}
-									{friendship?.id && !(friendship?.friendship_accepted) && (
-										<p>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.id
-											?	'Waiting for friendship response'
-											:	'Waiting for you to repsond'
-										}</p>
-									)}
-								</>
-							)}
-						</main>
+									</form>
+								) : (
+									<>
+										<header>
+											<div>{profile?.username}</div>
+											<p>{profile?.email}</p>
+										</header>
+										<div>
+											<button type='button' aria-label='likes'>
+												<BiUpArrowAlt/>
+												<p>{profile?.likes}</p>
+											</button>
+											<button type='button' aria-label='dislikes'>
+												<BiDownArrowAlt/>
+												<p>{profile?.dislikes}</p>
+											</button>
+											<button type='button' aria-label='comments'>
+												<BiComment/>
+												<p>{profile?.comments}</p>
+											</button>
+											<button type='button' aria-label='friends'>
+												<BiGroup/>
+												<p>{profile?.friends}</p>
+											</button>
+										</div>
+										{profile?.id === user?.id ? null : (
+											<footer>
+												{friendship?.id && friendship.friendship_accepted ? (
+													<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
+														await handleRemoveFriend(e);
+													}}>
+														Remove friend
+													</button>
+												) : (
+													<button type='button' aria-label='Add Friend' className='primaryButton' onClick={async e => {
+														await handleAddFriend(e);
+													}}>
+														{friendship?.friendship_accepted ? 'Friends' : 'Add friend'}
+													</button>
+												)}
+											</footer>
+										)}
+										{friendship?.id && !(friendship?.friendship_accepted) && (
+											<p>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.id
+												?	'Waiting for friendship response'
+												:	'Waiting for you to repsond'
+											}</p>
+										)}
+									</>
+								)}
+							</main>
+						</div>
 					</div>
 				)}
 			</div>

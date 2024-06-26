@@ -1,6 +1,6 @@
 import {
 	addFriend, getFriendship, removeFriend, updateFriendship,
-} from '../models/friendModels';
+} from '../../models/friendModels';
 
 export const addRemoveFriend = async (friendsTable: string, usersTable: string, type: string, friendOneId: number, friendTwoId: number) => {
 	try {

@@ -8,7 +8,7 @@ import {beforeEach} from 'vitest';
 import {
 	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
 } from '../../src/database/db';
-import {updateProfileRouter} from '../../src/routers/updateProfileRouter';
+import {updateProfileRouter} from '../../src/routers/authRouters/updateProfileRouter';
 import {createUser, getUserReturnPassword} from '../../src/models/userModels';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 import cookieParser from 'cookie-parser';
@@ -33,7 +33,7 @@ describe('/updateProfile', () => {
 		app.use(express.json());
 		app.use(cookieParser());
 		app.use(express.urlencoded({extended: false}));
-		app.use(updateProfileRouter(tableName, friendsTable));
+		app.use(updateProfileRouter(tableName));
 	});
 
 	afterEach(async () => {

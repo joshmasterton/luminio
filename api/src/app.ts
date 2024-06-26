@@ -3,17 +3,17 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import {loginRouter} from './routers/loginRouter';
-import {signupRouter} from './routers/signupRouter';
+import {loginRouter} from './routers/authRouters/loginRouter';
+import {signupRouter} from './routers/authRouters/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
 import {createFriendsTable, createUsersTable} from './database/db';
-import {userRouter} from './routers/userRouter';
-import {logoutRouter} from './routers/logoutRouter';
-import {profileRouter} from './routers/profileRouter';
-import {updateProfileRouter} from './routers/updateProfileRouter';
-import {getUsersRouter} from './routers/getUsersRouter';
-import {addRemoveFriendRouter} from './routers/addRemoveFriendRouter';
-import {getFriendshipRouter} from './routers/getFriendshipRouter';
+import {userRouter} from './routers/authRouters/userRouter';
+import {logoutRouter} from './routers/authRouters/logoutRouter';
+import {profileRouter} from './routers/usersRouters/profileRouter';
+import {updateProfileRouter} from './routers/authRouters/updateProfileRouter';
+import {getUsersRouter} from './routers/usersRouters/getUsersRouter';
+import {addRemoveFriendRouter} from './routers/friendshipsRouters/addRemoveFriendRouter';
+import {getFriendshipRouter} from './routers/friendshipsRouters/getFriendshipRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -53,11 +53,15 @@ app.use(loginRouter('luminio_users'));
 app.use(signupRouter('luminio_users'));
 app.use(profileRouter('luminio_users'));
 app.use(updateProfileRouter('luminio_users'));
-app.use(getUsersRouter('luminio_users'));
-app.use(addRemoveFriendRouter('luminio_friendships', 'luminio_users'));
-app.use(getFriendshipRouter('luminio_friendships'));
 app.use(userRouter);
 app.use(logoutRouter);
+
+// Users routes
+app.use(getUsersRouter('luminio_users'));
+
+// Friendship routes
+app.use(addRemoveFriendRouter('luminio_friendships', 'luminio_users'));
+app.use(getFriendshipRouter('luminio_friendships'));
 
 // Error handler
 app.use(errorMiddleware);

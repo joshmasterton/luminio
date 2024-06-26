@@ -1,9 +1,9 @@
 import express from 'express';
-import {validatorMiddleware} from '../middleware/validatorMiddleware';
+import {validatorMiddleware} from '../../middleware/validatorMiddleware';
 import {check} from 'express-validator';
-import {multerConfig} from '../utilities/multerConfig';
-import {signupController} from '../controllers/signupController';
-import {escapeHtml} from '../utilities/customSanitization';
+import {multerConfig} from '../../utilities/multerConfig';
+import {signupController} from '../../controllers/authControllers/signupController';
+import {escapeHtml} from '../../utilities/customSanitization';
 
 export const signupRouter = (tableName: string) => {
 	const router = express.Router();

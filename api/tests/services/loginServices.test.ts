@@ -3,7 +3,7 @@ import {
 } from 'vitest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
 import {createUser} from '../../src/models/userModels';
-import {login} from '../../src/services/loginServices';
+import {login} from '../../src/services/authServices/loginServices';
 
 let tableName: string;
 

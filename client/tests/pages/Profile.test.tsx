@@ -39,9 +39,14 @@ describe('Profile page', () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
 
+		const imageElements = screen.getAllByAltText('Profile Picture');
+
+		imageElements.forEach(imageElement => {
+			expect(imageElement).toHaveAttribute('src', mockUser.profile_picture);
+		});
+
 		expect(screen.getByText(mockUser.username)).toBeInTheDocument();
 		expect(screen.getByText(mockUser.email)).toBeInTheDocument();
-		expect(screen.getByAltText('Profile Picture')).toHaveAttribute('src', mockUser.profile_picture);
 	});
 
 	test('Should navigate out from profile page if no user information', async () => {

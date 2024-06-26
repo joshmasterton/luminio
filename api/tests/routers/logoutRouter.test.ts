@@ -2,7 +2,7 @@ import express from 'express';
 import {describe, expect, test} from 'vitest';
 import request from 'supertest';
 import {generateToken} from '../../src/utilities/tokenGenerator';
-import {logoutRouter} from '../../src/routers/logoutRouter';
+import {logoutRouter} from '../../src/routers/authRouters/logoutRouter';
 import cookieParser from 'cookie-parser';
 import {mockUser} from '../mockData/mockUser';
 

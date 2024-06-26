@@ -4,7 +4,7 @@ import {
 	afterEach, beforeEach, describe, test, expect,
 } from 'vitest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {signup} from '../../src/services/signupServices';
+import {signup} from '../../src/services/authServices/signupServices';
 
 let tableName: string;
 const profilePicture = path.join(__dirname, '..', './mockData/profilePictureTest.jpg');

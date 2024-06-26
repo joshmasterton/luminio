@@ -5,7 +5,7 @@ import {
 import path from 'path';
 import request from 'supertest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {signupRouter} from '../../src/routers/signupRouter';
+import {signupRouter} from '../../src/routers/authRouters/signupRouter';
 
 describe('/signup', () => {
 	let app: Express;

@@ -4,7 +4,7 @@ import {
 } from 'vitest';
 import request from 'supertest';
 import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {getUsersRouter} from '../../src/routers/getUsersRouter';
+import {getUsersRouter} from '../../src/routers/usersRouters/getUsersRouter';
 import {createUser} from '../../src/models/userModels';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 import cookieParser from 'cookie-parser';

@@ -1,5 +1,5 @@
-import {createUser, getUser} from '../models/userModels';
-import {uploadToS3} from '../utilities/uploadToS3';
+import {createUser, getUser} from '../../models/userModels';
+import {uploadToS3} from '../../utilities/uploadToS3';
 
 export const signup = async (
 	tableName: string,

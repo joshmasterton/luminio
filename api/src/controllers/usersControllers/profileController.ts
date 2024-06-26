@@ -1,5 +1,5 @@
 import {type Request, type Response} from 'express';
-import {getUser} from '../models/userModels';
+import {getUser} from '../../models/userModels';
 
 export const profileController = async (tableName: string, req: Request, res: Response) => {
 	try {

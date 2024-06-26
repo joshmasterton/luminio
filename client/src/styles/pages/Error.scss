@@ -1,0 +1,34 @@
+@use '../App.scss';
+
+#error {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: App.$padding;
+	gap: App.$padding;
+	text-align: center;
+}
+
+#error > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: App.$padding;
+	box-shadow: var(--shadow);
+	background: var(--background-color-shade);
+}
+
+#error > div > h1 {
+	height: fit-content;
+}
+
+#error > div > div {
+	padding: App.$padding;
+}
+
+#error > div > a {
+	text-decoration: none;
+}

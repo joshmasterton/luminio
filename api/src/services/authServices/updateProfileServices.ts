@@ -1,5 +1,5 @@
-import {getUser, updateUser} from '../models/userModels';
-import {uploadToS3} from '../utilities/uploadToS3';
+import {getUser, updateUser} from '../../models/userModels';
+import {uploadToS3} from '../../utilities/uploadToS3';
 
 export const updateProfile = async (
 	tabeName: string,

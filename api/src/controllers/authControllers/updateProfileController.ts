@@ -1,6 +1,6 @@
 import {type Request, type Response} from 'express';
-import {updateProfile} from '../services/updateProfileServices';
-import {generateToken} from '../utilities/tokenGenerator';
+import {updateProfile} from '../../services/authServices/updateProfileServices';
+import {generateToken} from '../../utilities/tokenGenerator';
 
 export const updateProfileController = async (tableName: string, req: Request, res: Response) => {
 	try {

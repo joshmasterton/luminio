@@ -5,7 +5,7 @@ import {
 import {
 	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
 } from '../../src/database/db';
-import {getFriendshipRouter} from '../../src/routers/getFriendshipRouter';
+import {getFriendshipRouter} from '../../src/routers/friendshipsRouters/getFriendshipRouter';
 import {createUser} from '../../src/models/userModels';
 import {generateToken} from '../../src/utilities/tokenGenerator';
 import {addFriend} from '../../src/models/friendModels';

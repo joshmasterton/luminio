@@ -8,28 +8,34 @@ import {Popup, PopupProvider} from './context/PopupContext';
 import {Profile} from './pages/Profile';
 import {Users} from './pages/Users';
 import {Nav} from './components/Nav';
+import {Error} from './pages/Error';
 import './styles/App.scss';
 
 const routes = [
 	{
 		path: '/*',
 		element: <ProtectedRoute><Nav/></ProtectedRoute>,
+		errorElement: <Error/>,
 	},
 	{
 		path: '/users',
 		element: <ProtectedRoute><Users/></ProtectedRoute>,
+		errorElement: <Error/>,
 	},
 	{
 		path: '/profile/:username',
 		element: <ProtectedRoute><Profile/></ProtectedRoute>,
+		errorElement: <Error/>,
 	},
 	{
 		path: '/login',
 		element: <PublicRoute><Auth/></PublicRoute>,
+		errorElement: <Error/>,
 	},
 	{
 		path: '/signup',
 		element: <PublicRoute><Auth isSignup/></PublicRoute>,
+		errorElement: <Error/>,
 	},
 ];
 
