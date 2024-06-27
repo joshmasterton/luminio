@@ -1,4 +1,4 @@
-import {Link, useRouteError} from 'react-router-dom';
+import {useRouteError} from 'react-router-dom';
 import '../styles/pages/Error.scss';
 
 export function Error() {
@@ -8,9 +8,11 @@ export function Error() {
 			<div>
 				<h1>Oops!</h1>
 				<div>{error.message}</div>
-				<Link to='/'>
+				<button type='button' onClick={() => {
+					window.location.reload();
+				}}>
 					Try again
-				</Link>
+				</button>
 			</div>
 		</div>
 	);

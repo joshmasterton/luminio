@@ -8,6 +8,14 @@
 	height: 100%;
 }
 
+.loading.backgroundShade {
+	background: var(--background-color-shade);
+}
+
+.loading.backgroundShadeMax {
+	background: var(--background-color-shade-max);
+}
+
 .loading > div {
 	display: flex;
 	width: calc(App.$height / 2);
@@ -32,6 +40,20 @@
 	);
 }
 
+.loading.backgroundShade > div {
+	background: linear-gradient(
+		transparent,
+		var(--primary),
+	);
+}
+
+.loading.backgroundShadeMax > div {
+	background: linear-gradient(
+		transparent,
+		var(--primary),
+	);
+}
+
 @keyframes spinner {
 	from {
 		transform: rotate(0deg);
@@ -50,4 +72,12 @@
 
 .loading.background > div > div {
 	background: var(--background-color);
+}
+
+.loading.backgroundShade > div > div {
+	background: var(--background-color-shade);
+}
+
+.loading.backgroundShadeMax > div > div {
+	background: var(--background-color-shade-max);
 }

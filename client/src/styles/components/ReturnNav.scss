@@ -17,6 +17,7 @@
 	height: calc(App.$height * 1.75);
 	backdrop-filter: blur(1rem);
 	-webkit-backdrop-filter: blur(1rem);
+	z-index: 1;
 }
 
 #returnNav > header {
@@ -25,6 +26,7 @@
 	top: 0;
 	left: 0;
 	padding: App.$padding;
+	z-index: 1;
 }
 
 #returnNav > header > div {
@@ -39,4 +41,73 @@
 #returnNav > header > div > button {
 	width: fit-content;
 	background: transparent;
+}
+
+#returnNav > footer {
+	position: fixed;
+	left: 0;
+	display: none;
+	flex-direction: column;
+	overflow: scroll;
+	height: 100%;
+	top: 0;
+	width: calc(App.$height * 5);
+	padding: App.$padding;
+	padding-top: calc(App.$padding * 7);
+	transition: transform App.$transition;
+}
+
+#returnNav > footer > ul {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	padding: App.$padding;
+	gap: App.$padding;
+	box-shadow: var(--shadow);
+	background: var(--background-color-shade);
+}
+
+#returnNav > footer > ul > li {
+	display: flex;
+	justify-content: end;
+}
+
+#returnNav > footer > ul > li > a,
+#returnNav > footer > ul > li > button {
+	display: flex;
+	justify-content: start;
+	width: 100%;
+	gap: App.$padding;
+	text-decoration: none;
+}
+
+#returnNav > footer > ul > li:first-of-type {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: App.$padding;
+}
+
+#returnNav > footer > ul > li:first-of-type > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#returnNav > footer > ul > li:first-of-type > button {
+	width: fit-content;
+	height: calc(App.$height * 3.5);
+}
+
+#returnNav > footer > ul > li:first-of-type > button > img {
+	height: 100%;
+}
+
+
+@media screen and (min-width: App.$maxWidth) {
+	#returnNav > footer {
+		display: flex;
+	}
 }

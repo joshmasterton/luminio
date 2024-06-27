@@ -5,10 +5,10 @@ import {
 	describe, test, beforeEach, expect,
 	afterEach,
 } from 'vitest';
-import {profileRouter} from '../../src/routers/usersRouters/profileRouter';
-import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {createUser} from '../../src/models/userModels';
-import {generateToken} from '../../src/utilities/tokenGenerator';
+import {profileRouter} from '../../../src/routers/usersRouters/profileRouter';
+import {createUsersTable, dropUsersTable} from '../../../src/database/db';
+import {createUser} from '../../../src/models/userModels';
+import {generateToken} from '../../../src/utilities/tokenGenerator';
 
 describe('/profile', () => {
 	let app: Express;

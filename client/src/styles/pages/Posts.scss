@@ -1,0 +1,41 @@
+@use '../App.scss';
+
+#posts {
+	width: 100%;
+	height: 100%;
+	padding: App.$padding;
+	padding-top: calc((App.$height * 2) + App.$padding);
+	gap: App.$padding;
+}
+
+#posts > div {
+	display: flex;
+	flex-direction: column;
+	padding: App.$padding;
+	gap: App.$padding;
+	min-height: 100%;
+	box-shadow: var(--shadow);
+	background: var(--background-color-shade);
+}
+
+#posts > #createPost {
+	position: fixed;
+	right: calc(App.$padding * 2);
+	bottom: calc(App.$padding * 2);
+	min-height: App.$height;
+	max-height: App.$height;
+	width: App.$height;
+	padding: 0;
+	box-shadow: none;
+}
+
+#posts > #createPost > a {
+	color: white;
+	background: var(--primary-gradient);
+}
+
+@media screen and (min-width: App.$maxWidth) {
+	#posts {
+		margin-left: calc(App.$maxWidthSmall - (App.$padding * 2.5));
+	}
+}
