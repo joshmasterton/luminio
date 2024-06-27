@@ -84,36 +84,38 @@ export function Users() {
 		<>
 			<Nav/>
 			<div id='users'>
-				{loading ? (
-					<Loading className='background'/>
-				) : (
-					<main>
-						<form method='GET' className='labelSearch' autoComplete='off'>
-							<label htmlFor='userSearch'>
-								<input type='text' id='userSearch' value={searchUsers} onChange={async e => {
-									await handleSearchUsers(e.target.value);
-								}} placeholder='Search for user...'/>
-							</label>
-							<button type='button' aria-label='clearUserSearch' onClick={async e => {
-								await handleClearInput(e);
-							}}>
-								<CgClose/>
-							</button>
-						</form>
-						{users && users.length > 0 ? (
-							users?.map(user => (
-								<UserCard key={user.id} user={user}/>
-							))
-						) : <div>No users</div>}
-						{loadingMoreButton && (
-							<button type='button' onClick={async e => {
-								await getUsers(e);
-							}}>
-								Load more
-							</button>
-						)}
-					</main>
-				)}
+				<main>
+					{loading ? (
+						<Loading className='backgroundShade'/>
+					) : (
+						<>
+							<form method='GET' className='labelSearch' autoComplete='off'>
+								<label htmlFor='userSearch'>
+									<input type='text' id='userSearch' value={searchUsers} onChange={async e => {
+										await handleSearchUsers(e.target.value);
+									}} placeholder='Search for user...'/>
+								</label>
+								<button type='button' aria-label='clearUserSearch' onClick={async e => {
+									await handleClearInput(e);
+								}}>
+									<CgClose/>
+								</button>
+							</form>
+							{users && users.length > 0 ? (
+								users?.map(user => (
+									<UserCard key={user.id} user={user}/>
+								))
+							) : <div>No users</div>}
+							{loadingMoreButton && (
+								<button type='button' onClick={async e => {
+									await getUsers(e);
+								}}>
+							Load more
+								</button>
+							)}
+						</>
+					)}
+				</main>
 			</div>
 		</>
 	);

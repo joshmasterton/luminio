@@ -90,3 +90,34 @@ export const dropFriendsTable = async (tableName: string) => {
 		}
 	}
 };
+
+export const createPostsTable = async (tableName: string) => {
+	try {
+		await queryDb(`
+			CREATE TABLE IF NOT EXISTS ${tableName} (
+				id SERIAL PRIMARY KEY,
+				user_id INT,
+				post VARCHAR(500),
+				likes INT DEFAULT 0,
+				dislikes INT DEFAULT 0,
+				comments INT DEFAULT 0,
+				post_picture VARCHAR(255),
+				created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+			)
+		`, []);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};
+
+export const dropPostsTable = async (tableName: string) => {
+	try {
+		await queryDb(`DROP TABLE IF EXISTS ${tableName}`, []);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};

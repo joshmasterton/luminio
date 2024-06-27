@@ -3,9 +3,9 @@ import request from 'supertest';
 import {
 	afterEach, beforeEach, describe, expect, test,
 } from 'vitest';
-import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {loginRouter} from '../../src/routers/authRouters/loginRouter';
-import {createUser} from '../../src/models/userModels';
+import {createUsersTable, dropUsersTable} from '../../../src/database/db';
+import {loginRouter} from '../../../src/routers/authRouters/loginRouter';
+import {createUser} from '../../../src/models/userModels';
 
 describe('/login', () => {
 	let app: Express;

@@ -7,19 +7,25 @@ import {ProtectedRoute} from './utilities/ProtectedRoute';
 import {Popup, PopupProvider} from './context/PopupContext';
 import {Profile} from './pages/Profile';
 import {Users} from './pages/Users';
-import {Nav} from './components/Nav';
+import {Posts} from './pages/Posts';
+import {CreatePost} from './pages/CreatePost';
 import {Error} from './pages/Error';
 import './styles/App.scss';
 
 const routes = [
 	{
 		path: '/*',
-		element: <ProtectedRoute><Nav/></ProtectedRoute>,
+		element: <ProtectedRoute><Posts/></ProtectedRoute>,
 		errorElement: <Error/>,
 	},
 	{
 		path: '/users',
 		element: <ProtectedRoute><Users/></ProtectedRoute>,
+		errorElement: <Error/>,
+	},
+	{
+		path: '/createPost',
+		element: <ProtectedRoute><CreatePost/></ProtectedRoute>,
 		errorElement: <Error/>,
 	},
 	{

@@ -4,11 +4,11 @@ import {
 } from 'vitest';
 import {
 	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
-} from '../../src/database/db';
-import {getFriendshipRouter} from '../../src/routers/friendshipsRouters/getFriendshipRouter';
-import {createUser} from '../../src/models/userModels';
-import {generateToken} from '../../src/utilities/tokenGenerator';
-import {addFriend} from '../../src/models/friendModels';
+} from '../../../src/database/db';
+import {getFriendshipRouter} from '../../../src/routers/friendshipsRouters/getFriendshipRouter';
+import {createUser} from '../../../src/models/userModels';
+import {generateToken} from '../../../src/utilities/tokenGenerator';
+import {addFriend} from '../../../src/models/friendModels';
 import request from 'supertest';
 import cookieParser from 'cookie-parser';
 

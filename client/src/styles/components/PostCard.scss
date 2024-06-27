@@ -1,0 +1,34 @@
+@use '../App.scss';
+
+.postCard {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	height: fit-content;
+	padding: App.$padding;
+	gap: App.$padding;
+	overflow: hidden;
+	text-decoration: none;
+	background: var(--background-color-shade-max);
+}
+
+.postCard > header {
+	flex: 1;
+	min-width: calc(App.$height * 2);
+	background: red;
+}
+
+.postCard > footer {
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	padding: App.$padding;
+	gap: App.$padding;
+	height: 100%;
+}
+
+@media screen and (min-width: App.$maxWidthLarge) {
+	.postCard > main {
+		display: flex;
+	}
+}

@@ -3,13 +3,13 @@ import express, {type Express} from 'express';
 import {
 	afterEach, beforeEach, describe, expect, test,
 } from 'vitest';
-import {addRemoveFriendRouter} from '../../src/routers/friendshipsRouters/addRemoveFriendRouter';
+import {addRemoveFriendRouter} from '../../../src/routers/friendshipsRouters/addRemoveFriendRouter';
 import {
 	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
-} from '../../src/database/db';
-import {createUser} from '../../src/models/userModels';
-import {generateToken} from '../../src/utilities/tokenGenerator';
-import {addFriend} from '../../src/models/friendModels';
+} from '../../../src/database/db';
+import {createUser} from '../../../src/models/userModels';
+import {generateToken} from '../../../src/utilities/tokenGenerator';
+import {addFriend} from '../../../src/models/friendModels';
 import request from 'supertest';
 
 describe('/addRemoveFriend', () => {

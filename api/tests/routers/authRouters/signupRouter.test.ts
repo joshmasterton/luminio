@@ -4,8 +4,8 @@ import {
 } from 'vitest';
 import path from 'path';
 import request from 'supertest';
-import {createUsersTable, dropUsersTable} from '../../src/database/db';
-import {signupRouter} from '../../src/routers/authRouters/signupRouter';
+import {createUsersTable, dropUsersTable} from '../../../src/database/db';
+import {signupRouter} from '../../../src/routers/authRouters/signupRouter';
 
 describe('/signup', () => {
 	let app: Express;
@@ -34,7 +34,7 @@ describe('/signup', () => {
 				password: 'Password',
 				confirmPassword: 'Password',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest.jpg'));
 
 		expect(response.body.username).toBe('testUser');
 		expect(response.body.id).toBe(1);
@@ -49,7 +49,7 @@ describe('/signup', () => {
 				password: 'Password',
 				confirmPassword: 'Password',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest.jpg'));
 
 		expect(response.body).toEqual({error: 'Username required'});
 	});
@@ -63,7 +63,7 @@ describe('/signup', () => {
 				password: 'Password',
 				confirmPassword: 'Password',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest.jpg'));
 
 		expect(response.body).toEqual({error: 'Valid email type required'});
 	});
@@ -77,7 +77,7 @@ describe('/signup', () => {
 				password: 'Pass',
 				confirmPassword: 'Password',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest.jpg'));
 
 		expect(response.body).toEqual({error: 'Password must be at least 6 characters'});
 	});
@@ -91,7 +91,7 @@ describe('/signup', () => {
 				password: 'Password',
 				confirmPassword: 'Passwrd',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest.jpg'));
 
 		expect(response.body).toEqual({error: 'Passwords must match'});
 	});

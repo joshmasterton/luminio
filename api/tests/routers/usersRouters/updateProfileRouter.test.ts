@@ -7,10 +7,10 @@ import {
 import {beforeEach} from 'vitest';
 import {
 	createFriendsTable, createUsersTable, dropFriendsTable, dropUsersTable,
-} from '../../src/database/db';
-import {updateProfileRouter} from '../../src/routers/authRouters/updateProfileRouter';
-import {createUser, getUserReturnPassword} from '../../src/models/userModels';
-import {generateToken} from '../../src/utilities/tokenGenerator';
+} from '../../../src/database/db';
+import {updateProfileRouter} from '../../../src/routers/authRouters/updateProfileRouter';
+import {createUser, getUserReturnPassword} from '../../../src/models/userModels';
+import {generateToken} from '../../../src/utilities/tokenGenerator';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import bcryptjs from 'bcryptjs';
@@ -55,7 +55,7 @@ describe('/updateProfile', () => {
 				password: 'newPassword',
 				confirmPassword: 'newPassword',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest2.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest2.jpg'));
 
 		const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username));
 		if (updatedPassword) {
@@ -79,7 +79,7 @@ describe('/updateProfile', () => {
 			.field({
 				username: 'testUserTwo',
 			})
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest2.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest2.jpg'));
 
 		expect(response.body).toEqual({error: 'Username already taken'});
 	});
@@ -139,7 +139,7 @@ describe('/updateProfile', () => {
 		const response = await request(app)
 			.put('/updateProfile')
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
-			.attach('profilePicture', path.join(__dirname, '..', './mockData/profilePictureTest2.jpg'));
+			.attach('profilePicture', path.join(__dirname, '..', '..', './mockData/profilePictureTest2.jpg'));
 
 		const updatedPassword = (await getUserReturnPassword(tableName, 'username', user?.username))!;
 		const comparePassword = await bcryptjs.compare('Password', updatedPassword);

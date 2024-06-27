@@ -62,6 +62,7 @@ $fontSmall: 0.75rem;
 	line-height: 1.5;
 	border-radius: $borderRadius;
 	border-style: none;
+	resize: none;
 	list-style: none;
 	outline: 0.1rem solid transparent;
 	color: inherit;
@@ -83,7 +84,7 @@ $fontSmall: 0.75rem;
 	color: var(--text-color);
 }
 
-button:hover, input:hover, a:hover, .labelFile > main:hover {
+button:hover, input:hover, textarea:hover, a:hover, .labelFile > main:hover {
 	outline: var(--outline);
 	box-shadow: var(--box-shadow);
 }
@@ -136,7 +137,7 @@ button {
 	cursor: pointer;
 }
 
-button, input, a {
+button, input, textarea, a {
 	display: flex;
 	justify-content: center;
 	align-items: center;

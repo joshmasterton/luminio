@@ -1,0 +1,60 @@
+@use '../App.scss';
+
+#createPost {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	padding: App.$padding;
+}
+
+#createPost > form {
+	display: flex;
+	flex-direction: column;
+	padding: App.$padding;
+	gap: App.$padding;
+	margin-top: calc(App.$height * 2);
+	flex: 1;
+	box-shadow: var(--shadow);
+	background: var(--background-color-shade);
+}
+
+#createPost > form > header {
+	display: flex;
+	align-items: center;
+	gap: App.$padding;
+}
+
+#createPost > form > label {
+	display: block;
+	flex: 1;
+}
+
+#createPost > form > label > textarea {
+	min-height: 100%;
+	height: auto;
+	overflow: hidden;
+}
+
+#createPost > form > div {
+	display: flex;
+	justify-content: end;
+	gap: App.$padding;
+}
+
+#createPost > form > div > button {
+	width: fit-content;
+}
+
+#createPost > form > div > button:last-of-type {
+	min-width: calc(App.$height * 2);
+}
+
+#createPost > form > label > textarea {
+	flex: 1;
+}
+
+@media screen and (min-width: App.$maxWidth) {
+	#createPost {
+		margin-left: calc(App.$maxWidthSmall - (App.$padding * 2.5));
+	}
+}
