@@ -3,13 +3,13 @@ import {getUser} from '../../models/userModels';
 
 export const profileController = async (tableName: string, req: Request, res: Response) => {
 	try {
-		const {username} = req.query as {username: string};
+		const {userId} = req.query as unknown as {userId: number};
 
-		if (!username) {
-			return res.status(400).json({error: 'No user found'});
+		if (!userId) {
+			return res.status(400).json({error: 'No user id'});
 		}
 
-		const profile = await getUser(tableName, 'username', username);
+		const profile = await getUser(tableName, 'id', userId);
 
 		if (!profile) {
 			throw new Error('No user found');

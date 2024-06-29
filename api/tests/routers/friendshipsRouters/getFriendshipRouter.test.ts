@@ -14,37 +14,37 @@ import cookieParser from 'cookie-parser';
 
 describe('/getFriendship', async () => {
 	let app: Express;
-	let tableName: string;
-	let tableUserName: string;
+	let friendsTable: string;
+	let usersTable: string;
 
 	beforeEach(async () => {
-		tableName = `luminio_friends_test_get_friendship_${Date.now()}`;
-		tableUserName = `luminio_users_test_get_friendship_${Date.now()}`;
+		friendsTable = `luminio_friends_test_get_friendship_${Date.now()}`;
+		usersTable = `luminio_users_test_get_friendship_${Date.now()}`;
 
-		await dropFriendsTable(tableName);
-		await dropUsersTable(tableUserName);
-		await createFriendsTable(tableName);
-		await createUsersTable(tableUserName);
+		await dropFriendsTable(friendsTable);
+		await dropUsersTable(usersTable);
+		await createFriendsTable(friendsTable);
+		await createUsersTable(usersTable);
 
 		app = express();
 		app.use(cookieParser());
 		app.use(express.json());
 		app.use(express.urlencoded({extended: false}));
-		app.use(getFriendshipRouter(tableName));
+		app.use(getFriendshipRouter(friendsTable));
 	});
 
 	afterEach(async () => {
-		await dropFriendsTable(tableName);
-		await dropUsersTable(tableUserName);
+		await dropFriendsTable(friendsTable);
+		await dropUsersTable(usersTable);
 	});
 
 	test('Should return existing friendship', async () => {
-		const user = await createUser(tableUserName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
-		const userTwo = await createUser(tableUserName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
+		const user = await createUser(usersTable, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
+		const userTwo = await createUser(usersTable, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
 		const accessToken = generateToken(user!, '1m');
 		const refreshToken = generateToken(user!, '7m');
 
-		await addFriend(tableName, user!.id, userTwo!.id);
+		await addFriend(friendsTable, user!.id, userTwo!.id);
 
 		const response = await request(app)
 			.get('/getFriendship')
@@ -59,7 +59,7 @@ describe('/getFriendship', async () => {
 	});
 
 	test('Should return empty if no friendship', async () => {
-		const user = await createUser(tableUserName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
+		const user = await createUser(usersTable, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
 		const accessToken = generateToken(user!, '1m');
 		const refreshToken = generateToken(user!, '7m');
 

@@ -52,6 +52,7 @@ export function Popup() {
 	useEffect(() => {
 		if (popup) {
 			popupButtonRef.current?.focus();
+			popupButtonRef.current?.blur();
 			setPopupActive(true);
 		}
 	}, [popup]);

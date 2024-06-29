@@ -1,5 +1,5 @@
 export type UsersParameters = {
 	sort: string | undefined;
 	page: number | undefined;
-	filter?: string;
+	searchQuery?: string;
 };

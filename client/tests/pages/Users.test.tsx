@@ -3,7 +3,7 @@ import {
 } from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {ProtectedRoute} from '../../src/utilities/ProtectedRoute';
-import {Users} from '../../src/pages/Users';
+import {Users} from '../../src/pages/Friends';
 import {ContextWrapper, createRouter} from '../mockHelpers/mockHelpers';
 import {RouterProvider} from 'react-router-dom';
 import {act} from 'react';

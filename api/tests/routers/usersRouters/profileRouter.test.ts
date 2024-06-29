@@ -39,11 +39,11 @@ describe('/profile', () => {
 
 		const response = await request(app)
 			.get('/profile')
-			.query({username: 'testUserTwo'})
+			.query({userId: user?.id})
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
-		expect(response.body.username).toEqual('testUserTwo');
-		expect(response.body.id).toEqual(2);
+		expect(response.body.username).toEqual('testUser');
+		expect(response.body.id).toEqual(1);
 	});
 
 	test('Should return error if no user found', async () => {
@@ -54,13 +54,13 @@ describe('/profile', () => {
 
 		const response = await request(app)
 			.get('/profile')
-			.query({username: 'testUserThree'})
+			.query({userId: 3})
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
 		expect(response.body).toEqual({error: 'No user found'});
 	});
 
-	test('Should return error if query sent in request', async () => {
+	test('Should return error if query not sent in request', async () => {
 		const user = await createUser(tableName, 'testUser', 'test1@email.com', 'Password', 'profile.jpg');
 		await createUser(tableName, 'testUserTwo', 'test1@email.com', 'Password', 'profile.jpg');
 		const accessToken = generateToken(user!, '1m');
@@ -70,6 +70,6 @@ describe('/profile', () => {
 			.get('/profile')
 			.set('Cookie', [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`]);
 
-		expect(response.body).toEqual({error: 'No user found'});
+		expect(response.body).toEqual({error: 'No user id'});
 	});
 });

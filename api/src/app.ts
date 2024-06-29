@@ -17,6 +17,7 @@ import {getFriendshipRouter} from './routers/friendshipsRouters/getFriendshipRou
 import {createPostRouter} from './routers/postRouters/createPostRouter';
 import {getPostRouter} from './routers/postRouters/getPostRouter';
 import {getPostsRouter} from './routers/postRouters/getPostsRouter';
+import {getFriendsRouter} from './routers/friendshipsRouters/getFriendsRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -73,6 +74,7 @@ app.use(getUsersRouter('luminio_users'));
 // Friendship routes
 app.use(addRemoveFriendRouter('luminio_friendships', 'luminio_users'));
 app.use(getFriendshipRouter('luminio_friendships'));
+app.use(getFriendsRouter('luminio_friendships', 'luminio_users'));
 
 // Post routes
 app.use(createPostRouter('luminio_posts'));

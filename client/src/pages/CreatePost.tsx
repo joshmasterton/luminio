@@ -3,7 +3,6 @@ import {
 } from 'react';
 import {type PostDetails} from '../types/pages/CreatePost.types';
 import {ReturnNav} from '../components/ReturnNav';
-import {useUser} from '../context/UserContext';
 import {usePopup} from '../context/PopupContext';
 import {Loading} from '../components/Loading';
 import {CgClose} from 'react-icons/cg';
@@ -14,7 +13,6 @@ import '../styles/pages/CreatePost.scss';
 
 export function CreatePost() {
 	const navigate = useNavigate();
-	const {user} = useUser();
 	const {setPopup} = usePopup();
 	const [loading, setLoading] = useState(false);
 	const [postDetails, setPostDetails] = useState<PostDetails>({
@@ -108,7 +106,7 @@ export function CreatePost() {
 					await handleSubmit(e);
 				}}>
 					<header>
-						<img alt='Profile picture' src={user?.profile_picture}/>
+						<h1>Create post</h1>
 					</header>
 					<label htmlFor='post'>
 						<textarea

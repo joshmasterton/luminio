@@ -10,7 +10,7 @@ export const getUsersRouter = (tableName: string) => {
 	router.get(
 		'/getUsers',
 		verifyTokenMiddleware,
-		query('filter').trim().customSanitizer(escapeHtml).optional(),
+		query('searchQuery').trim().customSanitizer(escapeHtml).optional(),
 		query('sort').trim().customSanitizer(escapeHtml).optional(),
 		query('page').trim().optional().toInt().isInt(),
 		async (req: Request, res: Response) => getUsersController(tableName, req, res),

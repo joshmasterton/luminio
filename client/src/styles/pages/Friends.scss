@@ -1,6 +1,6 @@
 @use '../App.scss';
 
-#users {
+#friends {
 	display: flex;
 	width: 100%;
 	margin-top: calc((App.$height * 2));
@@ -8,7 +8,7 @@
 	gap: App.$padding;
 }
 
-#users > #findUser {
+#friends > #findUser {
 	position: fixed;
 	right: calc(App.$padding * 2);
 	bottom: calc(App.$padding * 2);
@@ -19,12 +19,12 @@
 	box-shadow: none;
 }
 
-#users > #findUser > a {
+#friends > #findUser > a {
 	color: white;
 	background: var(--primary-gradient);
 }
 
-#users > main {
+#friends > main {
 	width: 100%;
 	min-height: 100%;
 	display: flex;
@@ -35,17 +35,17 @@
 	background: var(--background-color-shade);
 }
 
-#users > main > header {
+#friends > main > header {
 	display: flex;
 	gap: App.$padding;
 }
 
-#users > main > div {
+#friends > main > div {
 	padding: App.$padding;
 	background: var(--background-color-shade-max);
 }
 
-#users > footer {
+#friends > footer {
 	display: none;
 	flex: 1;
 	height: 100%;
@@ -54,13 +54,13 @@
 }
 
 @media screen and (min-width: App.$maxWidth) {
-	#users {
+	#friends {
 		margin-left: calc(App.$maxWidthSmall - (App.$padding * 2.5));
 	}
 }
 
 @media screen and (min-width: App.$maxWidthLarge) {
-	#users > footer {
+	#friends > footer {
 		display: flex;
 	}
 }

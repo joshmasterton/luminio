@@ -6,9 +6,10 @@ import {PublicRoute} from './utilities/PublicRoute';
 import {ProtectedRoute} from './utilities/ProtectedRoute';
 import {Popup, PopupProvider} from './context/PopupContext';
 import {Profile} from './pages/Profile';
-import {Users} from './pages/Users';
+import {Friends} from './pages/Friends';
 import {Posts} from './pages/Posts';
 import {CreatePost} from './pages/CreatePost';
+import {Users} from './pages/Users';
 import {Error} from './pages/Error';
 import './styles/App.scss';
 
@@ -21,6 +22,11 @@ const routes = [
 	{
 		path: '/users',
 		element: <ProtectedRoute><Users/></ProtectedRoute>,
+		errorElement: <Error/>,
+	},
+	{
+		path: '/friends',
+		element: <ProtectedRoute><Friends/></ProtectedRoute>,
 		errorElement: <Error/>,
 	},
 	{

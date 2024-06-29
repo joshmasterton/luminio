@@ -7,7 +7,7 @@ import '../styles/components/Buttons.scss';
 export function UserButton({user, type}: UserButtonType) {
 	const navigate = useNavigate();
 	const handleButtonClick = () => {
-		navigate(`/profile/${user?.username}`);
+		navigate(`/profile/${user?.id}`);
 	};
 
 	return (

@@ -1,5 +1,7 @@
 import {type Friendship} from '../types/models/friendModels.types';
+import {type User} from '../types/models/userModels.types';
 import {queryDb} from '../database/db';
+import {getUser} from './userModels';
 
 export const getFriendship = async (tableName: string, friendOneId: number, friendTwoId: number) => {
 	try {
@@ -10,6 +12,47 @@ export const getFriendship = async (tableName: string, friendOneId: number, frie
 		`, [friendOneId, friendTwoId]);
 
 		return result?.rows[0] as Friendship;
+	} catch (error) {
+		if (error instanceof Error) {
+			throw error;
+		}
+	}
+};
+
+export const getFriends = async (
+	friendsTable: string,
+	usersTable: string,
+	userId: number,
+	sort = 'created_at',
+	page = 0,
+	limit = 10,
+	accepted = true,
+) => {
+	try {
+		const result = await queryDb(`
+			SELECT * FROM ${friendsTable}
+			WHERE (friend_one_id = $1
+			OR friend_two_id = $1)
+			AND friendship_accepted = $2 
+			ORDER BY ${sort} DESC
+			LIMIT $3 OFFSET $4
+		`, [userId, accepted, limit, page * limit]);
+
+		const friendships = result?.rows as Friendship[];
+
+		if (!friendships.length) {
+			throw new Error('No friends found');
+		}
+
+		const friendsPromises = friendships.map(async friendship => {
+			const friendId = friendship.friend_one_id === userId ? friendship.friend_two_id : friendship.friend_one_id;
+
+			const friend = getUser(usersTable, 'id', friendId);
+			return friend;
+		});
+
+		const friends = await Promise.all(friendsPromises);
+		return friends as User[];
 	} catch (error) {
 		if (error instanceof Error) {
 			throw error;

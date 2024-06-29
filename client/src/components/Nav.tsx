@@ -40,12 +40,12 @@ export function Nav() {
 							</Link>
 						</li>
 						<li>
-							<Link to={`/profile/${user?.username}`} className='transparentButton'>
+							<Link to={`/profile/${user?.id}`} className='transparentButton'>
 								<BiUser/>
 							</Link>
 						</li>
 						<li>
-							<Link to='/users' className='transparentButton'>
+							<Link to='/friends' className='transparentButton'>
 								<BiGroup/>
 							</Link>
 						</li>
@@ -71,15 +71,15 @@ export function Nav() {
 						</Link>
 					</li>
 					<li>
-						<Link to={`/profile/${user?.username}`} className='transparentButton'>
+						<Link to={`/profile/${user?.id}`} className='transparentButton'>
 							<BiUser/>
 							Profile
 						</Link>
 					</li>
 					<li>
-						<Link to='/users' className='transparentButton'>
+						<Link to='/friends' className='transparentButton'>
 							<BiGroup/>
-							Users
+							Friends
 						</Link>
 					</li>
 					<li>
@@ -111,15 +111,15 @@ export function Nav() {
 						</Link>
 					</li>
 					<li>
-						<Link to={`/profile/${user?.username}`} className='transparentButton'>
+						<Link to={`/profile/${user?.id}`} className='transparentButton'>
 							<BiUser/>
 							Profile
 						</Link>
 					</li>
 					<li>
-						<Link to='/users' className='transparentButton'>
+						<Link to='/friends' className='transparentButton'>
 							<BiGroup/>
-							Users
+							Friends
 						</Link>
 					</li>
 					<li>

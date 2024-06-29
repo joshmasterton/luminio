@@ -1,4 +1,6 @@
-import {type ChangeEvent, type FormEvent, useState} from 'react';
+import {
+	type MouseEvent, type ChangeEvent, type FormEvent, useState,
+} from 'react';
 import {type User} from '../types/utilities/request.types';
 import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
@@ -95,7 +97,8 @@ export function Auth({isSignup = false}: AuthProps) {
 		}
 	};
 
-	const handleShowPassword = (password: keyof ShowPasswordsType) => {
+	const handleShowPassword = (e: MouseEvent<HTMLButtonElement>, password: keyof ShowPasswordsType) => {
+		e.currentTarget.blur();
 		setPasswords(prevState => ({
 			...prevState,
 			[password]: !prevState[password],
@@ -154,8 +157,8 @@ export function Auth({isSignup = false}: AuthProps) {
 								}}
 							/>
 						</label>
-						<button type='button' aria-label='Show Password' onClick={() => {
-							handleShowPassword('password');
+						<button type='button' aria-label='Show Password' onClick={e => {
+							handleShowPassword(e, 'password');
 						}}>
 							{passwords.password ? <BsEyeSlashFill/> : <BsEyeFill/>}
 						</button>
@@ -175,8 +178,8 @@ export function Auth({isSignup = false}: AuthProps) {
 									}}
 								/>
 							</label>
-							<button type='button' aria-label='Show Confirm Password' onClick={() => {
-								handleShowPassword('confirmPassword');
+							<button type='button' aria-label='Show Confirm Password' onClick={e => {
+								handleShowPassword(e, 'confirmPassword');
 							}}>
 								{passwords.confirmPassword ? <BsEyeSlashFill/> : <BsEyeFill/>}
 							</button>

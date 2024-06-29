@@ -1,7 +1,6 @@
 import express from 'express';
 import {verifyTokenMiddleware} from '../../middleware/verifyTokenMiddleware';
 import {query} from 'express-validator';
-import {escapeHtml} from '../../utilities/customSanitization';
 import {profileController} from '../../controllers/usersControllers/profileController';
 
 export const profileRouter = (tableName: string) => {
@@ -9,8 +8,8 @@ export const profileRouter = (tableName: string) => {
 
 	router.get(
 		'/profile',
-		query('username').trim().customSanitizer(escapeHtml).isString().notEmpty().withMessage('Username required'),
 		verifyTokenMiddleware,
+		query('userId').trim().toInt().isInt().notEmpty().withMessage('UserId required'),
 		async (req, res) => profileController(tableName, req, res),
 	);
 

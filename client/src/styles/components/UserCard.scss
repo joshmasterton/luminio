@@ -8,7 +8,6 @@
 	max-height: calc(App.$height + (App.$padding * 2));
 	padding: App.$padding;
 	gap: App.$padding;
-	overflow: hidden;
 	background: var(--background-color-shade-max);
 	text-decoration: none;
 }

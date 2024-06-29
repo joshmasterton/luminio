@@ -2,42 +2,44 @@ import {type User} from '../types/utilities/request.types';
 import {
 	type MouseEvent, useEffect, useState, type ChangeEvent,
 } from 'react';
-import {ReturnNav} from '../components/ReturnNav';
+import {Nav} from '../components/Nav';
+import {Link} from 'react-router-dom';
 import {request} from '../utilities/requests';
 import {Loading} from '../components/Loading';
 import {UserCard} from '../components/UserCard';
 import {useUser} from '../context/UserContext';
-import {CgClose} from 'react-icons/cg';
-import '../styles/pages/Users.scss';
+import {CgClose, CgUserAdd} from 'react-icons/cg';
+import '../styles/pages/Friends.scss';
 
-export function Users() {
+export function Friends() {
 	const [page, setPage] = useState<number>(0);
 	const {user} = useUser();
-	const [users, setUsers] = useState<User[] | undefined>(undefined);
-	const [searchUsers, setSearchUsers] = useState('');
+	const [friends, setFriends] = useState<User[] | undefined>(undefined);
+	const [isFriendsPage, setIsFriendsPage] = useState(true);
+	const [searchFriends, setSearchFriends] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [loadingSearch, setLoadingSearch] = useState(false);
 	const [loadingMoreButton, setLoadingMoreButton] = useState(false);
 
-	const getUsers = async (pageNumber: number, searchQuery = '', accepted = true) => {
+	const getFriends = async (pageNumber: number, searchQuery = '', accepted = true) => {
 		try {
-			const usersData = await request<undefined, User[]>(`/getUsers?page=${pageNumber}&userId=${user?.id}&searchQuery=${searchQuery}&accepted=${accepted}`, 'GET');
-			if (usersData) {
-				if (usersData.length > 0) {
+			const friendsData = await request<undefined, User[]>(`/getFriends?page=${pageNumber}&userId=${user?.id}&searchQuery=${searchQuery}&accepted=${accepted}`, 'GET');
+			if (friendsData) {
+				if (friendsData.length > 0) {
 					setLoadingMoreButton(true);
 				} else {
 					setLoadingMoreButton(false);
 				}
 
 				if (pageNumber === 0) {
-					setUsers(usersData);
+					setFriends(friendsData);
 				} else {
-					setUsers(prevState => {
+					setFriends(prevState => {
 						if (!prevState) {
-							return [...usersData];
+							return [...friendsData];
 						}
 
-						return [...prevState, ...usersData];
+						return [...prevState, ...friendsData];
 					});
 				}
 
@@ -54,7 +56,21 @@ export function Users() {
 	const handleLoadingMore = async (e: MouseEvent<HTMLButtonElement>) => {
 		try {
 			e?.currentTarget.blur();
-			await getUsers(page, '');
+			await getFriends(page, '', isFriendsPage);
+		} catch (error) {
+			if (error instanceof Error) {
+				console.error(error.message);
+			}
+		}
+	};
+
+	const handleChangeFriendsPage = async (e: MouseEvent<HTMLButtonElement>) => {
+		try {
+			e?.currentTarget.blur();
+			setIsFriendsPage(!isFriendsPage);
+			setPage(0);
+			setFriends(undefined);
+			await getFriends(0, searchFriends, !isFriendsPage);
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
@@ -65,10 +81,10 @@ export function Users() {
 	const handleSearchUsersInput = async (e: ChangeEvent<HTMLInputElement>) => {
 		try {
 			const {value} = e.target;
-			setSearchUsers(value);
+			setSearchFriends(value);
 			setPage(0);
 			setLoadingSearch(true);
-			await getUsers(0, value);
+			await getFriends(0, value, isFriendsPage);
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
@@ -81,8 +97,9 @@ export function Users() {
 	const handleClearInput = async (e?: MouseEvent<HTMLButtonElement>) => {
 		try {
 			e?.currentTarget.blur();
-			setSearchUsers('');
-			await getUsers(0, '');
+			setSearchFriends('');
+			setPage(0);
+			await getFriends(0, '', isFriendsPage);
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
@@ -92,7 +109,7 @@ export function Users() {
 
 	useEffect(() => {
 		setLoading(true);
-		getUsers(page)
+		getFriends(0)
 			.then(() => {
 				setLoading(false);
 			})
@@ -105,18 +122,30 @@ export function Users() {
 
 	return (
 		<>
-			<ReturnNav/>
-			<div id='users'>
+			<Nav/>
+			<div id='friends'>
 				<main>
 					{loading ? (
 						<Loading className='backgroundShade'/>
 					) : (
 						<>
+							<header>
+								<button type='button' className={isFriendsPage ? 'primaryButton' : ''} onClick={async e => {
+									await handleChangeFriendsPage(e);
+								}}>
+									Friends
+								</button>
+								<button type='button' className={isFriendsPage ? '' : 'primaryButton'} onClick={async e => {
+									await handleChangeFriendsPage(e);
+								}}>
+									Requests
+								</button>
+							</header>
 							<form method='GET' className='labelSearch' autoComplete='off'>
 								<label htmlFor='userSearch'>
-									<input type='text' id='userSearch' value={searchUsers} onChange={async e => {
+									<input type='text' id='userSearch' value={searchFriends} onChange={async e => {
 										await handleSearchUsersInput(e);
-									}} placeholder='Search for users...'/>
+									}} placeholder={isFriendsPage ? 'Search for friends...' : 'Search for friend requests...'}/>
 								</label>
 								<button type='button' aria-label='clearUserSearch' onClick={async e => {
 									await handleClearInput(e);
@@ -124,11 +153,11 @@ export function Users() {
 									{loadingSearch ? <Loading className='backgroundShadeMax'/> : <CgClose/>}
 								</button>
 							</form>
-							{users && users.length > 0 ? (
-								users?.map(user => (
-									<UserCard key={user.id} user={user}/>
+							{friends && friends.length > 0 ? (
+								friends?.map(friend => (
+									<UserCard key={friend.id} user={friend}/>
 								))
-							) : <div>No users</div>}
+							) : <div>{isFriendsPage ? 'No friends' : 'No friend requests'}</div>}
 							{loadingMoreButton && (
 								<button type='button' onClick={async e => {
 									await handleLoadingMore(e);
@@ -139,6 +168,11 @@ export function Users() {
 						</>
 					)}
 				</main>
+				<div id='findUser'>
+					<Link to='/users' aria-label='Users'>
+						<CgUserAdd/>
+					</Link>
+				</div>
 			</div>
 		</>
 	);

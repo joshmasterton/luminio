@@ -47,6 +47,7 @@
 
 #createPost > form > div > button:last-of-type {
 	min-width: calc(App.$height * 2);
+	background: var(--background-color-shade-max);
 }
 
 #createPost > form > label > textarea {
