@@ -32,16 +32,17 @@
 	-webkit-backdrop-filter: blur(1rem);
 	background: transparent;
 	box-shadow: 0 0 0 0;
-	transition: opacity App.$transition;
 	outline: none;
 }
 
 #popup.active > button {
 	opacity: 100%;
+	transition: opacity App.$transition 0.2s;
 }
 
 #popup.hidden > button {
 	opacity: 0;
+	transition: opacity App.$transition;
 }
 
 #popup > div {

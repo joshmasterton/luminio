@@ -20,6 +20,7 @@ export function Friends() {
 	const [loading, setLoading] = useState(true);
 	const [loadingSearch, setLoadingSearch] = useState(false);
 	const [loadingMoreButton, setLoadingMoreButton] = useState(false);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	const getFriends = async (pageNumber: number, searchQuery = '', accepted = true) => {
 		try {
@@ -55,26 +56,32 @@ export function Friends() {
 
 	const handleLoadingMore = async (e: MouseEvent<HTMLButtonElement>) => {
 		try {
+			setIsLoadingMore(true);
 			e?.currentTarget.blur();
 			await getFriends(page, '', isFriendsPage);
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
 			}
+		} finally {
+			setIsLoadingMore(false);
 		}
 	};
 
 	const handleChangeFriendsPage = async (e: MouseEvent<HTMLButtonElement>) => {
 		try {
+			const {name} = e.currentTarget;
 			e?.currentTarget.blur();
-			setIsFriendsPage(!isFriendsPage);
+			setIsFriendsPage(name === 'friends');
+			setLoading(true);
 			setPage(0);
-			setFriends(undefined);
 			await getFriends(0, searchFriends, !isFriendsPage);
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -130,12 +137,12 @@ export function Friends() {
 					) : (
 						<>
 							<header>
-								<button type='button' className={isFriendsPage ? 'primaryButton' : ''} onClick={async e => {
+								<button type='button' name='friends' className={isFriendsPage ? 'primaryButton' : ''} onClick={async e => {
 									await handleChangeFriendsPage(e);
 								}}>
 									Friends
 								</button>
-								<button type='button' className={isFriendsPage ? '' : 'primaryButton'} onClick={async e => {
+								<button type='button' name='requests' className={isFriendsPage ? '' : 'primaryButton'} onClick={async e => {
 									await handleChangeFriendsPage(e);
 								}}>
 									Requests
@@ -162,7 +169,7 @@ export function Friends() {
 								<button type='button' onClick={async e => {
 									await handleLoadingMore(e);
 								}}>
-									{loadingSearch ? <Loading className='background'/> : 'Load more'}
+									{isLoadingMore ? <Loading className='background'/> : 'Load more'}
 								</button>
 							)}
 						</>

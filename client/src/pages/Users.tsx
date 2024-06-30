@@ -18,6 +18,7 @@ export function Users() {
 	const [loading, setLoading] = useState(true);
 	const [loadingSearch, setLoadingSearch] = useState(false);
 	const [loadingMoreButton, setLoadingMoreButton] = useState(false);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	const getUsers = async (pageNumber: number, searchQuery = '', accepted = true) => {
 		try {
@@ -53,12 +54,15 @@ export function Users() {
 
 	const handleLoadingMore = async (e: MouseEvent<HTMLButtonElement>) => {
 		try {
+			setIsLoadingMore(true);
 			e?.currentTarget.blur();
 			await getUsers(page, '');
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
 			}
+		} finally {
+			setIsLoadingMore(false);
 		}
 	};
 
@@ -133,7 +137,7 @@ export function Users() {
 								<button type='button' onClick={async e => {
 									await handleLoadingMore(e);
 								}}>
-									{loadingSearch ? <Loading className='background'/> : 'Load more'}
+									{isLoadingMore ? <Loading className='background'/> : 'Load more'}
 								</button>
 							)}
 						</>

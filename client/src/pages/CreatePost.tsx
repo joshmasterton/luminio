@@ -6,7 +6,7 @@ import {ReturnNav} from '../components/ReturnNav';
 import {usePopup} from '../context/PopupContext';
 import {Loading} from '../components/Loading';
 import {CgClose} from 'react-icons/cg';
-import {IoImage} from 'react-icons/io5';
+import {FcAddImage} from 'react-icons/fc';
 import {useNavigate} from 'react-router-dom';
 import {request} from '../utilities/requests';
 import '../styles/pages/CreatePost.scss';
@@ -138,7 +138,7 @@ export function CreatePost() {
 							<main>
 								{postDetails?.postPicture ? (
 									<img alt='Post Picture' src={URL.createObjectURL(postDetails?.postPicture)}/>
-								) : <IoImage/>}
+								) : <FcAddImage/>}
 							</main>
 							<input
 								id='postPicture'

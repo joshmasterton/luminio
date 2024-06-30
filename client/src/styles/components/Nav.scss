@@ -11,6 +11,20 @@
 	z-index: 2;
 }
 
+#nav button div {
+	display: flex;
+	flex: 1;
+}
+
+#nav button, #nav a {
+	width: App.$height;
+	height: App.$height;
+}
+
+#nav button .loading {
+	width: fit-content;
+}
+
 #nav > header {
 	position: fixed;
 	top: 0;

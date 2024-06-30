@@ -18,8 +18,12 @@
 
 .loading > div {
 	display: flex;
-	width: calc(App.$height / 2);
-	height: calc(App.$height / 2);
+	min-width: calc(App.$height / 2);
+	width: 100%;
+	max-width: calc(App.$height / 2);
+	min-height: calc(App.$height / 2);
+	height: 100%;
+	max-height: calc(App.$height / 2);
 	border-radius: 10rem;
 	padding: calc(App.$paddingSmall / 2);
 	overflow: hidden;
@@ -27,6 +31,13 @@
 }
 
 .loading.primary > div {
+	background: linear-gradient(
+		transparent,
+		white
+	);
+}
+
+.loading.danger > div {
 	background: linear-gradient(
 		transparent,
 		white
@@ -63,11 +74,17 @@
 }
 
 .loading > div > div {
+	min-width: 100%;
+	min-height: 100%;
+	border-radius: 10rem;
+	background: var(--primary-gradient);
+}
+
+.loading.danger > div > div {
 	width: 100%;
 	height: 100%;
 	border-radius: 10rem;
-	background: var(--primary-gradient);
-	background-attachment: inherit;
+	background: var(--danger);
 }
 
 .loading.background > div > div {

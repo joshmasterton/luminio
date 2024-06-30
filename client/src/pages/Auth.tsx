@@ -7,7 +7,7 @@ import {request} from '../utilities/requests';
 import {useUser} from '../context/UserContext';
 import {usePopup} from '../context/PopupContext';
 import {useTheme} from '../context/ThemeContext';
-import {IoImage} from 'react-icons/io5';
+import {FcAddImage} from 'react-icons/fc';
 import {Loading} from '../components/Loading';
 import {ThemeButton} from '../components/Buttons';
 import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs';
@@ -135,7 +135,7 @@ export function Auth({isSignup = false}: AuthProps) {
 								<main>
 									{authDetails?.profilePicture ? (
 										<img alt='Profile Picture' src={URL.createObjectURL(authDetails?.profilePicture)}/>
-									) : <IoImage/>}
+									) : <FcAddImage/>}
 								</main>
 								<input id='profilePicture' name='profilePicture' type='file' onChange={e => {
 									handleInputChange(e);

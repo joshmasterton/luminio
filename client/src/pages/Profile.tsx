@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {type Friendship, type User} from '../types/utilities/request.types';
 import {type FormEvent, type ChangeEvent, type MouseEvent} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -12,7 +13,7 @@ import {
 	BiUpArrowAlt,
 } from 'react-icons/bi';
 import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs';
-import {IoImage} from 'react-icons/io5';
+import {FcAddImage} from 'react-icons/fc';
 import {CgClose} from 'react-icons/cg';
 import '../styles/pages/Profile.scss';
 
@@ -26,6 +27,7 @@ export function Profile() {
 	const [profile, setProfile] = useState<User | undefined>(undefined);
 	const [isEdit, setIsEdit] = useState(false);
 	const [loading, setLoading] = useState(true);
+	const [loadingFriend, setLoadingFriend] = useState(false);
 	const [loadingUpdate, setLoadingUpdate] = useState(false);
 	const [passwords, setPasswords] = useState<ShowPasswordsType>({
 		password: false,
@@ -143,6 +145,7 @@ export function Profile() {
 	const handleAddFriend = async (e: MouseEvent<HTMLButtonElement>) => {
 		try {
 			e.currentTarget.blur();
+			setLoadingFriend(true);
 			const friendship = await request<unknown, Friendship>('/addRemoveFriend', 'POST', {
 				type: 'add',
 				friendId: profile?.id,
@@ -156,12 +159,15 @@ export function Profile() {
 			if (error instanceof Error) {
 				setPopup(error.message);
 			}
+		} finally {
+			setLoadingFriend(false);
 		}
 	};
 
 	const handleRemoveFriend = async (e: MouseEvent<HTMLButtonElement>) => {
 		try {
 			e.currentTarget.blur();
+			setLoadingFriend(true);
 			const friendship = await request<unknown, Friendship>('/addRemoveFriend', 'POST', {
 				type: 'remove',
 				friendId: profile?.id,
@@ -175,6 +181,8 @@ export function Profile() {
 			if (error instanceof Error) {
 				setPopup(error.message);
 			}
+		} finally {
+			setLoadingFriend(false);
 		}
 	};
 
@@ -275,7 +283,7 @@ export function Profile() {
 												<main>
 													{editDetails?.profilePicture ? (
 														<img alt='Profile Picture' src={URL.createObjectURL(editDetails?.profilePicture)}/>
-													) : <IoImage/>}
+													) : <FcAddImage/>}
 												</main>
 												<input
 													id='profilePicture'
@@ -322,22 +330,50 @@ export function Profile() {
 														<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
 															await handleRemoveFriend(e);
 														}}>
-													Remove friend
+															Remove friend
 														</button>
 													) : (
-														<button type='button' aria-label='Add Friend' className='primaryButton' onClick={async e => {
-															await handleAddFriend(e);
-														}}>
-															{friendship?.friendship_accepted ? 'Friends' : 'Add friend'}
-														</button>
+														friendship?.id && !(friendship?.friendship_accepted) ? (
+															<>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.id
+																?	(
+																	<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
+																		await handleRemoveFriend(e);
+																	}}>
+																		{loadingFriend ? (
+																			<Loading className='danger'/>
+																		) : 'Cancel request'}
+																	</button>
+																)
+																:	(
+																	<>
+																		<button type='button' aria-label='Add Friend' className='primaryButton' onClick={async e => {
+																			await handleAddFriend(e);
+																		}}>
+																			{loadingFriend ? (
+																				<Loading className='primary'/>
+																			) : 'Aceept request'}
+																		</button>
+																		<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
+																			await handleRemoveFriend(e);
+																		}}>
+																			{loadingFriend ? (
+																				<Loading className='danger'/>
+																			) : 'Decline request'}
+																		</button>
+																	</>
+																)
+															}</>
+														) : (
+															<button type='button' aria-label='Add Friend' className='primaryButton' onClick={async e => {
+																await handleAddFriend(e);
+															}}>
+																{loadingFriend ? (
+																	<Loading className='primary'/>
+																) : 'Add friend'}
+															</button>
+														)
 													)}
 												</footer>
-											)}
-											{friendship?.id && !(friendship?.friendship_accepted) && (
-												<p>{!(friendship?.friendship_accepted) && friendship.friend_initiator === user?.id
-													?	'Waiting for friendship response'
-													:	'Waiting for you to repsond'
-												}</p>
 											)}
 										</>
 									)}

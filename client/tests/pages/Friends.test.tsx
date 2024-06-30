@@ -3,7 +3,7 @@ import {
 } from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {ProtectedRoute} from '../../src/utilities/ProtectedRoute';
-import {Users} from '../../src/pages/Users';
+import {Friends} from '../../src/pages/Friends';
 import {ContextWrapper, createRouter} from '../mockHelpers/mockHelpers';
 import {RouterProvider} from 'react-router-dom';
 import {act} from 'react';
@@ -17,16 +17,16 @@ vi.mock('../../src/utilities/requests', () => ({
 
 const routes = [
 	{
-		path: '/users',
-		element: <ProtectedRoute><Users/></ProtectedRoute>,
+		path: '/friends',
+		element: <ProtectedRoute><Friends/></ProtectedRoute>,
 	},
 ];
 
-describe('Users page', () => {
-	test('Should render users', async () => {
+describe('Friends page', () => {
+	test('Should render friends', async () => {
 		(request as Mock).mockImplementationOnce(async () => Promise.resolve(mockUser));
 		(request as Mock).mockImplementationOnce(async () => Promise.resolve([mockUser, mockUserTwo]));
-		const router = createRouter(routes, '/users');
+		const router = createRouter(routes, '/friends');
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
@@ -34,14 +34,14 @@ describe('Users page', () => {
 		expect(screen.getByText(mockUserTwo.username)).toBeInTheDocument();
 	});
 
-	test('Should render no users if no users', async () => {
+	test('Should render no friends if no friends', async () => {
 		(request as Mock).mockImplementationOnce(async () => Promise.resolve(mockUser));
 		(request as Mock).mockImplementationOnce(async () => Promise.resolve(undefined));
-		const router = createRouter(routes, '/users');
+		const router = createRouter(routes, '/friends');
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
 
-		expect(screen.getByText('No users')).toBeInTheDocument();
+		expect(screen.getByText('No friends')).toBeInTheDocument();
 	});
 });

@@ -1,5 +1,5 @@
 import {type PostWithUserInfo} from '../types/pages/Posts.types';
-import {MdPostAdd} from 'react-icons/md';
+import {PiPencilBold} from 'react-icons/pi';
 import {type MouseEvent, useEffect, useState} from 'react';
 import {request} from '../utilities/requests';
 import {Link} from 'react-router-dom';
@@ -12,13 +12,12 @@ export function Posts() {
 	const [page, setPage] = useState(0);
 	const [posts, setPosts] = useState<PostWithUserInfo[] | undefined>(undefined);
 	const [loading, setLoading] = useState(true);
+	const [loadingPosts, setLoadingPosts] = useState(false);
 	const [loadingMoreButton, setLoadingMoreButton] = useState(false);
 
 	const getPosts = async (e?: MouseEvent<HTMLButtonElement>) => {
 		try {
-			if (e?.currentTarget) {
-				e.currentTarget.blur();
-			}
+			e?.currentTarget.blur();
 
 			const postsResponse = await request<unknown, PostWithUserInfo[]>(`/getPosts?page=${page}`, 'GET');
 
@@ -66,16 +65,20 @@ export function Posts() {
 						))}
 						{loadingMoreButton && (
 							<button type='button' onClick={async e => {
+								setLoadingPosts(true);
 								await getPosts(e);
+								setLoadingPosts(false);
 							}}>
-								Load more
+								{loadingPosts ? (
+									<Loading className='background'/>
+								) : 'Load more'}
 							</button>
 						)}
 					</div>
 				)}
 				<div id='createPost'>
 					<Link to='/createPost' aria-label='Create post'>
-						<MdPostAdd/>
+						<PiPencilBold/>
 					</Link>
 				</div>
 			</div>

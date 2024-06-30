@@ -1,4 +1,4 @@
-import {useState, type MouseEvent} from 'react';
+import {useEffect, useState, type MouseEvent} from 'react';
 import {
 	BiGroup, BiHome, BiMenu, BiUser,
 } from 'react-icons/bi';
@@ -7,12 +7,14 @@ import {useUser} from '../context/UserContext';
 import {Link} from 'react-router-dom';
 import {ThemeButton, UserButton} from './Buttons';
 import {useTheme} from '../context/ThemeContext';
+import {Loading} from './Loading';
 import lightLogo from '/zynqa_logo_light.png';
 import darkLogo from '/zynqa_logo_dark.png';
 import '../styles/components/Nav.scss';
 
 export function Nav() {
 	const {theme} = useTheme();
+	const [loading, setLoading] = useState(false);
 	const {user, logout} = useUser();
 	const [isMenu, setIsMenu] = useState(false);
 
@@ -20,6 +22,18 @@ export function Nav() {
 		setIsMenu(!isMenu);
 		e.currentTarget.blur();
 	};
+
+	const handleScroll = () => {
+		setIsMenu(false);
+	};
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
 
 	return (
 		<nav id='nav'>
@@ -51,9 +65,13 @@ export function Nav() {
 						</li>
 						<li>
 							<button type='button' className='transparentButton' aria-label='Logout Button 1' onClick={async () => {
+								setLoading(true);
 								await logout();
+								setLoading(false);
 							}}>
-								<CgLogOut/>
+								{loading ? (
+									<Loading className='backgroundShade'/>
+								) : <CgLogOut/>}
 							</button>
 						</li>
 						<li>
@@ -84,10 +102,15 @@ export function Nav() {
 					</li>
 					<li>
 						<button type='button' className='transparentButton' aria-label='Logout Button 2' onClick={async () => {
+							setLoading(true);
 							await logout();
+							setLoading(false);
 						}}>
 							<CgLogOut/>
-							Logout
+							<div>Logout</div>
+							{loading && (
+								<Loading className='backgroundShade'/>
+							)}
 						</button>
 					</li>
 					<li>
@@ -124,10 +147,15 @@ export function Nav() {
 					</li>
 					<li>
 						<button type='button' className='transparentButton' aria-label='Logout Button 3' onClick={async () => {
+							setLoading(true);
 							await logout();
+							setLoading(false);
 						}}>
 							<CgLogOut/>
-							Logout
+							<div>Logout</div>
+							{loading && (
+								<Loading className='backgroundShade'/>
+							)}
 						</button>
 					</li>
 				</ul>
