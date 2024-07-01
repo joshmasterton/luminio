@@ -206,7 +206,7 @@ export function Profile() {
 				<div id='profileContainer' className={isEdit ? 'edit' : ''}>
 					<div>
 						{loading ? (
-							<Loading className='backgroundShade'/>
+							<Loading className='background'/>
 						) : (
 							<>
 								{user?.username === profile?.username ? (
@@ -294,11 +294,13 @@ export function Profile() {
 													}}
 												/>
 											</label>
-											<button type='submit' className='primaryButton'>
-												{loadingUpdate ? (
-													<Loading className='primary'/>
-												) : 'Save'}
-											</button>
+											<footer>
+												<button type='submit' className='primaryButton'>
+													{loadingUpdate ? (
+														<Loading className='primary'/>
+													) : 'Save'}
+												</button>
+											</footer>
 										</form>
 									) : (
 										<>
@@ -351,7 +353,7 @@ export function Profile() {
 																		}}>
 																			{loadingFriend ? (
 																				<Loading className='primary'/>
-																			) : 'Aceept request'}
+																			) : 'Accept request'}
 																		</button>
 																		<button type='button' className='dangerButton' aria-label='Remove Friend' onClick={async e => {
 																			await handleRemoveFriend(e);

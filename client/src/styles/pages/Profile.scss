@@ -7,7 +7,7 @@
 	justify-content: center;
 	align-items: center;
 	padding: App.$padding;
-	padding-top: calc((App.$height * 2) + App.$padding);
+	padding-top: calc((App.$height * 2));
 }
 
 #profile > #profileContainer {
@@ -27,11 +27,9 @@
 	align-items: center;
 	min-width: 100%;
 	min-height: 100%;
-	padding: App.$padding;
 	gap: App.$padding;
 	text-align: center;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
+	background: var(--background-color);
 }
 
 #profile > #profileContainer > div > footer {
@@ -58,10 +56,19 @@
 
 #profile > #profileContainer > div > main > form {
 	width: 100%;
+	height: 100%;
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: App.$padding;
 	text-align: start;
+}
+
+#profile > #profileContainer > div > main > form > footer {
+	display: flex;
+	justify-content: end;
+	align-items: end;
+	flex: 1;
 }
 
 #profile > #profileContainer > div > main > header {
@@ -71,8 +78,8 @@
 	flex-direction: column;
 	height: fit-content;
 	flex: 1;
+	border: var(--outline-focus);
 	padding: App.$padding;
-	background: var(--background-color-shade-max);
 }
 
 #profile > #profileContainer > div > main > div {
@@ -83,7 +90,7 @@
 	width: 100%;
 	gap: App.$paddingSmall;
 	padding: App.$paddingSmall;
-	background: var(--background-color-shade-max);
+	border: var(--outline-focus);
 }
 
 #profile > #profileContainer > div > main > div > button {

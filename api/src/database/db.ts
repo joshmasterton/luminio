@@ -121,3 +121,35 @@ export const dropPostsTable = async (tableName: string) => {
 		}
 	}
 };
+
+export const createCommentsTable = async (tableName: string) => {
+	try {
+		await queryDb(`
+			CREATE TABLE IF NOT EXISTS ${tableName} (
+				id SERIAL PRIMARY KEY,
+				user_id INT,
+				post_id INT,
+				comment_parent_id INT,
+				comment VARCHAR(500),
+				likes INT DEFAULT 0,
+				dislikes INT DEFAULT 0,
+				comments INT DEFAULT 0,
+				created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+			)
+		`, []);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};
+
+export const dropCommentsTable = async (tableName: string) => {
+	try {
+		await queryDb(`DROP TABLE IF EXISTS ${tableName}`, []);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+};

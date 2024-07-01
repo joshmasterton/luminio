@@ -11,12 +11,18 @@ import {Posts} from './pages/Posts';
 import {CreatePost} from './pages/CreatePost';
 import {Users} from './pages/Users';
 import {Error} from './pages/Error';
+import {Post} from './pages/Post';
 import './styles/App.scss';
 
 const routes = [
 	{
 		path: '/*',
 		element: <ProtectedRoute><Posts/></ProtectedRoute>,
+		errorElement: <Error/>,
+	},
+	{
+		path: '/post/:postId',
+		element: <ProtectedRoute><Post/></ProtectedRoute>,
 		errorElement: <Error/>,
 	},
 	{

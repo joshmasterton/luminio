@@ -17,8 +17,7 @@
 	justify-content: center;
 	align-items: center;
 	padding: App.$padding;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
+	outline: var(--outline-focus);
 }
 
 #error > div > h1 {
@@ -29,6 +28,7 @@
 	padding: App.$padding;
 }
 
-#error > div > a {
+#error > div > button {
 	text-decoration: none;
+	background: var(--primary-gradient);
 }

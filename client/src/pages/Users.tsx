@@ -113,7 +113,7 @@ export function Users() {
 			<div id='users'>
 				<main>
 					{loading ? (
-						<Loading className='backgroundShade'/>
+						<Loading className='background'/>
 					) : (
 						<>
 							<form method='GET' className='labelSearch' autoComplete='off'>
@@ -125,7 +125,7 @@ export function Users() {
 								<button type='button' aria-label='clearUserSearch' onClick={async e => {
 									await handleClearInput(e);
 								}}>
-									{loadingSearch ? <Loading className='backgroundShadeMax'/> : <CgClose/>}
+									{loadingSearch ? <Loading className='backgroundShade'/> : <CgClose/>}
 								</button>
 							</form>
 							{users && users.length > 0 ? (

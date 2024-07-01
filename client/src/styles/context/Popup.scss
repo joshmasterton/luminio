@@ -55,8 +55,8 @@
 	gap: App.$padding;
 	width: 100%;
 	max-width: App.$maxWidthSmall;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
+	outline: var(--outline-focus);
+	background: var(--background-color);
 }
 
 #popup > div > svg {

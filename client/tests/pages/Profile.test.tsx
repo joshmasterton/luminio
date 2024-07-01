@@ -9,8 +9,8 @@ import {RouterProvider} from 'react-router-dom';
 import {Nav} from '../../src/components/Nav';
 import {act} from 'react';
 import {request} from '../../src/utilities/requests';
-import {mockUser} from '../mockData/mockUser';
-import {mockFriendship} from '../mockData/mockFriendship';
+import {mockUser, mockUserTwo} from '../mockData/mockUser';
+import {mockFriendship, mockFriendshipAccepted} from '../mockData/mockFriendship';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
@@ -134,17 +134,30 @@ describe('Profile page', () => {
 		expect(screen.getByText('Network error')).toBeInTheDocument();
 	});
 
-	test('Should get current friendship status', async () => {
+	test('Should get current not accepted friend request', async () => {
 		(request as Mock)
 			.mockImplementationOnce(async () => Promise.resolve(mockUser))
-			.mockImplementationOnce(async () => Promise.resolve(mockUser))
-			.mockImplementationOnce(async () => Promise.resolve(mockFriendship))
-			.mockImplementationOnce(async () => Promise.reject(new Error('Network error')));
+			.mockImplementationOnce(async () => Promise.resolve(mockUserTwo))
+			.mockImplementationOnce(async () => Promise.resolve(mockFriendship));
 		const router = createRouter(routes, `/profile/${mockUser.id}`);
 		await act(async () => {
 			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
 		});
 
-		expect(screen.getByText('Waiting for friendship response')).toBeInTheDocument();
+		expect(screen.getByText('Cancel request')).toBeInTheDocument();
+	});
+
+	test('Should get current accepted friendship request', async () => {
+		(request as Mock)
+			.mockImplementationOnce(async () => Promise.resolve(mockUser))
+			.mockImplementationOnce(async () => Promise.resolve(mockUserTwo))
+			.mockImplementationOnce(async () => Promise.resolve(mockFriendshipAccepted));
+		const router = createRouter(routes, `/profile/${mockUser.id}`);
+		await act(async () => {
+			render(<ContextWrapper><RouterProvider router={router}/></ContextWrapper>);
+		});
+
+		expect(screen.getByText('Accept request')).toBeInTheDocument();
+		expect(screen.getByText('Decline request')).toBeInTheDocument();
 	});
 });

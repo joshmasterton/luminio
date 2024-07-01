@@ -48,7 +48,6 @@ export function Friends() {
 			}
 		} catch (error) {
 			if (error instanceof Error) {
-				console.error(error.message);
 				setLoadingMoreButton(false);
 			}
 		}
@@ -72,10 +71,11 @@ export function Friends() {
 		try {
 			const {name} = e.currentTarget;
 			e?.currentTarget.blur();
-			setIsFriendsPage(name === 'friends');
 			setLoading(true);
+			setIsFriendsPage(name === 'friends');
+			setSearchFriends('');
 			setPage(0);
-			await getFriends(0, searchFriends, !isFriendsPage);
+			await getFriends(0, '', !isFriendsPage);
 		} catch (error) {
 			if (error instanceof Error) {
 				console.error(error.message);
@@ -133,7 +133,7 @@ export function Friends() {
 			<div id='friends'>
 				<main>
 					{loading ? (
-						<Loading className='backgroundShade'/>
+						<Loading className='background'/>
 					) : (
 						<>
 							<header>
@@ -157,7 +157,7 @@ export function Friends() {
 								<button type='button' aria-label='clearUserSearch' onClick={async e => {
 									await handleClearInput(e);
 								}}>
-									{loadingSearch ? <Loading className='backgroundShadeMax'/> : <CgClose/>}
+									{loadingSearch ? <Loading className='backgroundShade'/> : <CgClose/>}
 								</button>
 							</form>
 							{friends && friends.length > 0 ? (

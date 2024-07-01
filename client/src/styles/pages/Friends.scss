@@ -3,7 +3,7 @@
 #friends {
 	display: flex;
 	width: 100%;
-	margin-top: calc((App.$height * 2));
+	margin-top: calc((App.$height) + (App.$padding * 2));
 	padding: App.$padding;
 	gap: App.$padding;
 }
@@ -29,10 +29,9 @@
 	min-height: 100%;
 	display: flex;
 	flex-direction: column;
+	border: 0.1rem solid transparent;
 	gap: App.$padding;
-	padding: App.$padding;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
+	background: var(--background-color);
 }
 
 #friends > main > header {
@@ -41,8 +40,21 @@
 }
 
 #friends > main > div {
+	display: flex;
+	align-items: center;
 	padding: App.$padding;
-	background: var(--background-color-shade-max);
+	max-height: App.$height;
+	outline: var(--outline-focus);
+	background: var(--background-color);
+}
+
+#friends > main > header > button {
+	outline: var(--outline-focus);
+}
+
+#friends > main > button {
+	background: var(--background-color);
+	outline: var(--outline-focus);
 }
 
 #friends > footer {

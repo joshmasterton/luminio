@@ -21,8 +21,8 @@
 	max-width: calc(App.$maxWidth / 1.25);
 	padding: App.$paddingContainer;
 	gap: App.$paddingContainer;
-	box-shadow: var(--shadow);
-	background-color: var(--background-color-shade);
+	outline: var(--outline-focus);
+	background-color: var(--background-color);
 }
 
 #auth > form > header {

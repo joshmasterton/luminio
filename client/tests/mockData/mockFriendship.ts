@@ -7,3 +7,12 @@ export const mockFriendship = {
 	friendship_accepted: false,
 	created_at: new Date(Date.now()),
 };
+
+export const mockFriendshipAccepted = {
+	id: 1,
+	friend_one_id: 1,
+	friend_two_id: 2,
+	friend_initiator: 2,
+	friendship_accepted: false,
+	created_at: new Date(Date.now()),
+};

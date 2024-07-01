@@ -1,0 +1,14 @@
+@use '../App.scss';
+
+#post {
+	width: 100%;
+	min-height: 100%;
+	padding: App.$padding;
+	padding-top: calc((App.$height * 2));
+}
+
+#post > div {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}

@@ -37,7 +37,6 @@ export function Nav() {
 
 	return (
 		<nav id='nav'>
-			<div/>
 			<header>
 				<div>
 					<button type='button' className='transparentButton' aria-label='Menu Button' onClick={e => {
@@ -70,7 +69,7 @@ export function Nav() {
 								setLoading(false);
 							}}>
 								{loading ? (
-									<Loading className='backgroundShade'/>
+									<Loading className='background'/>
 								) : <CgLogOut/>}
 							</button>
 						</li>
@@ -109,7 +108,7 @@ export function Nav() {
 							<CgLogOut/>
 							<div>Logout</div>
 							{loading && (
-								<Loading className='backgroundShade'/>
+								<Loading className='background'/>
 							)}
 						</button>
 					</li>
@@ -154,7 +153,7 @@ export function Nav() {
 							<CgLogOut/>
 							<div>Logout</div>
 							{loading && (
-								<Loading className='backgroundShade'/>
+								<Loading className='background'/>
 							)}
 						</button>
 					</li>

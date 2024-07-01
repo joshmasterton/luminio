@@ -1,5 +1,5 @@
-import {type PostWithUserInfo} from '../types/pages/Posts.types';
 import {PiPencilBold} from 'react-icons/pi';
+import {type PostWithUserInfo} from '../types/utilities/request.types';
 import {type MouseEvent, useEffect, useState} from 'react';
 import {request} from '../utilities/requests';
 import {Link} from 'react-router-dom';
@@ -57,22 +57,28 @@ export function Posts() {
 			<Nav/>
 			<div id='posts'>
 				{loading ? (
-					<Loading className='backgroundShade'/>
+					<Loading className='background'/>
 				) : (
 					<div>
-						{posts?.map(post => (
-							<PostCard key={post.id} post={post}/>
-						))}
-						{loadingMoreButton && (
-							<button type='button' onClick={async e => {
-								setLoadingPosts(true);
-								await getPosts(e);
-								setLoadingPosts(false);
-							}}>
-								{loadingPosts ? (
-									<Loading className='background'/>
-								) : 'Load more'}
-							</button>
+						{posts && posts.length > 0 ? (
+							<>
+								{posts?.map(post => (
+									<PostCard key={post.id} post={post}/>
+								))}
+								{loadingMoreButton && (
+									<button type='button' onClick={async e => {
+										setLoadingPosts(true);
+										await getPosts(e);
+										setLoadingPosts(false);
+									}}>
+										{loadingPosts ? (
+											<Loading className='background'/>
+										) : 'Load more'}
+									</button>
+								)}
+							</>
+						) : (
+							<div>No posts</div>
 						)}
 					</div>
 				)}

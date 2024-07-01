@@ -5,17 +5,17 @@
 	width: 100%;
 	height: 100%;
 	padding: App.$padding;
+	padding-top: 0;
 }
 
 #createPost > form {
 	display: flex;
 	flex-direction: column;
-	padding: App.$padding;
 	gap: App.$padding;
 	margin-top: calc(App.$height * 2);
+	border: 0.1rem solid transparent;
 	flex: 1;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
+	background: var(--background-color);
 }
 
 #createPost > form > header {
@@ -33,6 +33,7 @@
 	min-height: 100%;
 	height: auto;
 	overflow: hidden;
+	padding: App.$padding;
 }
 
 #createPost > form > div {
@@ -43,11 +44,14 @@
 
 #createPost > form > div > button {
 	width: fit-content;
+	outline: var(--outline-focus);
+	background: var(--background-color);
 }
 
 #createPost > form > div > button:last-of-type {
 	min-width: calc(App.$height * 2);
-	background: var(--background-color-shade-max);
+	outline: var(--outline-focus);
+	background: var(--background-color);
 }
 
 #createPost > form > label > textarea {

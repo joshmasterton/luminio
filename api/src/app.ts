@@ -6,7 +6,9 @@ import cookieParser from 'cookie-parser';
 import {loginRouter} from './routers/authRouters/loginRouter';
 import {signupRouter} from './routers/authRouters/signupRouter';
 import {errorMiddleware} from './middleware/errorMiddleware';
-import {createFriendsTable, createPostsTable, createUsersTable} from './database/db';
+import {
+	createCommentsTable, createFriendsTable, createPostsTable, createUsersTable,
+} from './database/db';
 import {userRouter} from './routers/authRouters/userRouter';
 import {logoutRouter} from './routers/authRouters/logoutRouter';
 import {profileRouter} from './routers/usersRouters/profileRouter';
@@ -18,6 +20,8 @@ import {createPostRouter} from './routers/postRouters/createPostRouter';
 import {getPostRouter} from './routers/postRouters/getPostRouter';
 import {getPostsRouter} from './routers/postRouters/getPostsRouter';
 import {getFriendsRouter} from './routers/friendshipsRouters/getFriendsRouter';
+import {createCommentRouter} from './routers/postRouters/createCommentRouter';
+import {getCommentsRouter} from './routers/postRouters/getCommentsRouter';
 dotenv.config({path: './src/.env'});
 
 export const app = express();
@@ -54,6 +58,14 @@ createUsersTable('luminio_users')
 				}
 			});
 	})
+	.then(() => {
+		createCommentsTable('luminio_comments')
+			.catch(error => {
+				if (error instanceof Error) {
+					console.error(error.message);
+				}
+			});
+	})
 	.catch(error => {
 		if (error instanceof Error) {
 			console.error(error.message);
@@ -80,6 +92,10 @@ app.use(getFriendsRouter('luminio_friendships', 'luminio_users'));
 app.use(createPostRouter('luminio_posts'));
 app.use(getPostRouter('luminio_posts', 'luminio_users'));
 app.use(getPostsRouter('luminio_posts', 'luminio_users'));
+
+// Comment routes
+app.use(createCommentRouter('luminio_comments'));
+app.use(getCommentsRouter('luminio_comments', 'luminio_users'));
 
 // Error handler
 app.use(errorMiddleware);

@@ -8,7 +8,7 @@
 	max-height: calc(App.$height + (App.$padding * 2));
 	padding: App.$padding;
 	gap: App.$padding;
-	background: var(--background-color-shade-max);
+	outline: var(--outline-focus);
 	text-decoration: none;
 }
 

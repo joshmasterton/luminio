@@ -21,7 +21,6 @@ export function ReturnNav({isProfile = false}: {isProfile?: boolean}) {
 
 	return (
 		<nav id='returnNav'>
-			<div/>
 			<header>
 				<div>
 					<button type='button' aria-label='Return Button' onClick={() => {

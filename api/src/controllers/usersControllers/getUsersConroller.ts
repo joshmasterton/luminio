@@ -7,12 +7,8 @@ export const getUsersController = async (tableName: string, req: Request, res: R
 		const {sort, page, searchQuery} = req.query as UsersParameters;
 		const username = res.locals.user.username as string;
 
-		const users = await getUsers(tableName, sort, page);
+		const users = await getUsers(tableName, sort, page, 10, searchQuery);
 		const usersWithoutActiveUser = users?.filter(user => user.username !== username);
-		if (searchQuery) {
-			const filteredUsers = usersWithoutActiveUser?.filter(user => user.username.toLowerCase().includes(searchQuery.toLowerCase()));
-			return res.status(200).json(filteredUsers);
-		}
 
 		return res.status(200).json(usersWithoutActiveUser);
 	} catch (error) {

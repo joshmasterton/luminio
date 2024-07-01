@@ -9,24 +9,14 @@
 	z-index: 2;
 }
 
-#returnNav > div {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: calc(App.$height * 1.75);
-	backdrop-filter: blur(1rem);
-	-webkit-backdrop-filter: blur(1rem);
-	z-index: 1;
-}
-
 #returnNav > header {
-	width: 100%;
 	position: fixed;
 	top: 0;
 	left: 0;
-	padding: App.$padding;
-	z-index: 1;
+	width: 100%;
+	padding-left: App.$padding;
+	padding-right: App.$padding;
+	z-index: 3;
 }
 
 #returnNav > header > div {
@@ -34,8 +24,12 @@
 	justify-content: space-between;
 	width: 100%;
 	padding: App.$padding;
-	box-shadow: var(--shadow);
-	background-color: var(--background-color-shade);
+	padding-left: 0;
+	padding-right: 0;
+	gap: App.$padding;
+	border-radius: 0;
+	border-bottom: var(--outline-focus);
+	background-color: var(--background-color);
 }
 
 #returnNav > header > div > button {

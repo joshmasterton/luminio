@@ -6,7 +6,7 @@
 	align-items: center;
 	height: App.$height;
 	width: calc(App.$height * 2);
-	background: var(--background-color-shade-max);
+	border: var(--outline-focus);
 }
 
 .themeToggler > button {

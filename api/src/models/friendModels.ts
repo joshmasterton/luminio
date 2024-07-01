@@ -33,7 +33,7 @@ export const getFriends = async (
 			SELECT * FROM ${friendsTable}
 			WHERE (friend_one_id = $1
 			OR friend_two_id = $1)
-			AND friendship_accepted = $2 
+			AND friendship_accepted = $2
 			ORDER BY ${sort} DESC
 			LIMIT $3 OFFSET $4
 		`, [userId, accepted, limit, page * limit]);

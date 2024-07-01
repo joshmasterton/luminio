@@ -15,6 +15,33 @@ export type User = {
 	profile_picture: string;
 };
 
+export type PostWithUserInfo = {
+	id: number;
+	user_id: number;
+	username: string;
+	post: string;
+	likes: number;
+	dislikes: number;
+	comments: number;
+	profile_picture: string;
+	post_picture?: string;
+	created_at: Date;
+};
+
+export type CommentWithUserInfo = {
+	id: number;
+	post_id: number;
+	comment_parent_id?: number;
+	user_id: number;
+	username: string;
+	comment: string;
+	likes: number;
+	dislikes: number;
+	comments: number;
+	profile_picture: string;
+	created_at: Date;
+};
+
 export type Friendship = {
 	id: number;
 	friend_one_id: number;

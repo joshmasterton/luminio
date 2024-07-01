@@ -1,6 +1,6 @@
 @use '../App.scss';
 
-.postCard {
+.commentCard {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -13,23 +13,23 @@
 	border-bottom: var(--outline-focus);
 }
 
-.postCard:first-child {
+.commentCard:first-child {
 	padding-top: 0;
 }
 
-.postCard > header {
+.commentCard > header {
 	display: flex;
 	width: 100%;
 	gap: App.$padding;
 	z-index: 1;
 }
 
-.postCard > header > a {
+.commentCard > header > a {
 	width: fit-content;
 	padding: 0;
 }
 
-.postCard > header > a:last-of-type {
+.commentCard > header > a:last-of-type {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -40,7 +40,7 @@
 	background: transparent;
 }
 
-.postCard > a {
+.commentCard > a {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -51,21 +51,21 @@
 	z-index: 1;
 }
 
-.postCard > a:hover,
-.postCard > header > a:last-of-type:hover {
+.commentCard > a:hover,
+.commentCard > header > a:last-of-type:hover {
 	box-shadow: none;
 	outline: none;
 	background: transparent;
 }
 
-.postCard > main {
+.commentCard > main {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	gap: App.$padding;
 }
 
-.postCard > main > div {
+.commentCard > main > div {
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -74,7 +74,7 @@
 	overflow: hidden;
 }
 
-.postCard > main > div > img:first-of-type {
+.commentCard > main > div > img:first-of-type {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -83,7 +83,7 @@
 	-webkit-filter: blur(1rem);
 }
 
-.postCard > footer {
+.commentCard > footer {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
@@ -92,7 +92,7 @@
 	height: 100%;
 }
 
-.postCard > footer > button {
+.commentCard > footer > button {
 	width: fit-content;
 	gap: App.$paddingSmall;
 	height: calc(App.$height / 1.5);
@@ -101,20 +101,20 @@
 	background: var(--background-color);
 }
 
-.postCard > form {
+.commentCard > form {
 	display: flex;
 	flex-direction: column;
 	border: 0.1rem solid transparent;
 	gap: App.$padding;
 }
 
-.postCard > form textarea {
+.commentCard > form textarea {
 	min-height: 100%;
 	height: auto;
 	overflow: hidden;
 }
 
-.postCard > form > div {
+.commentCard > form > div {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: end;
@@ -122,19 +122,19 @@
 	gap: App.$padding;
 }
 
-.postCard > form > div > button {
+.commentCard > form > div > button {
 	width: fit-content;
 	outline: var(--outline-focus);
 }
 
-.postCard > form > div > button:last-of-type {
+.commentCard > form > div > button:last-of-type {
 	min-width: calc(App.$height * 2);
 	outline: var(--outline-focus);
 }
 
 
 @media screen and (min-width: App.$maxWidthLarge) {
-	.postCard > main {
+	.commentCard > main {
 		display: flex;
 	}
 }

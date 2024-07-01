@@ -15,12 +15,12 @@ export function CreatePost() {
 	const navigate = useNavigate();
 	const {setPopup} = usePopup();
 	const [loading, setLoading] = useState(false);
+	const postInputRef = useRef<HTMLTextAreaElement>(null);
+	const postPictureRef = useRef<HTMLInputElement>(null);
 	const [postDetails, setPostDetails] = useState<PostDetails>({
 		post: '',
 		postPicture: undefined,
 	});
-	const postInputRef = useRef<HTMLTextAreaElement>(null);
-	const postPictureRef = useRef<HTMLInputElement>(null);
 
 	const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		const {name, value} = e.target;
@@ -105,9 +105,6 @@ export function CreatePost() {
 				<form method='POST' onSubmit={async e => {
 					await handleSubmit(e);
 				}}>
-					<header>
-						<h1>Create post</h1>
-					</header>
 					<label htmlFor='post'>
 						<textarea
 							id='post'
@@ -134,7 +131,7 @@ export function CreatePost() {
 								<CgClose/>
 							</button>
 						)}
-						<label htmlFor='postPicture' className='labelFile'>
+						<label htmlFor='postPicture' className='labelFile' aria-label='postPicture'>
 							<main>
 								{postDetails?.postPicture ? (
 									<img alt='Post Picture' src={URL.createObjectURL(postDetails?.postPicture)}/>
@@ -151,7 +148,7 @@ export function CreatePost() {
 							/>
 						</label>
 						<button type='submit'>
-							{loading ? <Loading className='backgroundShadeMax'/> : 'Send'}
+							{loading ? <Loading className='background'/> : 'Send'}
 						</button>
 					</div>
 				</form>

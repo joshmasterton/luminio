@@ -6,6 +6,11 @@
 	align-items: center;
 	width: 100%;
 	height: 100%;
+	flex: 1;
+}
+
+#nav .loading {
+	max-width: App.$padding;
 }
 
 .loading.backgroundShade {

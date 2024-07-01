@@ -3,25 +3,8 @@
 #users {
 	display: flex;
 	width: 100%;
-	margin-top: calc((App.$height * 2));
+	margin-top: calc((App.$height) + (App.$padding * 2));
 	padding: App.$padding;
-	gap: App.$padding;
-}
-
-#users > #findUser {
-	position: fixed;
-	right: calc(App.$padding * 2);
-	bottom: calc(App.$padding * 2);
-	min-height: App.$height;
-	max-height: App.$height;
-	width: App.$height;
-	padding: 0;
-	box-shadow: none;
-}
-
-#users > #findUser > a {
-	color: white;
-	background: var(--primary-gradient);
 }
 
 #users > main {
@@ -29,10 +12,8 @@
 	min-height: 100%;
 	display: flex;
 	flex-direction: column;
+	border: 0.1rem solid transparent;
 	gap: App.$padding;
-	padding: App.$padding;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
 }
 
 #users > main > header {
@@ -41,8 +22,16 @@
 }
 
 #users > main > div {
+	display: flex;
+	align-items: center;
+	height: App.$height;
 	padding: App.$padding;
-	background: var(--background-color-shade-max);
+	outline: var(--outline-focus);
+}
+
+#users > main > button {
+	background: var(--background-color);
+	outline: var(--outline-focus);	
 }
 
 #users > footer {
@@ -51,16 +40,4 @@
 	height: 100%;
 	box-shadow: var(--shadow);
 	background: var(--background-color-shade);
-}
-
-@media screen and (min-width: App.$maxWidth) {
-	#users {
-		margin-left: calc(App.$maxWidthSmall - (App.$padding * 2.5));
-	}
-}
-
-@media screen and (min-width: App.$maxWidthLarge) {
-	#users > footer {
-		display: flex;
-	}
 }

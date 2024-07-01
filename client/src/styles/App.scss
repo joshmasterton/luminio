@@ -4,7 +4,6 @@ $maxWidthSmall: 16.5rem;
 $height: 3rem;
 
 $paddingSmall: 0.5rem;
-
 $padding: 1rem;
 $paddingContainer: calc($padding * 2);
 $borderRadius: 0.5rem;
@@ -18,7 +17,7 @@ $fontSmall: 0.75rem;
 	--background-color: rgb(20, 20, 24);
 	--background-color-shade: rgb(27, 27, 34);
 	--background-color-shade-max: rgb(34, 34, 43);
-	--background-color-focus: rgb(42, 42, 53);
+	--background-color-focus: rgb(27, 27, 34);
 	--text-color: white;
 	--primary: #3a3ada;
 	--danger: #dc2e2e;
@@ -37,7 +36,7 @@ $fontSmall: 0.75rem;
 	--background-color: rgb(244, 244, 248);
 	--background-color-shade: rgb(255, 255, 255);
 	--background-color-shade-max: rgb(244, 244, 248);
-	--background-color-focus: rgb(235, 235, 238);
+	--background-color-focus: rgb(230, 230, 235);
 	--text-color: black;
 	--primary: #3a3af8;
 	--danger: #dc2e2e;
@@ -47,7 +46,7 @@ $fontSmall: 0.75rem;
 		#621ffc
 	);
 	--outline: 0.1rem solid rgb(244, 244, 248);
-	--outline-focus: 0.1rem solid rgb(235, 235, 238);
+	--outline-focus: 0.1rem solid rgb(225, 225, 232);
 	--box-shadow: 0 0 0 0.2rem #3a3af8;
 	--shadow: 0 0 0.4rem 0rem rgba(15, 15, 18, 0.1);
 }
@@ -145,7 +144,12 @@ button, input, textarea, a {
 	height: $height;
 	padding: $padding;
 	transition: box-shadow $transition, outline-color $transition, transform $transition;
-	background-color: var(--background-color-shade-max);
+	background-color: var(--background-color);
+}
+
+input, textarea {
+	outline: var(--outline-focus);
+	background: var(--background-color);
 }
 
 .transparentLink {
@@ -201,8 +205,8 @@ label {
 .labelFile > main {
 	display: flex;
 	width: 100%;
+	outline: var(--outline-focus);
 	transition: box-shadow $transition, outline-color $transition, transform $transition;
-	background: var(--background-color-shade-max);
 }
 
 .labelFile > main > svg,
@@ -243,6 +247,7 @@ label {
 	width: 100%;
 	padding: $padding;
 	overflow: hidden;
+	border: var(--outline-focus);
 	z-index: 0;
 }
 

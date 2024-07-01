@@ -4,18 +4,14 @@
 	width: 100%;
 	height: 100%;
 	padding: App.$padding;
-	padding-top: calc((App.$height * 2) + App.$padding);
+	padding-top: calc((App.$height * 2));
 	gap: App.$padding;
 }
 
 #posts > div {
 	display: flex;
 	flex-direction: column;
-	padding: App.$padding;
-	gap: App.$padding;
 	min-height: 100%;
-	box-shadow: var(--shadow);
-	background: var(--background-color-shade);
 }
 
 #posts > #createPost {
@@ -27,6 +23,13 @@
 	width: App.$height;
 	padding: 0;
 	box-shadow: none;
+	z-index: 1;
+}
+
+#posts > div > button {
+	margin-top: App.$padding;
+	background: var(--background-color);
+	outline: var(--outline-focus);
 }
 
 #posts > #createPost > a {
